@@ -7,6 +7,12 @@ class imageConst{
   static const motton="assets/images/motton.png";
   static const lamb="assets/images/lamb.png";
   static const camel="assets/images/camel.png";
+  static const beefcurrycut="assets/images/beefcurrycut.png";
+  static const beeffrycut="assets/images/beeffrycut.png";
+  static const beefbigpiece="assets/images/beefbigpiece.png";
+  static const beefmediumpiece="assets/images/beefmediumpiece.png";
+  static const biriyanicut="assets/images/biriyanicut.png";
+  static const map="assets/images/map.png";
 }
 class iconConst{
   static const profile="assets/icons/profile.svg";

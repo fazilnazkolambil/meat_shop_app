@@ -453,14 +453,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  widget_loading:
-    dependency: "direct main"
-    description:
-      name: widget_loading
-      sha256: "797d894117797ec040f8991f7fb58d7e205e1972dc3b9968f3dd24d044d5e4ca"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.3"
   win32:
     dependency: transitive
     description:

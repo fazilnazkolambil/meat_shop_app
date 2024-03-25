@@ -15,6 +15,25 @@ class imageConst{
   static const map="assets/images/map.png";
 }
 class iconConst{
+  static const location="assets/icons/location.svg";
+  static const cart="assets/icons/bag.svg";
+  static const notification="assets/icons/Notification.svg";
+  static const search="assets/icons/search.svg";
+  static const home="assets/icons/home.svg";
+  static const Favourite="assets/icons/heart.svg";
+  static const Favourite1="assets/icons/heart1.svg";
+  static const more="assets/icons/more.svg";
+  static const bacharrow="assets/icons/backarrow.svg";
+  static const delete="assets/icons/delete.svg";
+  static const user="assets/icons/user.svg";
+  static const email="assets/icons/email.svg";
+  static const password="assets/icons/password.svg";
+  static const datetime="assets/icons/datetime.svg";
+  static const cross="assets/icons/cross.svg";
+  static const gps="assets/icons/gps.svg";
+  static const location1="assets/icons/location1.svg";
+  static const leftarrow="assets/icons/leftarrow.svg";
+  static const rightarrow="assets/icons/rightarrow.svg";
   static const profile="assets/icons/profile.svg";
   static const profile1="assets/icons/profile1.svg";
   static const logout="assets/icons/logout.svg";
@@ -24,7 +43,5 @@ class iconConst{
   static const about="assets/icons/about.svg";
   static const conditions="assets/icons/conditions.svg";
   static const privacy="assets/icons/privacy.svg";
-  static const bag="assets/icons/bag.svg";
-  static const notification="assets/icons/Notification.svg";
-  static const arrow="assets/icons/arrow.svg";
+
 }

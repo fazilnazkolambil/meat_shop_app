@@ -43,7 +43,7 @@ appBar: AppBar(
   actions: [
    Row(
      children: [
-       Container(child: SvgPicture.asset(iconConst.bag)),
+       Container(child: SvgPicture.asset(iconConst.cart)),
        SizedBox(width: w*0.03,),
        Container(child: SvgPicture.asset(iconConst.notification)),
        SizedBox(width: w*0.04,),

@@ -31,8 +31,8 @@ appBar: AppBar(
 
     },
     child: Container(
-      height: width*0.02,
-      width: height*0.02,
+      height: w*0.02,
+      width: h*0.02,
       child: Center(child: SvgPicture.asset(iconConst.arrow),),
     ),
   ),
@@ -41,9 +41,9 @@ appBar: AppBar(
 children: [
   Center(
     child: Container(
-      height: width*0.3,
-      width: width*0.3,
-      padding: EdgeInsets.only(left: width*0.07),
+      height: w*0.3,
+      width: w*0.3,
+      padding: EdgeInsets.only(left: w*0.07),
       decoration: BoxDecoration(
           image:DecorationImage(image: AssetImage(imageConst.logo),fit: BoxFit.fill)
       ),

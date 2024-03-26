@@ -25,7 +25,7 @@ class _CartPageState extends State<cartPage> {
                 color: colorConst.grey1,
                 borderRadius: BorderRadius.circular(w*0.08)
               ),
-              child: Center(child: SvgPicture.asset(iconConst.bacharrow))
+              child: Center(child: SvgPicture.asset(iconConst.backarrow))
           ),
         ),
         title: Text("My Cart",
@@ -302,6 +302,7 @@ class _CartPageState extends State<cartPage> {
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.next,
                   maxLines: null,
+                  cursorColor: colorConst.grey,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: w*0.05,right: w*0.05),
                     border:InputBorder.none,

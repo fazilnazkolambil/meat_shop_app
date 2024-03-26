@@ -23,7 +23,7 @@ class iconConst{
   static const Favourite="assets/icons/heart.svg";
   static const Favourite1="assets/icons/heart1.svg";
   static const more="assets/icons/more.svg";
-  static const bacharrow="assets/icons/backarrow.svg";
+  static const backarrow="assets/icons/backarrow.svg";
   static const delete="assets/icons/delete.svg";
   static const user="assets/icons/user.svg";
   static const email="assets/icons/email.svg";

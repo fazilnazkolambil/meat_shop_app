@@ -6,6 +6,7 @@ class colorConst{
   static const black=Color(0xff000000);
   static const red=Color(0xffE32C30);
   static const grey=Color(0xffADADAD);
+  static const grey1=Color(0xffF5F5F5);
   static const yellow=Color(0xffFFE977);
   static const green=Color(0xff0FBB00);
   static const orange=Color(0xffF67933);

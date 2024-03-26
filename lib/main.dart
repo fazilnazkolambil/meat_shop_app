@@ -1,13 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
-import 'package:meat_shop_app/feature/ordersPage/screens/My_Orders.dart';
 import 'package:meat_shop_app/firebase_options.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
-
 import 'feature/onboardPage/screens/splashScreen.dart';
+
+import 'feature/authPage/screens/signin_page.dart';
 var scrWidth;
 var scrHeight;
 
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
           textTheme:GoogleFonts.manropeTextTheme()
       ),
       debugShowCheckedModeBanner: false,
-      home: splashScreen(),
+      home: signinPage(),
     );
   }
 }

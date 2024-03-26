@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+// import 'package:meat_shop_app/Color_Page.dart';
+// import 'package:meat_shop_app/Image_Page.dart';
 import 'package:meat_shop_app/constant/color_const.dart';
+import 'package:meat_shop_app/constant/image_const.dart';
 import 'package:meat_shop_app/main.dart';
 
 class MyOrders extends StatefulWidget {
@@ -31,7 +34,10 @@ class _MyOrdersState extends State<MyOrders> {
                     fontWeight: FontWeight.w800)),
           ),
           actions: [
-
+            SvgPicture.asset(iconConst.cart),
+            SizedBox(width: w*0.025,),
+            SvgPicture.asset(iconConst.notification),
+            SizedBox(width: w*0.025,),
           ],
           bottom:
           TabBar(

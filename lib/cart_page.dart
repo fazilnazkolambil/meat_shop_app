@@ -25,7 +25,7 @@ class _CartPageState extends State<cartPage> {
                 color: colorConst.grey1,
                 borderRadius: BorderRadius.circular(w*0.08)
               ),
-              child: Center(child: SvgPicture.asset(iconConst.backarrow))
+              child: Center(child: SvgPicture.asset(iconConst.bacharrow))
           ),
         ),
         title: Text("My Cart",

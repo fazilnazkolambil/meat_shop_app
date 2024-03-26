@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meat_shop_app/constant/color_const.dart';
+import 'package:meat_shop_app/core/constant/color_const.dart';
 // import 'package:meat_shop_app/Image_Page.dart';
 // import 'package:meat_shop_app/constant/Color_Page.dart';
 
-import 'main.dart';
+import '../../../main.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -61,7 +61,7 @@ class _NavigationPageState extends State<NavigationPage> {
               shadowElevation: 1,
               notchColor: colorConst.meroon,
               removeMargins: false,
-              bottomBarWidth: w * 1,
+              bottomBarWidth: scrWidth * 1,
               showShadow: false,
               durationInMilliSeconds: 300,
               kIconSize: 24.0,

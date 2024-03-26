@@ -2,7 +2,7 @@ class imageConst{
   static const address="assets/images/address.png";
   static const logo="assets/images/logo.png";
   static const mainIcon="assets/images/mainIcon.png";
-  static const meetsplash="assets/images/logo.png";
+  static const meetsplash="assets/images/meetsplash.png";
   static const carosal1="assets/images/carosal1.png";
   static const beef="assets/images/beef.png";
   static const motton="assets/images/motton.png";

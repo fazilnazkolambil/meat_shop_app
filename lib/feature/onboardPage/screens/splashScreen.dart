@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:meat_shop_app/constant/color_const.dart';
-import 'package:meat_shop_app/constant/image_const.dart';
-import 'package:meat_shop_app/onBoardingPage.dart';
+import 'package:meat_shop_app/core/constant/color_const.dart';
+import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
 
-import 'main.dart';
+import '../../../main.dart';
+
 
 class splashScreen extends StatefulWidget {
   const splashScreen({super.key});
@@ -30,8 +31,8 @@ class _splashScreenState extends State<splashScreen> {
         children: [
           Image(image: AssetImage(imageConst.meetsplash)),
           Container(
-            height: h*1,
-            width: w*1,
+            height: scrHeight*1,
+            width: scrWidth*1,
             decoration: BoxDecoration(
                //color: Colors.black.withOpacity(0.5),
               gradient: LinearGradient(
@@ -44,14 +45,14 @@ class _splashScreenState extends State<splashScreen> {
             ),
           Center(
             child: SizedBox(
-              height: w*0.6,
-              width: w*0.6,
+              height: scrWidth*0.6,
+              width: scrWidth*0.6,
               child:Column(
                 children: [
-              Image(image: AssetImage(imageConst.mainIcon),height: w*0.5),
+              Image(image: AssetImage(imageConst.mainIcon),height: scrWidth*0.5),
               Text("Meat Shop",style: TextStyle(
                 color: colorConst.white,
-                fontSize: w*0.07,
+                fontSize: scrWidth*0.07,
                 fontWeight: FontWeight.w600
               ),)
                 ],
@@ -59,12 +60,12 @@ class _splashScreenState extends State<splashScreen> {
             ),
           ),
           Positioned(
-            bottom: w*0.2,
-            left: w*0.25,
-            right: w*0.25,
+            bottom: scrWidth*0.2,
+            left: scrWidth*0.25,
+            right: scrWidth*0.25,
               child: SizedBox(
-                  height: w*0.5,
-                  width: w*0.5,
+                  height: scrWidth*0.5,
+                  width: scrWidth*0.5,
                   child: Lottie.asset(gifs.loadingGif)))
         ],
       ),

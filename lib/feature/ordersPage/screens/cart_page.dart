@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meat_shop_app/checkoutpage.dart';
-import 'package:meat_shop_app/constant/color_const.dart';
-import 'package:meat_shop_app/constant/image_const.dart';
+import 'package:meat_shop_app/core/constant/color_const.dart';
+import 'package:meat_shop_app/core/constant/image_const.dart';
 
-import 'main.dart';
+import '../../../main.dart';
+import 'checkoutpage.dart';
 
 class cartPage extends StatefulWidget {
   const cartPage({super.key});
@@ -20,11 +20,11 @@ class _CartPageState extends State<cartPage> {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding:  EdgeInsets.all(w*0.03),
+          padding:  EdgeInsets.all(scrWidth*0.03),
           child: Container(
               decoration: BoxDecoration(
                 color: colorConst.grey1,
-                borderRadius: BorderRadius.circular(w*0.08)
+                borderRadius: BorderRadius.circular(scrWidth*0.08)
               ),
               child: Center(child: SvgPicture.asset(iconConst.backarrow))
           ),
@@ -35,16 +35,16 @@ class _CartPageState extends State<cartPage> {
         ),),
         actions: [
           Container(child: SvgPicture.asset(iconConst.cart)),
-          SizedBox(width: w*0.04,),
+          SizedBox(width: scrWidth*0.04,),
           Container(child: SvgPicture.asset(iconConst.notification)),
-          SizedBox(width: w*0.03,),
+          SizedBox(width: scrWidth*0.03,),
         ],
       ),
       bottomNavigationBar:Container(
-        height: w*0.37,
+        height: scrWidth*0.37,
         decoration: BoxDecoration(
           color: colorConst.white,
-          borderRadius: BorderRadius.circular(w*0.07),
+          borderRadius: BorderRadius.circular(scrWidth*0.07),
             boxShadow: [
               BoxShadow(
                   color: colorConst.black.withOpacity(0.2),
@@ -55,7 +55,7 @@ class _CartPageState extends State<cartPage> {
             ]
         ),
         child: Padding(
-          padding:  EdgeInsets.all(w*0.05),
+          padding:  EdgeInsets.all(scrWidth*0.05),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -65,13 +65,13 @@ class _CartPageState extends State<cartPage> {
                   Text("Subtotal",
                     style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.05,
+                        fontSize: scrWidth*0.05,
                         fontWeight: FontWeight.w700
                     ),),
                   Text("₹ 300.00",
                     style: TextStyle(
                         color: colorConst.meroon,
-                        fontSize: w*0.05,
+                        fontSize: scrWidth*0.05,
                         fontWeight: FontWeight.w700
                     ),)
                 ],
@@ -81,11 +81,11 @@ class _CartPageState extends State<cartPage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
                 },
                 child: Container(
-                  height: w*0.15,
-                  width: w*0.9,
+                  height: scrWidth*0.15,
+                  width: scrWidth*0.9,
                   decoration: BoxDecoration(
                     color: colorConst.meroon,
-                    borderRadius: BorderRadius.circular(w*0.05),
+                    borderRadius: BorderRadius.circular(scrWidth*0.05),
                   ),
                   child: Center(child: Text("Proceed  To checkout",
                   style: TextStyle(
@@ -98,7 +98,7 @@ class _CartPageState extends State<cartPage> {
         ),
       ) ,
       body: Padding(
-        padding:  EdgeInsets.all(w*0.028),
+        padding:  EdgeInsets.all(scrWidth*0.028),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,12 +112,12 @@ class _CartPageState extends State<cartPage> {
                     itemCount: 2,
                     itemBuilder: (context, index) {
                       return Container(
-                        height: w*0.33,
+                        height: scrWidth*0.33,
                         decoration: BoxDecoration(
                             color: colorConst.white,
-                          borderRadius: BorderRadius.circular(w*0.04),
+                          borderRadius: BorderRadius.circular(scrWidth*0.04),
                           border: Border.all(
-                              width: w*0.0003,
+                              width: scrWidth*0.0003,
                               color: colorConst.black.withOpacity(0.38)
                           ),
                           boxShadow: [
@@ -132,30 +132,30 @@ class _CartPageState extends State<cartPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(width: w*0.02,),
+                            SizedBox(width: scrWidth*0.02,),
                             Container(
-                              height: w*0.27,
-                              width: w*0.27,
+                              height: scrWidth*0.27,
+                              width: scrWidth*0.27,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(w*0.04),
+                                borderRadius: BorderRadius.circular(scrWidth*0.04),
                                 border: Border.all(
-                                    width: w*0.0003,
+                                    width: scrWidth*0.0003,
                                     color: colorConst.black.withOpacity(0.38)
                                 ),
                                 image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
                               ),
-                            SizedBox(width: w*0.02,),
+                            SizedBox(width: scrWidth*0.02,),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  width: w*0.4,
+                                  width: scrWidth*0.4,
                                   child: Column(
                                     children: [
                                       Text("Beef Curry Cut(Large.)",
                                         style: TextStyle(
-                                            fontSize: w*0.04,
+                                            fontSize: scrWidth*0.04,
                                             fontWeight: FontWeight.w700,
                                             color: colorConst.black
                                         ),),
@@ -167,13 +167,13 @@ class _CartPageState extends State<cartPage> {
                                   children: [
                                     Text("1 KG - ",
                                       style: TextStyle(
-                                          fontSize: w*0.04,
+                                          fontSize: scrWidth*0.04,
                                           fontWeight: FontWeight.w700,
                                           color: colorConst.black
                                       ),),
                                     Text("₹ 250",
                                       style: TextStyle(
-                                          fontSize: w*0.04,
+                                          fontSize: scrWidth*0.04,
                                           fontWeight: FontWeight.w700,
                                           color: colorConst.meroon
                                       ),),
@@ -186,11 +186,11 @@ class _CartPageState extends State<cartPage> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: w*0.1,
-                                  width: w*0.1,
+                                  height: scrWidth*0.1,
+                                  width: scrWidth*0.1,
                                      decoration: BoxDecoration(
                                        color: colorConst.white,
-                                       borderRadius: BorderRadius.circular(w*0.05),
+                                       borderRadius: BorderRadius.circular(scrWidth*0.05),
                                        boxShadow: [
                                          BoxShadow(
                                              color: colorConst.black.withOpacity(0.1),
@@ -212,27 +212,27 @@ class _CartPageState extends State<cartPage> {
                                         });
                                       },
                                       child: Container(
-                                        height:w*0.065,
-                                        width:w*0.065,
+                                        height:scrWidth*0.065,
+                                        width:scrWidth*0.065,
                                         decoration: BoxDecoration(
                                             color:colorConst.grey1,
-                                            borderRadius: BorderRadius.circular(w*0.06),
+                                            borderRadius: BorderRadius.circular(scrWidth*0.06),
                                             border: Border.all(
-                                                width: w*0.0003,
+                                                width: scrWidth*0.0003,
                                                 color: colorConst.black.withOpacity(0.38)
                                             )
                                         ),
                                         child:Icon(Icons.remove,
-                                            size:w*0.04),
+                                            size:scrWidth*0.04),
                                       ),
                                     ),
-                                    SizedBox(width: w*0.015,),
+                                    SizedBox(width: scrWidth*0.015,),
                                     Text(count.toString(),
                                       style: TextStyle(
-                                        fontSize: w*0.04,
+                                        fontSize: scrWidth*0.04,
                                         fontWeight: FontWeight.w600
                                       ),),
-                                    SizedBox(width: w*0.015,),
+                                    SizedBox(width: scrWidth*0.015,),
                                     InkWell(
                                       onTap: () {
                                         count<=0? 0:count--;
@@ -241,18 +241,18 @@ class _CartPageState extends State<cartPage> {
                                         });
                                       },
                                       child: Container(
-                                          height:w*0.065,
-                                          width:w*0.065,
+                                          height:scrWidth*0.065,
+                                          width:scrWidth*0.065,
                                           decoration: BoxDecoration(
                                             color:colorConst.grey1,
-                                            borderRadius: BorderRadius.circular(w*0.06),
+                                            borderRadius: BorderRadius.circular(scrWidth*0.06),
                                             border: Border.all(
-                                                width: w*0.0003,
+                                                width: scrWidth*0.0003,
                                                 color: colorConst.black.withOpacity(0.38)
                                             )
                                           ),
                                         child:Center(child: Icon(Icons.add,
-                                            size:w*0.04)),
+                                            size:scrWidth*0.04)),
                                           ),
                                     )
                                   ],
@@ -260,38 +260,38 @@ class _CartPageState extends State<cartPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(width: w*0.02,),
+                            SizedBox(width: scrWidth*0.02,),
                           ],
                         ),
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return SizedBox(height: w*0.03,);
+                      return SizedBox(height: scrWidth*0.03,);
                     },
                     ),
               ),
-              SizedBox(height: w*0.04,),
+              SizedBox(height: scrWidth*0.04,),
               Text("Order Summary",
                 style:TextStyle(
-                  fontSize:w*0.05,
+                  fontSize:scrWidth*0.05,
                   fontWeight:FontWeight.w700,
                   color: colorConst.meroon
                 ),),
-              SizedBox(height: w*0.02,),
+              SizedBox(height: scrWidth*0.02,),
               Text("Additional Note",
                 style:TextStyle(
-                  fontSize:w*0.04,
+                  fontSize:scrWidth*0.04,
                   fontWeight:FontWeight.w700,
                   color: colorConst.black
                 ),),
-              SizedBox(height: w*0.02,),
+              SizedBox(height: scrWidth*0.02,),
               Container(
-                height: w*0.3,
+                height: scrWidth*0.3,
                 decoration: BoxDecoration(
                   color: colorConst.white,
-                  borderRadius: BorderRadius.circular(w*0.04),
+                  borderRadius: BorderRadius.circular(scrWidth*0.04),
                   border: Border.all(
-                      width: w*0.0003,
+                      width: scrWidth*0.0003,
                       color: colorConst.black.withOpacity(0.38)
                   ),
                     boxShadow: [
@@ -310,16 +310,16 @@ class _CartPageState extends State<cartPage> {
                   maxLines: null,
                   cursorColor: colorConst.grey,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: w*0.05,right: w*0.05),
+                    contentPadding: EdgeInsets.only(left: scrWidth*0.05,right: scrWidth*0.05),
                     border:InputBorder.none,
                     hintText: "Any instruction regarding cuts",
                     hintStyle: TextStyle(
-                      fontSize: w*0.04
+                      fontSize: scrWidth*0.04
                     )
                   ),
                 ),
               ),
-              SizedBox(height: w*0.05,),
+              SizedBox(height: scrWidth*0.05,),
               Column(
                 children: [
                   Row(
@@ -328,13 +328,13 @@ class _CartPageState extends State<cartPage> {
                       Text("Item Price",
                       style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.04,
+                        fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
                       Text("₹ 250.00",
                       style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.04,
+                        fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),)
                     ],
@@ -346,13 +346,13 @@ class _CartPageState extends State<cartPage> {
                       Text("Discount",
                       style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.04,
+                        fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
                       Text("₹ 0.00",
                       style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.04,
+                        fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),)
                     ],
@@ -364,18 +364,18 @@ class _CartPageState extends State<cartPage> {
                       Text("Shipping Charge",
                       style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.04,
+                        fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
                       Text("₹ 50.00",
                       style: TextStyle(
                         color: colorConst.black,
-                        fontSize: w*0.04,
+                        fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),)
                     ],
                   ),
-                  SizedBox(height: w*0.08,),
+                  SizedBox(height: scrWidth*0.08,),
                 ],
               )
             ],

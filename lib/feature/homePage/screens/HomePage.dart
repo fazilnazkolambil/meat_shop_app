@@ -3,10 +3,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meat_shop_app/constant/color_const.dart';
-import 'package:meat_shop_app/constant/image_const.dart';
+import 'package:meat_shop_app/core/constant/color_const.dart';
+import 'package:meat_shop_app/core/constant/image_const.dart';
 
-import 'main.dart';
+import '../../../main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,10 +50,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        toolbarHeight: h * 0.08,
-        leadingWidth: w*0.17,
+        toolbarHeight: scrHeight * 0.08,
+        leadingWidth: scrWidth*0.17,
         leading: CircleAvatar(
-          radius: w*0.15,
+          radius: scrWidth*0.15,
           backgroundImage: AssetImage(imageConst.logo),
         ),
         title: Row(
@@ -62,33 +62,33 @@ class _HomePageState extends State<HomePage> {
             Text("Kuwait City, Kuwait",style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.w600,
-              fontSize: w*0.04
+              fontSize: scrWidth*0.04
             ),)
           ],
         ),
         actions: [
           SvgPicture.asset(iconConst.cart),
-          SizedBox(width: w*0.03,),
+          SizedBox(width: scrWidth*0.03,),
           SvgPicture.asset(iconConst.notification),
-          SizedBox(width: w*0.03,),
+          SizedBox(width: scrWidth*0.03,),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(w*0.05),
+        padding: EdgeInsets.all(scrWidth*0.05),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                width: w*1,
-                margin: EdgeInsets.only(bottom: w*0.05),
+                width: scrWidth*1,
+                margin: EdgeInsets.only(bottom: scrWidth*0.05),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(w*0.06)
+                  borderRadius: BorderRadius.circular(scrWidth*0.06)
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
                   style: TextStyle(
-                    fontSize: w * 0.04,
+                    fontSize: scrWidth * 0.04,
                     fontWeight: FontWeight.w400,
                   ),
                   decoration: InputDecoration(
@@ -96,20 +96,20 @@ class _HomePageState extends State<HomePage> {
                     filled: true,
                     prefixIcon: SvgPicture.asset(iconConst.search,
                     ),prefixIconConstraints: BoxConstraints(
-                    maxHeight: w*0.1,
-                    maxWidth: w*0.1
+                    maxHeight: scrWidth*0.1,
+                    maxWidth: scrWidth*0.1
                   ),
                     hintText: "Search here for anything you want...",
                     labelStyle: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: w * 0.04,
+                        fontSize: scrWidth * 0.04,
                         color: colorConst.grey),
                     enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(w * 0.08),
+                        borderRadius: BorderRadius.circular(scrWidth * 0.08),
                         borderSide: BorderSide(color: colorConst.grey1)
                       ),
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(w * 0.08),
+                        borderRadius: BorderRadius.circular(scrWidth * 0.08),
                         borderSide: BorderSide(color: colorConst.grey1)),
                   ),
                 ),
@@ -131,11 +131,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 itemBuilder: (BuildContext context, int index, int realIndex) {
                   return  Container(
-                    height: w*0.5,
-                    width: w*1,
-                    margin: EdgeInsets.only(right: w*0.03),
+                    height: scrWidth*0.5,
+                    width: scrWidth*1,
+                    margin: EdgeInsets.only(right: scrWidth*0.03),
                     decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(w*0.04) ,
+                        borderRadius:BorderRadius.circular(scrWidth*0.04) ,
                         color: Colors.black,
                         image: DecorationImage(
                             image: AssetImage(images[index]),
@@ -145,24 +145,24 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              SizedBox(height: h*0.02,),
+              SizedBox(height: scrHeight*0.02,),
               Expanded(
                 child: GridView.builder(
                   itemCount: 4,
                   physics: BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: w * 0.04 ,
+                    mainAxisSpacing: scrWidth * 0.04 ,
                     childAspectRatio:1 ,
-                    crossAxisSpacing: w* 0.04,
+                    crossAxisSpacing: scrWidth* 0.04,
                   ),
                   itemBuilder: (context, index) {
                     return Container(
-                      height: w*0.5,
-                      width: w*0.5,
+                      height: scrWidth*0.5,
+                      width: scrWidth*0.5,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(w*0.03),
+                          borderRadius: BorderRadius.circular(scrWidth*0.03),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
@@ -176,12 +176,12 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           CircleAvatar(
-                            radius: w*0.15,
+                            radius: scrWidth*0.15,
                             backgroundColor: Colors.amber,
                             backgroundImage: AssetImage(picandtext[index]["pic"],),
                           ),
                           Text(picandtext[index]["text1"],
-                            style: TextStyle(fontSize: w*0.04),),
+                            style: TextStyle(fontSize: scrWidth*0.04),),
                         ],
                       ),
                     );

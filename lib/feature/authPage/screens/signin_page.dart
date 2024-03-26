@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:meat_shop_app/constant/image_const.dart';
+import 'package:meat_shop_app/core/constant/image_const.dart';
 
-import 'main.dart';
+import '../../../main.dart';
 
 class signinPage extends StatefulWidget {
   const signinPage({Key? key}) : super(key: key);
@@ -31,8 +31,8 @@ appBar: AppBar(
 
     },
     child: Container(
-      height: w*0.02,
-      width: h*0.02,
+      height: scrWidth*0.02,
+      width: scrHeight*0.02,
       child: Center(child: SvgPicture.asset(iconConst.backarrow),),
     ),
   ),
@@ -41,9 +41,9 @@ appBar: AppBar(
 children: [
   Center(
     child: Container(
-      height: w*0.3,
-      width: w*0.3,
-      padding: EdgeInsets.only(left: w*0.07),
+      height: scrWidth*0.3,
+      width: scrWidth*0.3,
+      padding: EdgeInsets.only(left: scrWidth*0.07),
       decoration: BoxDecoration(
           image:DecorationImage(image: AssetImage(imageConst.logo),fit: BoxFit.fill)
       ),

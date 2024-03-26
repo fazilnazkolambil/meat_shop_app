@@ -1,20 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/constant/color_const.dart';
 import 'package:meat_shop_app/constant/image_const.dart';
+import 'package:meat_shop_app/onBoardingPage.dart';
 
 import 'main.dart';
 
-class spllashScreen extends StatefulWidget {
-  const spllashScreen({super.key});
+class splashScreen extends StatefulWidget {
+  const splashScreen({super.key});
 
   @override
-  State<spllashScreen> createState() => _spllashScreenState();
+  State<splashScreen> createState() => _splashScreenState();
 }
 
-class _spllashScreenState extends State<spllashScreen> {
-
+class _splashScreenState extends State<splashScreen> {
+  @override
+  void initState(){
+    Future.delayed(Duration(
+      seconds: 5
+    )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => onBoardingPage(),)));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +57,15 @@ class _spllashScreenState extends State<spllashScreen> {
                 ],
               )
             ),
-          )
-          //Center(child: Image(image: AssetImage(imageConst.mainIcon),height: w*0.5,)),
-          //Center(child: Text("Meat Shop"))
+          ),
+          Positioned(
+            bottom: w*0.2,
+            left: w*0.25,
+            right: w*0.25,
+              child: SizedBox(
+                  height: w*0.5,
+                  width: w*0.5,
+                  child: Lottie.asset(gifs.loadingGif)))
         ],
       ),
     );

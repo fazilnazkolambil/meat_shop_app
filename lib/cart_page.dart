@@ -32,18 +32,24 @@ class _CartPageState extends State<cartPage> {
         style: TextStyle(
           fontWeight: FontWeight.w800
         ),),
+        actions: [
+          Container(child: SvgPicture.asset(iconConst.cart)),
+          SizedBox(width: w*0.04,),
+          Container(child: SvgPicture.asset(iconConst.notification)),
+          SizedBox(width: w*0.03,),
+        ],
       ),
       bottomNavigationBar:Container(
-        height: w*0.35,
+        height: w*0.37,
         decoration: BoxDecoration(
           color: colorConst.white,
-          borderRadius: BorderRadius.circular(w*0.06),
+          borderRadius: BorderRadius.circular(w*0.07),
             boxShadow: [
               BoxShadow(
-                  color: colorConst.grey1,
-                  blurRadius: 15,
-                  offset: Offset(2, -4),
-                  spreadRadius: 1
+                  color: colorConst.black.withOpacity(0.2),
+                  blurRadius: 54,
+                  offset: Offset(0, -16),
+                  spreadRadius: 0
               )
             ]
         ),
@@ -61,7 +67,7 @@ class _CartPageState extends State<cartPage> {
                         fontSize: w*0.05,
                         fontWeight: FontWeight.w700
                     ),),
-                  Text("₹ 300",
+                  Text("₹ 300.00",
                     style: TextStyle(
                         color: colorConst.meroon,
                         fontSize: w*0.05,
@@ -93,7 +99,6 @@ class _CartPageState extends State<cartPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                // height: width*0.8,
                 child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -105,13 +110,16 @@ class _CartPageState extends State<cartPage> {
                         decoration: BoxDecoration(
                             color: colorConst.white,
                           borderRadius: BorderRadius.circular(w*0.04),
-                          border: Border.all(width: w*0.0003),
+                          border: Border.all(
+                              width: w*0.0003,
+                              color: colorConst.black.withOpacity(0.38)
+                          ),
                           boxShadow: [
                             BoxShadow(
-                                color: colorConst.grey1,
-                                blurRadius: 10,
-                                offset: Offset(2, 4),
-                                spreadRadius:1
+                                color: colorConst.black.withOpacity(0.1),
+                                blurRadius: 14,
+                                offset: Offset(0, 4),
+                                spreadRadius:0
                             )
                           ]
                         ),
@@ -124,7 +132,10 @@ class _CartPageState extends State<cartPage> {
                               width: w*0.27,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(w*0.04),
-                                border: Border.all(width:w*0.0003),
+                                border: Border.all(
+                                    width: w*0.0003,
+                                    color: colorConst.black.withOpacity(0.38)
+                                ),
                                 image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
                               ),
                             SizedBox(width: w*0.02,),
@@ -176,10 +187,10 @@ class _CartPageState extends State<cartPage> {
                                        borderRadius: BorderRadius.circular(w*0.05),
                                        boxShadow: [
                                          BoxShadow(
-                                             color: colorConst.grey1,
-                                             blurRadius: 1,
+                                             color: colorConst.black.withOpacity(0.1),
+                                             blurRadius: 14,
                                            offset: Offset(0, 4),
-                                           spreadRadius: 1
+                                           spreadRadius: 0
                                          )
                                        ]
                                      ),
@@ -200,9 +211,13 @@ class _CartPageState extends State<cartPage> {
                                         decoration: BoxDecoration(
                                             color:colorConst.grey1,
                                             borderRadius: BorderRadius.circular(w*0.06),
-                                            border: Border.all(width: w*0.0003)
+                                            border: Border.all(
+                                                width: w*0.0003,
+                                                color: colorConst.black.withOpacity(0.38)
+                                            )
                                         ),
-                                        child:Icon(Icons.remove),
+                                        child:Icon(Icons.remove,
+                                            size:w*0.04),
                                       ),
                                     ),
                                     SizedBox(width: w*0.015,),
@@ -225,9 +240,13 @@ class _CartPageState extends State<cartPage> {
                                           decoration: BoxDecoration(
                                             color:colorConst.grey1,
                                             borderRadius: BorderRadius.circular(w*0.06),
-                                            border: Border.all(width: w*0.0003)
+                                            border: Border.all(
+                                                width: w*0.0003,
+                                                color: colorConst.black.withOpacity(0.38)
+                                            )
                                           ),
-                                        child:Center(child: Icon(Icons.add)),
+                                        child:Center(child: Icon(Icons.add,
+                                            size:w*0.04)),
                                           ),
                                     )
                                   ],
@@ -265,23 +284,26 @@ class _CartPageState extends State<cartPage> {
                 decoration: BoxDecoration(
                   color: colorConst.white,
                   borderRadius: BorderRadius.circular(w*0.04),
-                  border: Border.all(width: w*0.0002),
+                  border: Border.all(
+                      width: w*0.0003,
+                      color: colorConst.black.withOpacity(0.38)
+                  ),
                     boxShadow: [
                       BoxShadow(
-                          color: colorConst.grey1,
-                          blurRadius: 10,
-                          offset: Offset(2, 4),
-                          spreadRadius: 1
+                          color: colorConst.black.withOpacity(0.1),
+                          blurRadius: 14,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0
                       )
                     ]
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.multiline,
-                  maxLength: null,
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.next,
+                  maxLines: null,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: w*0.05,right: w*0.05),
+                    contentPadding: EdgeInsets.only(left: w*0.05,right: w*0.05),
                     border:InputBorder.none,
                     hintText: "Any instruction regarding cuts",
                     hintStyle: TextStyle(
@@ -302,7 +324,7 @@ class _CartPageState extends State<cartPage> {
                         fontSize: w*0.04,
                         fontWeight: FontWeight.w500
                       ),),
-                      Text("₹ 250",
+                      Text("₹ 250.00",
                       style: TextStyle(
                         color: colorConst.black,
                         fontSize: w*0.04,
@@ -338,7 +360,7 @@ class _CartPageState extends State<cartPage> {
                         fontSize: w*0.04,
                         fontWeight: FontWeight.w500
                       ),),
-                      Text("₹ 50",
+                      Text("₹ 50.00",
                       style: TextStyle(
                         color: colorConst.black,
                         fontSize: w*0.04,

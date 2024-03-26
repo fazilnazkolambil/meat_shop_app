@@ -37,7 +37,7 @@ class _onBoardingPageState extends State<onBoardingPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Image(image: AssetImage(imageConst.meetsplash)),
+          Image(image: AssetImage(imageConst.meetsplash),fit: BoxFit.fill,),
           Container(
             height: scrHeight*1,
             width: scrWidth*1,
@@ -52,13 +52,11 @@ class _onBoardingPageState extends State<onBoardingPage> {
           ),
           Positioned(
             top: scrWidth*0.35,
-            left: scrWidth*0.32,
-            right: scrWidth*0.32,
             child: SizedBox(
                  width: scrWidth*1,
                 child:Column(
                   children: [
-                    Image(image: AssetImage(imageConst.mainIcon),height: scrWidth*0.4),
+                    Image(image: AssetImage(imageConst.mainIcon),width: scrWidth*0.4),
                     Text("Meat Shop",style: TextStyle(
                         color: colorConst.white,
                         fontSize: scrWidth*0.07,
@@ -80,20 +78,22 @@ class _onBoardingPageState extends State<onBoardingPage> {
                   width: scrWidth*1,
                   margin: EdgeInsets.all(scrWidth*0.05),
                   color: colorConst.black.withOpacity(0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(welcome[index]["title"],style: TextStyle(
-                          fontSize: scrWidth*0.05,
-                          fontWeight: FontWeight.w600,
-                          color: colorConst.white,
-                          letterSpacing: scrWidth*0.004
-                      ),),
-                      Text(welcome[index]['subtitle'],style: TextStyle(
-                        color: colorConst.red,
-                      ))
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(welcome[index]["title"],style: TextStyle(
+                            fontSize: scrWidth*0.05,
+                            fontWeight: FontWeight.w600,
+                            color: colorConst.white,
+                            letterSpacing: scrWidth*0.004
+                        ),),
+                        Text(welcome[index]['subtitle'],style: TextStyle(
+                          color: colorConst.red,
+                        ))
+                      ],
+                    ),
                   ),
                 );
               },
@@ -116,12 +116,13 @@ class _onBoardingPageState extends State<onBoardingPage> {
             child: selectedIndex == welcome.length-1?
             Container(
               height: scrWidth*0.1,
-              width: scrWidth*0.7,
+              width: scrWidth*0.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(scrWidth*0.03),
                 color: colorConst.meroon
               ),
-              child: Center(child: Text("Done")),
+              child: Center(child: Text("Let's  In",style: TextStyle(
+                  color: colorConst.white),)),
             )
                 :AnimatedSmoothIndicator(
                 activeIndex: selectedIndex,

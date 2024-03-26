@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meat_shop_app/constant/color_const.dart';
 // import 'package:meat_shop_app/Image_Page.dart';
 // import 'package:meat_shop_app/constant/Color_Page.dart';
 
@@ -51,17 +52,18 @@ class _NavigationPageState extends State<NavigationPage> {
       extendBody: true,
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
+        showBottomRadius: false,
+              showTopRadius: false,
               notchBottomBarController: _controller,
               color: Colors.white,
               showLabel: true,
-
               itemLabelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
               shadowElevation: 1,
-              notchColor: Colors.red,
+              notchColor: colorConst.meroon,
               removeMargins: false,
               bottomBarWidth: w * 1,
               showShadow: false,
-              // durationInMilliSeconds: 300,
+              durationInMilliSeconds: 300,
               kIconSize: 24.0,
               kBottomRadius: 28.0,
               elevation: 1,
@@ -70,12 +72,14 @@ class _NavigationPageState extends State<NavigationPage> {
                   inActiveItem: Icon(
                     Icons.home,
                     color: Colors.deepOrange,
+
                   ),
                   activeItem: Icon(
                     Icons.star,
                     color: Colors.blueAccent,
                   ),
                   itemLabel: 'Page 1',
+
                 ),
                 BottomBarItem(
                   inActiveItem: Icon(

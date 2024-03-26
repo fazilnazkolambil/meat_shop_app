@@ -2,7 +2,7 @@ class imageConst{
   static const address="assets/images/address.png";
   static const logo="assets/images/logo.png";
   static const mainIcon="assets/images/mainIcon.png";
-  static const meetsplash="assets/images/meetsplash.png";
+  static const meetsplash="assets/images/logo.png";
   static const carosal1="assets/images/carosal1.png";
   static const beef="assets/images/beef.png";
   static const motton="assets/images/motton.png";
@@ -46,6 +46,7 @@ class iconConst{
   static const privacy="assets/icons/privacy.svg";
   static const logoicon="assets/icons/logoicon.svg";
 }
-class gifs {
-  static const loadingGif = "assets/gifs/Animation - 1711433099214.json";
+class gifs{
+  static const loadingGif="assets/gifs/Animation - 1711433099214.json";
+  static const tickGif="assets/gifs/Animation - 1711377831660.json";
 }

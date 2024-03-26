@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meat_shop_app/checkoutpage.dart';
 import 'package:meat_shop_app/constant/color_const.dart';
 import 'package:meat_shop_app/constant/image_const.dart';
 
@@ -75,17 +76,22 @@ class _CartPageState extends State<cartPage> {
                     ),)
                 ],
               ),
-              Container(
-                height: w*0.15,
-                width: w*0.9,
-                decoration: BoxDecoration(
-                  color: colorConst.meroon,
-                  borderRadius: BorderRadius.circular(w*0.05),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                },
+                child: Container(
+                  height: w*0.15,
+                  width: w*0.9,
+                  decoration: BoxDecoration(
+                    color: colorConst.meroon,
+                    borderRadius: BorderRadius.circular(w*0.05),
+                  ),
+                  child: Center(child: Text("Proceed  To checkout",
+                  style: TextStyle(
+                    color: colorConst.white
+                  ),)),
                 ),
-                child: Center(child: Text("Proceed  To checkout",
-                style: TextStyle(
-                  color: colorConst.white
-                ),)),
               )
             ],
           ),

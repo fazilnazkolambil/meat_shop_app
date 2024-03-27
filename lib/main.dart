@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meat_shop_app/feature/authPage/screens/info_page.dart';
 import 'package:meat_shop_app/firebase_options.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           textTheme:GoogleFonts.manropeTextTheme()
       ),
       debugShowCheckedModeBanner: false,
-      home: signinPage(),
+      home: infoPage(),
     );
   }
 }

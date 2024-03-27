@@ -47,6 +47,6 @@ class iconConst{
   static const logoicon="assets/icons/logoicon.svg";
 }
 class gifs{
-  static const loadingGif="assets/gifs/Animation - 1711433099214.json";
+  static const loadingGif="assets/gifs/Animation - 1711515095512.json";
   static const tickGif="assets/gifs/Animation - 1711377831660.json";
 }

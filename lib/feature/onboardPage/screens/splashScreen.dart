@@ -29,7 +29,14 @@ class _splashScreenState extends State<splashScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Image(image: AssetImage(imageConst.meetsplash),fit: BoxFit.fill,),
+          Container(
+              height: scrHeight*1,
+              width: scrWidth*1,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(imageConst.meetsplash),fit: BoxFit.fill,)
+                )
+              ),
           Container(
             height: scrHeight*1,
             width: scrWidth*1,

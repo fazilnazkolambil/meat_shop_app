@@ -198,7 +198,8 @@ class _checkoutpageState extends State<checkoutpage> {
                                     ),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        border: InputBorder.none
+                                        border: InputBorder.none,
+                                        labelText: "44CCR+05 Kuwait City- Kuwait"
                                       ),
                                     ),
                                   ),

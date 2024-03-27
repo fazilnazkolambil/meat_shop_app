@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                     onPageChanged: (index, reason) {
                       currentIndex=index;
                       setState(() {
-          
+
                       });
                     },
                     autoPlayAnimationDuration: Duration(

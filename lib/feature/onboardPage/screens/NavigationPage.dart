@@ -4,10 +4,15 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
+import 'package:meat_shop_app/core/constant/image_const.dart';
 // import 'package:meat_shop_app/Image_Page.dart';
 // import 'package:meat_shop_app/constant/Color_Page.dart';
 
 import '../../../main.dart';
+import '../../favoritePage/screens/favourite_page.dart';
+import '../../homePage/screens/HomePage.dart';
+import '../../morePage/screens/more_page.dart';
+import '../../ordersPage/screens/My_Orders.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -28,10 +33,10 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   List bottomBarPages = [
-    // home(),
-    // Page2(),
-    // Page3(),
-    // Page4(),
+    HomePage(),
+    MyOrders(),
+    favouritePage(),
+    morePage(),
   ];
   int selectedIndex = 0;
   void onItemTapped(int Index) {
@@ -52,12 +57,15 @@ class _NavigationPageState extends State<NavigationPage> {
       extendBody: true,
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
-        showBottomRadius: false,
+              showBottomRadius: false,
               showTopRadius: false,
               notchBottomBarController: _controller,
               color: Colors.white,
               showLabel: true,
-              itemLabelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+              itemLabelStyle: TextStyle(
+                  color: colorConst.textgrey,
+                  fontSize: scrWidth * 0.03,
+                  fontWeight: FontWeight.w500),
               shadowElevation: 1,
               notchColor: colorConst.meroon,
               removeMargins: false,
@@ -69,51 +77,48 @@ class _NavigationPageState extends State<NavigationPage> {
               elevation: 1,
               bottomBarItems: [
                 BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.home,
-                    color: Colors.deepOrange,
-
+                  inActiveItem: SvgPicture.asset(
+                    iconConst.home,
+                    color: colorConst.bottomcolor.withOpacity(0.20),
                   ),
-                  activeItem: Icon(
-                    Icons.star,
-                    color: Colors.blueAccent,
+                  activeItem: SvgPicture.asset(
+                    iconConst.home,
+                    color: colorConst.white,
                   ),
-                  itemLabel: 'Page 1',
-
+                  itemLabel: 'Home',
                 ),
                 BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.star,
-                    color: Colors.blueGrey,
+                  inActiveItem: SvgPicture.asset(
+                    iconConst.cart,
+                    color: colorConst.bottomcolor.withOpacity(0.20),
                   ),
-                  activeItem: Icon(
-                    Icons.star,
-                    color: Colors.blueAccent,
+                  activeItem: SvgPicture.asset(
+                    iconConst.cart,
+                    color: colorConst.white,
                   ),
-                  itemLabel: 'Page 2',
+                  itemLabel: 'orders',
                 ),
                 BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.settings,
-                    color: Colors.blueGrey,
+                  inActiveItem: SvgPicture.asset(
+                    iconConst.Favourite1,
+                    color: colorConst.bottomcolor.withOpacity(0.20),
                   ),
-                  activeItem: Icon(
-                    Icons.settings,
-                    color: Colors.pink,
+                  activeItem: SvgPicture.asset(
+                    iconConst.Favourite1,
+                    color: colorConst.white,
                   ),
-                  itemLabel: 'Page 3',
+                  itemLabel: 'Favourite',
                 ),
                 BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.person,
-                    color: Colors.blueGrey,
-                  ),
-                  activeItem: Icon(
-                    Icons.person,
-                    color: Colors.yellow,
-                  ),
-                  itemLabel: 'Page 4'
-                ),
+                    inActiveItem: SvgPicture.asset(
+                      iconConst.more,
+                      color: colorConst.bottomcolor.withOpacity(0.20),
+                    ),
+                    activeItem: SvgPicture.asset(
+                      iconConst.more,
+                      color: colorConst.white,
+                    ),
+                    itemLabel: 'More'),
               ],
               onTap: (index) {
                 setState(() {

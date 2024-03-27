@@ -13,4 +13,5 @@ class colorConst{
   static const radiobutton=Color(0xff374957);
   static const lightgrey=Color(0xffD9D9D9);
   static const textgrey=Color(0xff616A7D);
+  static const bottomcolor=Color(0xff3E4554);
 }

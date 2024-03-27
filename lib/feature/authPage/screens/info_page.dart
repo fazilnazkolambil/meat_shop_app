@@ -17,8 +17,8 @@ class infoPage extends StatefulWidget {
 class _infoPageState extends State<infoPage> {
   TextEditingController phoneController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
-  TextEditingController confirmpasswordController=TextEditingController();
-  TextEditingController nameCotroller=TextEditingController();
+  TextEditingController confirmPasswordController=TextEditingController();
+  TextEditingController nameController=TextEditingController();
   TextEditingController emailController=TextEditingController();
 
   bool visibility=true;
@@ -101,7 +101,7 @@ class _infoPageState extends State<infoPage> {
                             ]
                         ),
                         child: TextFormField(
-                          controller: nameCotroller,
+                          controller: nameController,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
@@ -402,7 +402,7 @@ class _infoPageState extends State<infoPage> {
                             });
         
                           },
-                          controller: confirmpasswordController,
+                          controller: confirmPasswordController,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                           obscureText: visibility?true:false,
@@ -550,11 +550,11 @@ class _infoPageState extends State<infoPage> {
                       InkWell(
                         onTap: (){
                           if(
-                                  nameCotroller.text!=""&&
+                                  nameController.text!=""&&
                                   phoneController.text!=""&&
                                   emailController.text!=""&&
                                       passwordController.text!=""&&
-                                  confirmpasswordController.text!=""&&
+                                  confirmPasswordController.text!=""&&
                                       // valueChoose!=null
 
                               formkey.currentState!.validate()
@@ -562,11 +562,11 @@ class _infoPageState extends State<infoPage> {
                             // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
                           }else{
-                            nameCotroller.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
+                            nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
                             phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
                             emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
                             passwordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your password"))):
-                            confirmpasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your confirm password"))):
+                            confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your confirm password"))):
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
                           }
                         },

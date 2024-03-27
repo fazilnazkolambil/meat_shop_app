@@ -108,6 +108,7 @@ class _infoPageState extends State<infoPage> {
                               fontSize: scrWidth*0.04,
                               fontWeight: FontWeight.w500
                           ),
+                          cursorColor: colorConst.grey,
                           decoration:
                           InputDecoration(
                             prefixIcon: Padding(
@@ -181,6 +182,7 @@ class _infoPageState extends State<infoPage> {
                               fontWeight: FontWeight.w500
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               counterText: "",
                               prefixIcon: CountryCodePicker(
@@ -246,6 +248,7 @@ class _infoPageState extends State<infoPage> {
                               fontSize: scrWidth*0.04,
                               fontWeight: FontWeight.w500
                           ),
+                          cursorColor: colorConst.grey,
                           decoration:
                           InputDecoration(
                               prefixIcon: Padding(
@@ -328,6 +331,7 @@ class _infoPageState extends State<infoPage> {
                               return null;
                             }
                           },
+                          cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: colorConst.white,
@@ -359,8 +363,9 @@ class _infoPageState extends State<infoPage> {
                               ),
                               border:OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: colorConst.red
-                                  )
+                                      color: colorConst.red,
+                                  ),
+                                borderRadius: BorderRadius.circular(scrWidth*0.03),
                               ),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
@@ -419,6 +424,7 @@ class _infoPageState extends State<infoPage> {
                               return null;
                             }
                           },
+                          cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: colorConst.white,
@@ -451,7 +457,8 @@ class _infoPageState extends State<infoPage> {
                               border:OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: colorConst.red
-                                  )
+                                  ),
+                                borderRadius: BorderRadius.circular(scrWidth*0.03),
                               ),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),

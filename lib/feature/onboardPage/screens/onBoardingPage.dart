@@ -121,15 +121,20 @@ class _onBoardingPageState extends State<onBoardingPage> {
             right: scrWidth*0.4,
             left: scrWidth*0.4,
             child: selectedIndex == welcome.length-1?
-            Container(
-              height: scrWidth*0.1,
-              width: scrWidth*0.8,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(scrWidth*0.03),
-                color: colorConst.meroon
+            InkWell(
+              onTap: () {
+
+              },
+              child: Container(
+                height: scrWidth*0.1,
+                width: scrWidth*0.8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                  color: colorConst.meroon
+                ),
+                child: Center(child: Text("Let's  In",style: TextStyle(
+                    color: colorConst.white),)),
               ),
-              child: Center(child: Text("Let's  In",style: TextStyle(
-                  color: colorConst.white),)),
             )
                 :AnimatedSmoothIndicator(
                 activeIndex: selectedIndex,

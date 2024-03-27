@@ -18,10 +18,7 @@ class _BeefListState extends State<BeefList> {
   int selectIndex=0;
   int count=1;
   List meat=[
-    {"text": "Beef Cut"},
-    { "text": "Boneless Beef"},
-    { "text": "Liver"},
-    { "text": "Botti"},
+    "Beef cut", "Boneless Beef", "Liver", "Botti"
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,9 +48,9 @@ class _BeefListState extends State<BeefList> {
             ],
           ),
           actions: [
-            Container(child: SvgPicture.asset(iconConst.cart)),
+            SvgPicture.asset(iconConst.cart),
             SizedBox(width: scrWidth*0.04,),
-            Container(child: SvgPicture.asset(iconConst.notification)),
+            SvgPicture.asset(iconConst.notification),
             SizedBox(width: scrWidth*0.03,),
           ],
         ),
@@ -71,7 +68,7 @@ class _BeefListState extends State<BeefList> {
                         color:Colors.black
                     ),),
                   SizedBox(height: scrWidth*0.02,),
-                  Container(
+                  SizedBox(
                       height: scrHeight*0.05,
                       width: scrWidth*1,
                       child:ListView.separated(
@@ -90,7 +87,7 @@ class _BeefListState extends State<BeefList> {
                               height: scrHeight*0.05,
                               padding: EdgeInsets.only(left: scrWidth*0.04,right: scrWidth*0.04),
                               child: Center(
-                                child: Text(meat[index]["text"],
+                                child: Text(meat[index],
                                   style: TextStyle(
                                       color: selectIndex==index? colorConst.black:colorConst.black.withOpacity(0.5),
                                       fontWeight: FontWeight.w600

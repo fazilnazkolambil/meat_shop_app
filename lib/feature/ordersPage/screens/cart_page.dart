@@ -206,7 +206,7 @@ class _CartPageState extends State<cartPage> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        count++;
+                                        count<=0? 0:count--;
                                         setState(() {
 
                                         });
@@ -235,7 +235,7 @@ class _CartPageState extends State<cartPage> {
                                     SizedBox(width: scrWidth*0.015,),
                                     InkWell(
                                       onTap: () {
-                                        count<=0? 0:count--;
+                                        count++;
                                         setState(() {
 
                                         });

@@ -73,7 +73,8 @@ class _splashScreenState extends State<splashScreen> {
               child: SizedBox(
                   height: scrWidth*0.5,
                   width: scrWidth*0.5,
-                  child: Lottie.asset(gifs.loadingGif)))
+                  child: Lottie.asset(gifs.loadingGif))
+          )
         ],
       ),
     );

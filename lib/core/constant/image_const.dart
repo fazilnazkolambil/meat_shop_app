@@ -19,10 +19,10 @@ class imageConst{
   static const lambfrycut="assets/images/lambfrycut.jpeg";
   static const lambmediumpiece="assets/images/lambmediumpiece.jpeg";
   static const camelbiriyanicut="assets/images/camelbiriyanicut.jpeg";
-  static const camelcurrycut="assets/images/camelcurrycut.jpeg";
   static const camelfrycut="assets/images/camelfrycut.jpg";
-  static const camelmediumpiece="assets/images/camelmediumcut.jpeg";
+  static const camelmediumpiece="assets/images/camelmediumcut.jpg";
   static const camelbigpiece="assets/images/camelbigpiece.jpg";
+  static const camelmince="assets/images/camelmince.jpg";
   static const muttonbigpiece="assets/images/muttonbigpiece.jpg";
   static const muttonmediumpiece="assets/images/muttonmedium.jpg";
   static const muttoncurrycut="assets/images/muttoncurrycut.jpg";

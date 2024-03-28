@@ -19,7 +19,7 @@ class _LambPageState extends State<LambPage> {
   List meat=[
     "Lamb cut", "Boneless Lamb", "Liver", "Bottie"
   ];
-  List Y=[
+  List lamb=[
     {
       "img":"assets/images/lambcurrycut.jpeg",
       "name":"Lamb Curry Cut (Large)",
@@ -141,7 +141,7 @@ class _LambPageState extends State<LambPage> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
-                    itemCount: Y.length,
+                    itemCount: lamb.length,
                     itemBuilder: (context, index) {
                       return Container(
                         height: scrWidth*0.33,
@@ -172,7 +172,7 @@ class _LambPageState extends State<LambPage> {
                                     border: Border.all(
                                         width: scrWidth*0.0003,
                                         color: colorConst.black.withOpacity(0.38)),
-                                    image: DecorationImage(image: AssetImage(Y[index]["img"]),fit: BoxFit.fill))
+                                    image: DecorationImage(image: AssetImage(lamb[index]["img"]),fit: BoxFit.fill))
                             ),
                             SizedBox(width: scrWidth*0.02,),
                             Column(
@@ -183,7 +183,7 @@ class _LambPageState extends State<LambPage> {
                                   width: scrWidth*0.4,
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(Y[index]["name"],
+                                      Text(lamb[index]["name"],
                                         style: TextStyle(
                                             fontSize: scrWidth*0.04,
                                             fontWeight: FontWeight.w700,
@@ -201,7 +201,7 @@ class _LambPageState extends State<LambPage> {
                                           fontWeight: FontWeight.w700,
                                           color: colorConst.black
                                       ),),
-                                    Text(Y[index]["price"],
+                                    Text(lamb[index]["price"],
                                       style: TextStyle(
                                           fontSize: scrWidth*0.04,
                                           fontWeight: FontWeight.w700,
@@ -259,7 +259,7 @@ class _LambPageState extends State<LambPage> {
                                                             border: Border.all(
                                                                 width: scrWidth*0.0003,
                                                                 color: colorConst.black.withOpacity(0.38)),
-                                                            image: DecorationImage(image: AssetImage(Y[index]["img"]),fit: BoxFit.fill))
+                                                            image: DecorationImage(image: AssetImage(lamb[index]["img"]),fit: BoxFit.fill))
                                                     ),
                                                     Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,7 +269,7 @@ class _LambPageState extends State<LambPage> {
                                                           child: Column(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              Text(Y[index]["name"],
+                                                              Text(lamb[index]["name"],
                                                                 style: TextStyle(
                                                                     fontSize: scrWidth*0.04,
                                                                     fontWeight: FontWeight.w700,
@@ -287,7 +287,7 @@ class _LambPageState extends State<LambPage> {
                                                                   fontWeight: FontWeight.w700,
                                                                   color: colorConst.black
                                                               ),),
-                                                            Text(Y[index]["price"],
+                                                            Text(lamb[index]["price"],
                                                               style: TextStyle(
                                                                   fontSize: scrWidth*0.04,
                                                                   fontWeight: FontWeight.w700,
@@ -307,7 +307,7 @@ class _LambPageState extends State<LambPage> {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Text(Y[index]["name"],
+                                                    Text(lamb[index]["name"],
                                                       style: TextStyle(
                                                           fontSize: scrWidth*0.04,
                                                           fontWeight: FontWeight.w700,

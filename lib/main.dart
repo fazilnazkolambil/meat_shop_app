@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meat_shop_app/feature/favoritePage/screens/favourite_page.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/homePage/screens/beef_list.dart';
+import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           textTheme:GoogleFonts.manropeTextTheme()
       ),
       debugShowCheckedModeBanner: false,
-      home: NavigationPage(),
+      home: LambPage(),
     );
   }
 }

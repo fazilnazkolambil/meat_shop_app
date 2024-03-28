@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 
@@ -19,8 +20,10 @@ class checkoutpage extends StatefulWidget {
 class _checkoutpageState extends State<checkoutpage> {
   String pymnt="";
   String labelas="";
-  List date=[];
+  List <DateTime?> date=[];
   int date1=0;
+  String? _d1;
+   String? _t1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -417,11 +420,11 @@ class _checkoutpageState extends State<checkoutpage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   // DateTimePicker(
-                                  //   initialSelectedDate: dt,
-                                  //   startDate: dt.add(Duration(days: 1)),
-                                  //   endDate: dt.add(Duration(days: 60)),
-                                  //   startTime: DateTime(dt.year, dt.month, dt.day, 6),
-                                  //   endTime: DateTime(dt.year, dt.month, dt.day, 18),
+                                  //   initialSelectedDate: date,
+                                  //   startDate: date.add(Duration(days: 1)),
+                                  //   endDate: date!.add(Duration(days: 60)),
+                                  //   startTime: DateTime(date!.year, date!.month, date!.day, 6),
+                                  //   endTime: DateTime(date!.year, date!.month, date!.day, 18),
                                   //   timeInterval: Duration(minutes: 15),
                                   //   datePickerTitle: 'Pick your preferred date',
                                   //   timePickerTitle: 'Pick your preferred time',

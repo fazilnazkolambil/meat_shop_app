@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  height: scrHeight*0.066,
+                  height: scrHeight*0.067,
                   width: scrWidth*1,
                   margin: EdgeInsets.only(bottom: scrWidth*0.03),
                   child: TextFormField(
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       fillColor: colorConst.grey1,
                       filled: true,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.all(scrWidth*0.025),
+                        padding: EdgeInsets.all(scrWidth*0.029),
                         child: SvgPicture.asset(iconConst.search,
                         ),
                       ),prefixIconConstraints: BoxConstraints(

@@ -14,6 +14,12 @@ class imageConst{
   static const beefmediumpiece="assets/images/beefmediumpiece.png";
   static const biriyanicut="assets/images/biriyanicut.png";
   static const map="assets/images/map.png";
+  static const lambbigpiece="assets/images/lambbigpiece.jpg";
+  static const lambbiriyanicut="assets/images/lambbiriyanicut.jpg";
+  static const lambcurrycut="assets/images/lambcurrycut.jpeg";
+  static const lambfrycut="assets/images/lambfrycut.jpeg";
+  static const lambmediumpiece="assets/images/lambmediumpiece.jpeg";
+  static const camelbiriyanicut="assets/images/camelbiriyanicut.jpeg";
 }
 class iconConst{
   static const location="assets/icons/location.svg";

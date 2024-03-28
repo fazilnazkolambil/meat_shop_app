@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 
 import '../../../main.dart';
 
@@ -31,7 +32,7 @@ class _orderconfirmState extends State<orderconfirm> {
                 ,textAlign: TextAlign.center,),
               InkWell(
                 onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => mainpage(),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                 },
                 child: Container(
                   height: scrWidth*0.13,

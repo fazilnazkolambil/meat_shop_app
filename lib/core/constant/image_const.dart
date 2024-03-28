@@ -13,7 +13,7 @@ class imageConst{
   static const beefbigpiece="assets/images/beefbigpiece.png";
   static const beefmediumpiece="assets/images/beefmediumpiece.png";
   static const biriyanicut="assets/images/biriyanicut.png";
-  static const map="assets/images/map.png";
+  static const map1="assets/images/map.png";
   static const lambbigpiece="assets/images/lambbigpiece.jpg";
   static const lambbiriyanicut="assets/images/lambbiriyanicut.jpg";
   static const lambcurrycut="assets/images/lambcurrycut.jpeg";

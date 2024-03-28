@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
@@ -118,7 +119,7 @@ class _checkoutpageState extends State<checkoutpage> {
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        enableDrag: true,
+                        // enableDrag: true,
                         elevation: 20,
                         scrollControlDisabledMaxHeightRatio: Checkbox.width,
                         // showDragHandle: true,
@@ -146,12 +147,15 @@ class _checkoutpageState extends State<checkoutpage> {
                                         onTap: () {
                                           Navigator.pop(context);
                                         },
-                                          child: Icon(Icons.close)
+                                          child: SvgPicture.asset(iconConst.cross)
                                       )
                                     ],
                                   ),
-                                  Container(
-                                    child: Image(image: AssetImage(imageConst.map),),
+                                  Stack(
+                                    children:[ Container(
+                                      child: Image(image: AssetImage(imageConst.map1),),
+                                    ),
+                                    ]
                                   ),
                                   Row(
                                     children: [
@@ -199,7 +203,8 @@ class _checkoutpageState extends State<checkoutpage> {
                                     child: TextField(
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        labelText: "44CCR+05 Kuwait City- Kuwait"
+                                        labelText: " 44CCR+05 Kuwait City- Kuwait",
+                                        labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                       ),
                                     ),
                                   ),
@@ -215,7 +220,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                       ),
                                       child: TextField(
                                         decoration: InputDecoration(
-                                            border: InputBorder.none
+                                            border: InputBorder.none,
+                                            labelText: " Aneesh Babu",
+                                            labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+
                                         ),
                                       ),
                                     ),
@@ -228,7 +236,9 @@ class _checkoutpageState extends State<checkoutpage> {
                                       ),
                                       child: TextField(
                                         decoration: InputDecoration(
-                                            border: InputBorder.none
+                                            border: InputBorder.none,
+                                            labelText: "+965 98546908",
+                                            labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                         ),
                                       ),
                                     ),
@@ -242,7 +252,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                     ),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          border: InputBorder.none
+                                          border: InputBorder.none,
+                                          labelText: " Cutom Address",
+                                          labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+
                                       ),
                                     ),
                                   ),
@@ -258,7 +271,9 @@ class _checkoutpageState extends State<checkoutpage> {
                                         ),
                                         child: TextField(
                                           decoration: InputDecoration(
-                                              border: InputBorder.none
+                                              border: InputBorder.none,
+                                              labelText: " House",
+                                              labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                           ),
                                         ),
                                       ),
@@ -271,7 +286,9 @@ class _checkoutpageState extends State<checkoutpage> {
                                         ),
                                         child: TextField(
                                           decoration: InputDecoration(
-                                              border: InputBorder.none
+                                              border: InputBorder.none,
+                                              labelText: " Floor",
+                                              labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                           ),
                                         ),
                                       ),
@@ -340,7 +357,8 @@ class _checkoutpageState extends State<checkoutpage> {
                                     onTap: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Icon(Icons.close)),
+                                    child: SvgPicture.asset(iconConst.datetime),
+                                )
                               ],
                             ),
 

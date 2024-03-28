@@ -23,6 +23,10 @@ class imageConst{
   static const camelfrycut="assets/images/camelfrycut.jpg";
   static const camelmediumpiece="assets/images/camelmediumcut.jpeg";
   static const camelbigpiece="assets/images/camelbigpiece.jpg";
+  static const muttonbigpiece="assets/images/muttonbigpiece.jpg";
+  static const muttonmediumpiece="assets/images/muttonmedium.jpg";
+  static const muttoncurrycut="assets/images/muttoncurrycut.jpg";
+  static const muttonfrycut="assets/images/muttonfrycut.jpg";
 }
 class iconConst{
   static const location="assets/icons/location.svg";

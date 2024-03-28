@@ -1,5 +1,4 @@
 class imageConst{
-  static const address="assets/images/address.png";
   static const logo="assets/images/logo.png";
   static const mainIcon="assets/images/mainIcon.png";
   static const meetsplash="assets/images/meetsplash.png";
@@ -12,7 +11,7 @@ class imageConst{
   static const beeffrycut="assets/images/beeffrycut.png";
   static const beefbigpiece="assets/images/beefbigpiece.png";
   static const beefmediumpiece="assets/images/beefmediumpiece.png";
-  static const biriyanicut="assets/images/biriyanicut.png";
+  static const beefbiriyanicut="assets/images/beefbiriyanicut.png";
   static const map1="assets/images/map.png";
   static const lambbigpiece="assets/images/lambbigpiece.jpg";
   static const lambbiriyanicut="assets/images/lambbiriyanicut.jpg";

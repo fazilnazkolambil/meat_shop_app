@@ -17,9 +17,37 @@ class BeefList extends StatefulWidget {
 class _BeefListState extends State<BeefList> {
   int selectIndex=0;
   int count=1;
-  List meat=[
+  List beefmeat=[
     "Beef cut", "Boneless Beef", "Liver", "Botti"
   ];
+  List beef=[
+    {
+      "image":"assets/images/beefcurrycut.png",
+      "name":"Beef Curry Cut(Large.)",
+      "price":"₹ 250"
+    },
+    {
+      "image":"assets/images/beeffrycut.png",
+      "name":"Beef Fry Cut ( Larg.",
+      "price":"₹ 280"
+    },
+    {
+      "image":"assets/images/beefbigpiece.png",
+      "name":"Beef Big Pice",
+      "price":"₹ 280"
+    },
+    {
+      "image":"assets/images/beefmediumpiece.png",
+      "name":"Beef Medium Pice",
+      "price":"₹ 230"
+    },
+    {
+      "image":"assets/images/beefbiriyanicut.png",
+      "name":"Biriyani Cut",
+      "price":"₹ 250"
+    },
+  ];
+  List favourite=[];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -72,7 +100,7 @@ class _BeefListState extends State<BeefList> {
                       height: scrHeight*0.05,
                       width: scrWidth*1,
                       child:ListView.separated(
-                        itemCount:meat.length,
+                        itemCount:beefmeat.length,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
@@ -87,7 +115,7 @@ class _BeefListState extends State<BeefList> {
                               height: scrHeight*0.05,
                               padding: EdgeInsets.only(left: scrWidth*0.04,right: scrWidth*0.04),
                               child: Center(
-                                child: Text(meat[index],
+                                child: Text(beefmeat[index],
                                   style: TextStyle(
                                       color: selectIndex==index? colorConst.black:colorConst.black.withOpacity(0.5),
                                       fontWeight: FontWeight.w600
@@ -117,7 +145,7 @@ class _BeefListState extends State<BeefList> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
-                      itemCount: 3,
+                      itemCount: beef.length,
                       itemBuilder: (context, index) {
                         return Container(
                           height: scrWidth*0.33,
@@ -148,7 +176,7 @@ class _BeefListState extends State<BeefList> {
                                       border: Border.all(
                                           width: scrWidth*0.0003,
                                           color: colorConst.black.withOpacity(0.38)),
-                                      image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
+                                      image: DecorationImage(image: AssetImage(beef[index]["image"]),fit: BoxFit.fill))
                               ),
                               SizedBox(width: scrWidth*0.02,),
                               Column(
@@ -158,8 +186,9 @@ class _BeefListState extends State<BeefList> {
                                   Container(
                                     width: scrWidth*0.4,
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Beef Curry Cut(Large.)",
+                                        Text(beef[index]["name"],
                                           style: TextStyle(
                                               fontSize: scrWidth*0.04,
                                               fontWeight: FontWeight.w700,
@@ -177,7 +206,7 @@ class _BeefListState extends State<BeefList> {
                                             fontWeight: FontWeight.w700,
                                             color: colorConst.black
                                         ),),
-                                      Text("₹ 250",
+                                      Text(beef[index]["price"],
                                         style: TextStyle(
                                             fontSize: scrWidth*0.04,
                                             fontWeight: FontWeight.w700,
@@ -191,7 +220,19 @@ class _BeefListState extends State<BeefList> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  SvgPicture.asset(iconConst.Favourite1,),
+                                  InkWell(
+                                    onTap:(){
+                                      if(favourite.contains(index)){
+                                        favourite.remove(index);
+                                      }
+                                      else{
+                                        favourite.add(index);
+                                      }
+                                      setState(() {
+
+                                      });
+                                      },
+                                      child: SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,)),
                                   InkWell(
                                     onTap: () {
                                       showModalBottomSheet(

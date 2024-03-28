@@ -19,15 +19,29 @@ class _forgotpasswordpage2State extends State<forgotpasswordpage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
-        elevation: 0,
-        leading: InkWell(
+      appBar: AppBar(
+        leading: Padding(
+          padding:  EdgeInsets.all(scrWidth*0.03),
+          child: InkWell(
             onTap: () {
               Navigator.pop(context);
             },
-            child: Center(child: SvgPicture.asset(iconConst.backarrow,height: scrWidth*0.1,width: scrWidth*0.1,))),
-        title: Text("Forgot password",style: TextStyle(fontWeight: FontWeight.w700,color: colorConst.black,fontSize: scrWidth*0.05),),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: colorConst.grey1,
+                    borderRadius: BorderRadius.circular(scrWidth*0.08)
+                ),
+                child: Center(child: SvgPicture.asset(iconConst.backarrow))
+            ),
+          ),
+        ),
+        title: Text("Forgot password",
+          style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: scrWidth*0.045
+          ),),
       ),
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

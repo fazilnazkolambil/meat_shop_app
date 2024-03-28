@@ -18,14 +18,27 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
-        elevation: 0,
-        leading: InkWell(
+      appBar: AppBar(
+        leading: Padding(
+          padding:  EdgeInsets.all(scrWidth*0.03),
+          child: InkWell(
             onTap: () {
               Navigator.pop(context);
             },
-            child: Center(child: SvgPicture.asset(iconConst.backarrow,height: scrWidth*0.1,width: scrWidth*0.1,))),
-        title: Text("Forgot password",style: TextStyle(fontWeight: FontWeight.w700,color: colorConst.black,fontSize: scrWidth*0.05),),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: colorConst.grey1,
+                    borderRadius: BorderRadius.circular(scrWidth*0.08)
+                ),
+                child: Center(child: SvgPicture.asset(iconConst.backarrow))
+            ),
+          ),
+        ),
+        title: Text("Forgot password",
+          style: TextStyle(
+              fontWeight: FontWeight.w800,
+            fontSize: scrWidth*0.045
+          ),),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,7 +73,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                     width: scrWidth*0.06,
                   ),
                   CircleAvatar(
-                    backgroundColor: colorConst.grey,
+                    backgroundColor: colorConst.grey1,
                     radius: scrWidth*0.07,
                     child: Icon(Icons.sms,color: colorConst.meroon,),
                   ),
@@ -73,7 +86,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(right: scrWidth*0.1),
-                        child: Text("via SMS:",style: TextStyle(color: colorConst.grey1,fontWeight: FontWeight.w600),),
+                        child: Text("via SMS:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),
                       ),
                       Text("+234111******99",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
                     ],
@@ -104,7 +117,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CircleAvatar(
-                    backgroundColor: colorConst.grey,
+                    backgroundColor: colorConst.grey1,
                     radius: scrWidth*0.07,
                     child: Icon(Icons.mail_outline_outlined,color: colorConst.meroon,),
                   ),
@@ -113,7 +126,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                     children: [
                       Padding(
                         padding:EdgeInsets.only(right: scrWidth*0.33),
-                        child: Text("via Email:",style: TextStyle(color: colorConst.grey1,fontWeight: FontWeight.w600),),
+                        child: Text("via Email:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),
                       ),
                       Text("kez***9@your domain.com",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
                     ],

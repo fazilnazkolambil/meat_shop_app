@@ -4,6 +4,8 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/main.dart';
 
+import '../onboardPage/screens/NavigationPage.dart';
+
 class createnewpswrd extends StatefulWidget {
   const createnewpswrd({super.key});
 
@@ -22,14 +24,27 @@ class _createnewpswrdState extends State<createnewpswrd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
-        elevation: 0,
-        leading: InkWell(
+      appBar: AppBar(
+        leading: Padding(
+          padding:  EdgeInsets.all(scrWidth*0.03),
+          child: InkWell(
             onTap: () {
               Navigator.pop(context);
             },
-            child: Center(child: SvgPicture.asset(iconConst.backarrow,height: scrWidth*0.1,width: scrWidth*0.1,))),
-        title: Text("Create New Password",style: TextStyle(fontWeight: FontWeight.w700,color: colorConst.black,fontSize: scrWidth*0.05),),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: colorConst.grey1,
+                    borderRadius: BorderRadius.circular(scrWidth*0.08)
+                ),
+                child: Center(child: SvgPicture.asset(iconConst.backarrow))
+            ),
+          ),
+        ),
+        title: Text("Create New Password",
+          style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: scrWidth*0.045
+          ),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -193,7 +208,7 @@ class _createnewpswrdState extends State<createnewpswrd> {
                       password2Controller.text==password1Controller.text&&
                       formKey.currentState!.validate()
                   ){
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ,));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                   }else{
                     password1Controller.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your password"))):
                     password2Controller.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please confirm your password"))):

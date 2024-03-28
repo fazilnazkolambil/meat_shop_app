@@ -58,6 +58,7 @@ class iconConst{
   static const conditions="assets/icons/conditions.svg";
   static const privacy="assets/icons/privacy.svg";
   static const logoicon="assets/icons/logoicon.svg";
+  static const gpsicon="assets/icons/gpsicon.svg";
 }
 class gifs{
   static const loadingGif="assets/gifs/Animation - 1711515095512.json";

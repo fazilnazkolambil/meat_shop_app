@@ -1,3 +1,5 @@
+import 'package:date_time_picker_widget/date_time_picker_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,6 +19,8 @@ class checkoutpage extends StatefulWidget {
 class _checkoutpageState extends State<checkoutpage> {
   String pymnt="";
   String labelas="";
+  List date=[];
+  int date1=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +123,7 @@ class _checkoutpageState extends State<checkoutpage> {
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        // enableDrag: true,
+                        enableDrag: false,
                         elevation: 20,
                         scrollControlDisabledMaxHeightRatio: Checkbox.width,
                         // showDragHandle: true,
@@ -131,12 +135,12 @@ class _checkoutpageState extends State<checkoutpage> {
                         ),
                         builder: (context) {
                           return Container(
-                            height: scrWidth*1.88,
+                            height: scrWidth*1.89,
                             width: scrWidth*1,
                             child: Padding(
                               padding:  EdgeInsets.all(scrWidth*0.03),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,14 +151,51 @@ class _checkoutpageState extends State<checkoutpage> {
                                         onTap: () {
                                           Navigator.pop(context);
                                         },
-                                          child: SvgPicture.asset(iconConst.cross)
+                                          child: Container(
+                                            height: scrWidth*0.04,
+                                            width: scrWidth*0.04,
+                                              child: SvgPicture.asset(iconConst.cross))
                                       )
                                     ],
                                   ),
                                   Stack(
-                                    children:[ Container(
-                                      child: Image(image: AssetImage(imageConst.map1),),
+                                    children:[
+                                      Container(
+                                      height: scrWidth*0.8,
+                                      width: scrWidth*1,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(scrWidth*0.03),color: colorConst.grey),
+                                      child: Image(image: AssetImage(imageConst.map1),fit: BoxFit.fill,),
                                     ),
+                                      Positioned(
+                                        left: scrWidth*0.4,
+                                        top: scrWidth*0.35,
+                                          child: SvgPicture.asset(iconConst.location1)
+                                      ),
+                                      Positioned(
+                                          right: scrWidth*0.05,
+                                          top: scrWidth*0.07,
+                                          child: SvgPicture.asset(iconConst.gpsicon)
+                                      ),
+                                      Positioned(
+                                        left: scrWidth*0.05,
+                                        top: scrWidth*0.06,
+                                        child: Container(
+                                          height: scrWidth*0.11,
+                                          width: scrWidth*0.65,
+                                          decoration: BoxDecoration(
+                                            color: colorConst.white,
+                                            borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                          ),
+                                          child: TextField(
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                labelText: "  Search",
+                                                labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
                                     ]
                                   ),
                                   Row(
@@ -352,19 +393,22 @@ class _checkoutpageState extends State<checkoutpage> {
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(width: scrWidth*0.3,),
+                                Text(
+                                  "Select Delivery Date & Time",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
+                                ),
+                                // SizedBox(width: scrWidth*0.3,),
                                 InkWell(
                                     onTap: () {
                                       Navigator.pop(context);
                                     },
-                                    child: SvgPicture.asset(iconConst.datetime),
+                                    child: SvgPicture.asset(iconConst.cross),
                                 )
                               ],
                             ),
 
                             content: Container(
                               height: scrWidth*1,
-                              width: scrWidth*0.4,
+                              width: scrWidth*0.7,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(scrWidth*0.06),
 
@@ -372,21 +416,37 @@ class _checkoutpageState extends State<checkoutpage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-
+                                  // DateTimePicker(
+                                  //   initialSelectedDate: dt,
+                                  //   startDate: dt.add(Duration(days: 1)),
+                                  //   endDate: dt.add(Duration(days: 60)),
+                                  //   startTime: DateTime(dt.year, dt.month, dt.day, 6),
+                                  //   endTime: DateTime(dt.year, dt.month, dt.day, 18),
+                                  //   timeInterval: Duration(minutes: 15),
+                                  //   datePickerTitle: 'Pick your preferred date',
+                                  //   timePickerTitle: 'Pick your preferred time',
+                                  //   timeOutOfRangeError: 'Sorry shop is closed now',
+                                  //   is24h: false,
+                                  //   onDateChanged: (date) {
+                                  //     setState(() {
+                                  //       _d1 = DateFormat('dd MMM, yyyy').format(date);
+                                  //     });
+                                  //   },
+                                  //   onTimeChanged: (time) {
+                                  //     setState(() {
+                                  //       _t1 = DateFormat('hh:mm:ss aa').format(time);
+                                  //     });
+                                  //   },
+                                  // )
                                 ],
                               ),
                             ),
                           );
                         },);
                     },
-                    child: Container(
-                      height: scrWidth*0.09,
-                      width: scrWidth*0.1,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(scrWidth*0.12),
-                          color: colorConst.meroon
-                      ),
-                      child: Center(child: Icon(Icons.calendar_month_outlined,color: colorConst.white,)),
+                    child: CircleAvatar(
+                      child: SvgPicture.asset(iconConst.datetime),
+                      backgroundColor: colorConst.meroon,
                     ),
                   )
                 ],

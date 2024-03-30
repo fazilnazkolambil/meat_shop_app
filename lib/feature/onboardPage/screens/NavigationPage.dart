@@ -79,7 +79,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 BottomBarItem(
                   inActiveItem: SvgPicture.asset(
                     iconConst.home,
-                    color: colorConst.bottomcolor.withOpacity(0.20),
+                    color: colorConst.bottomcolor.withOpacity(0.50),
                   ),
                   activeItem: SvgPicture.asset(
                     iconConst.home,
@@ -90,7 +90,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 BottomBarItem(
                   inActiveItem: SvgPicture.asset(
                     iconConst.cart,
-                    color: colorConst.bottomcolor.withOpacity(0.20),
+                    color: colorConst.bottomcolor.withOpacity(0.50),
                   ),
                   activeItem: SvgPicture.asset(
                     iconConst.cart,
@@ -101,7 +101,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 BottomBarItem(
                   inActiveItem: SvgPicture.asset(
                     iconConst.Favourite1,
-                    color: colorConst.bottomcolor.withOpacity(0.20),
+                    //color: colorConst.bottomcolor.withOpacity(0.50),
                   ),
                   activeItem: SvgPicture.asset(
                     iconConst.Favourite1,
@@ -112,7 +112,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 BottomBarItem(
                     inActiveItem: SvgPicture.asset(
                       iconConst.more,
-                      color: colorConst.bottomcolor.withOpacity(0.20),
+                      color: colorConst.bottomcolor.withOpacity(0.50),
                     ),
                     activeItem: SvgPicture.asset(
                       iconConst.more,

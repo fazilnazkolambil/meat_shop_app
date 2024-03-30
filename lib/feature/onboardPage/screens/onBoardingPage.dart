@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../main.dart';
@@ -122,8 +125,10 @@ class _onBoardingPageState extends State<onBoardingPage> {
             left: scrWidth*0.4,
             child: selectedIndex == welcome.length-1?
             InkWell(
-              onTap: () {
-
+              onTap: () async{
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setBool("loggedIn", true);
               },
               child: Container(
                 height: scrWidth*0.1,

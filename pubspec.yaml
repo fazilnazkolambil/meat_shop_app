@@ -48,6 +48,7 @@ dependencies:
   timer_count_down: ^2.2.2
   pinput: ^3.0.1
   intl: ^0.18.1
+  shared_preferences: ^2.2.2
 
 
 dev_dependencies:

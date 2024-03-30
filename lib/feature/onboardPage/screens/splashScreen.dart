@@ -5,7 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 
@@ -18,11 +21,18 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
+ bool loggedIn = false;
+  getData ()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loggedIn = prefs.getBool("loggedIn") ?? false;
+  }
   @override
   void initState(){
-    Future.delayed(Duration(
+    getData();
+    Future.delayed(
+        Duration(
       seconds: 5
-    )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => onBoardingPage(),)));
+    )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) =>loggedIn?NavigationPage():onBoardingPage(),)));
   }
   @override
   Widget build(BuildContext context) {

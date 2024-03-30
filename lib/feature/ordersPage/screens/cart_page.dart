@@ -155,11 +155,13 @@ class _CartPageState extends State<cartPage> {
                                     children: [
                                       Text("Beef Curry Cut(Large.)",
                                         style: TextStyle(
-                                            fontSize: scrWidth*0.04,
+                                            fontSize: scrWidth*0.035,
                                             fontWeight: FontWeight.w700,
                                             color: colorConst.black
                                         ),),
-                                      Text("Chuck, short ribs, skirt, flank"),
+                                      Text("Chuck, short ribs, skirt, flank",style: TextStyle(
+                                        fontSize: scrWidth*0.03
+                                      ),),
                                     ],
                                   ),
                                 ),
@@ -167,13 +169,13 @@ class _CartPageState extends State<cartPage> {
                                   children: [
                                     Text("1 KG - ",
                                       style: TextStyle(
-                                          fontSize: scrWidth*0.04,
+                                          fontSize: scrWidth*0.035,
                                           fontWeight: FontWeight.w700,
                                           color: colorConst.black
                                       ),),
                                     Text("₹ 250",
                                       style: TextStyle(
-                                          fontSize: scrWidth*0.04,
+                                          fontSize: scrWidth*0.035,
                                           fontWeight: FontWeight.w700,
                                           color: colorConst.meroon
                                       ),),

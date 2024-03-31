@@ -14,7 +14,7 @@ class MuttonList extends StatefulWidget {
 }
 
 class _MuttonListState extends State<MuttonList> {
-  List muttonMeet = ["All","Mutton Cut", "Boneless Mutton", "Liver", "Bottie"];
+  List muttonMeet = ["Mutton Cut", "Boneless Mutton", "Liver", "Bottie"];
   int selectIndex = 0;
   String selectCategory = '';
   int count=1;
@@ -85,7 +85,7 @@ class _MuttonListState extends State<MuttonList> {
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Meat",
+            Text("Mutton Meat",
               style: TextStyle(
                   fontSize: scrWidth*0.07,
                   fontWeight: FontWeight.w700,
@@ -255,7 +255,7 @@ class _MuttonListState extends State<MuttonList> {
                                                         border: Border.all(
                                                             width: scrWidth*0.0003,
                                                             color: colorConst.black.withOpacity(0.38)),
-                                                        image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
+                                                        image: DecorationImage(image: AssetImage(imageConst.muttoncurrycut),fit: BoxFit.fill))
                                                 ),
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,7 +264,7 @@ class _MuttonListState extends State<MuttonList> {
                                                       width: scrWidth*0.37,
                                                       child: Column(
                                                         children: [
-                                                          Text("Beef Curry Cut (Large piece)",
+                                                          Text("Mutton Curry Cut (Large piece)",
                                                             style: TextStyle(
                                                                 fontSize: scrWidth*0.04,
                                                                 fontWeight: FontWeight.w700,
@@ -282,7 +282,7 @@ class _MuttonListState extends State<MuttonList> {
                                                               fontWeight: FontWeight.w700,
                                                               color: colorConst.black
                                                           ),),
-                                                        Text("₹ 250",
+                                                        Text("₹ 750",
                                                           style: TextStyle(
                                                               fontSize: scrWidth*0.04,
                                                               fontWeight: FontWeight.w700,
@@ -302,7 +302,7 @@ class _MuttonListState extends State<MuttonList> {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text("₹  250.00",
+                                                Text("₹  750.00",
                                                   style: TextStyle(
                                                       fontSize: scrWidth*0.04,
                                                       fontWeight: FontWeight.w700,

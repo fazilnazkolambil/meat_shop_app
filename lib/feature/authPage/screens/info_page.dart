@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 
@@ -22,10 +25,23 @@ class _infoPageState extends State<infoPage> {
   TextEditingController emailController=TextEditingController();
 
   bool visibility=true;
+  bool visibility1=true;
   bool check=false;
   final emailValidation=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final passwordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  // final confirmPasswordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final formkey=GlobalKey<FormState>();
+  File? file;
+  pickFile(ImageSource) async {
+    final imageFile = await ImagePicker.platform.pickImage(source: ImageSource);
+    file = File(imageFile!.path);
+    if (mounted) {
+      setState(() {
+        file = File(imageFile.path);
+      });
+      print(imageFile);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,17 +67,19 @@ class _infoPageState extends State<infoPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Center(
-              child: Container(
-                height: scrWidth*0.2,
-                width: scrWidth*0.2,
-                padding: EdgeInsets.only(left: scrWidth*0.07),
-                decoration: BoxDecoration(
-                  image:DecorationImage(image: AssetImage(imageConst.mainIcon),fit: BoxFit.fill),
-                ),
-        
-              ),
-            ),
+            InkWell(
+                onTap: () {
+                  pickFile(ImageSource.gallery);
+                },
+                child: file != null
+                    ? CircleAvatar(
+                  radius: scrWidth * 0.15,
+                  backgroundImage: FileImage(file!),
+                )
+                    : CircleAvatar(
+                  radius: scrWidth * 0.15,
+                  backgroundImage: AssetImage(imageConst.mainIcon),
+                )),
             Text("Meet Shop",
               style:TextStyle(
                   fontWeight: FontWeight.w700,
@@ -106,7 +124,7 @@ class _infoPageState extends State<infoPage> {
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
                               fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w500
+                              fontWeight: FontWeight.w600
                           ),
                           cursorColor: colorConst.grey,
                           decoration:
@@ -140,13 +158,13 @@ class _infoPageState extends State<infoPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                    color: colorConst.grey,
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                      color: colorConst.grey
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               )
                           ),
@@ -173,13 +191,14 @@ class _infoPageState extends State<infoPage> {
                         child:TextFormField(
                           controller: phoneController,
                           keyboardType:  TextInputType.number,
+                          maxLength: 10,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
                               fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w500
+                              fontWeight: FontWeight.w600
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           cursorColor: colorConst.grey,
@@ -210,13 +229,13 @@ class _infoPageState extends State<infoPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                    color: colorConst.grey,
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                      color: colorConst.grey
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               )
                           ),
@@ -246,9 +265,18 @@ class _infoPageState extends State<infoPage> {
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
                               fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w500
+                              fontWeight: FontWeight.w600
                           ),
                           cursorColor: colorConst.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value){
+                            if(!emailValidation.hasMatch(value!)){
+                              return "enter valid email";
+                            }
+                            else{
+                              return null;
+                            }
+                          },
                           decoration:
                           InputDecoration(
                               prefixIcon: Padding(
@@ -277,13 +305,13 @@ class _infoPageState extends State<infoPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                    color: colorConst.grey,
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                      color: colorConst.grey
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               )
                           ),
@@ -320,13 +348,13 @@ class _infoPageState extends State<infoPage> {
                           obscureText: visibility?true:false,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: scrWidth*0.05
+                              fontSize: scrWidth*0.04
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+
                           validator: (value){
                             if(
                             !passwordValidation.hasMatch(value!)){
-                              return "Password must contain at least 8 characters with \n one lowercae(a-z),one uppercase(A-Z)";
+                              return "Password must contain at least 8 characters with \n one lowercae(a-z),one uppercase(A-Z) \n & one special character";
                             }else{
                               return null;
                             }
@@ -370,13 +398,13 @@ class _infoPageState extends State<infoPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                    color: colorConst.grey,
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                      color: colorConst.grey
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               )
                           ),
@@ -410,32 +438,33 @@ class _infoPageState extends State<infoPage> {
                           controller: confirmPasswordController,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
-                          obscureText: visibility?true:false,
+                          obscureText: visibility1?true:false,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: scrWidth*0.05
+                              fontSize: scrWidth*0.04
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value){
-                            if(
-                            !passwordValidation.hasMatch(value!)){
-                              return "Password must contain at least 8 characters with \n one lowercae(a-z),one uppercase(A-Z)";
+                            if(!passwordValidation.hasMatch(value!)){
+                                return "Password does not match";
+
                             }else{
                               return null;
                             }
                           },
+
                           cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: colorConst.white,
                               suffixIcon: InkWell(
                                 onTap: (){
-                                  visibility=!visibility;
+                                  visibility1=!visibility1;
                                   setState(() {
         
                                   });
                                 },
-                                child: Icon(visibility==true?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
+                                child: Icon(visibility1==true?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
         
                               ),
                               prefixIcon: Padding(
@@ -448,7 +477,7 @@ class _infoPageState extends State<infoPage> {
                                   fontWeight: FontWeight.w600,
                                   color: colorConst.grey
                               ),
-                              hintText: "Please Enter your confirm Password",
+                              hintText: "Please re-enter your  Password",
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w700,
@@ -463,13 +492,13 @@ class _infoPageState extends State<infoPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                    color: colorConst.grey,
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                      color: colorConst.grey
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               )
                           ),
@@ -506,7 +535,7 @@ class _infoPageState extends State<infoPage> {
                                     value: check,
                                     activeColor: colorConst.meroon,
                                     side: BorderSide(
-                                        color: colorConst.grey
+                                        color: colorConst.black.withOpacity(0.1)
                                     ),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(scrWidth*0.01)
@@ -557,10 +586,11 @@ class _infoPageState extends State<infoPage> {
                       InkWell(
                         onTap: (){
                           if(
+                                  passwordController.text==confirmPasswordController.text&&
                                   nameController.text!=""&&
                                   phoneController.text!=""&&
                                   emailController.text!=""&&
-                                      passwordController.text!=""&&
+                                  passwordController.text!=""&&
                                   confirmPasswordController.text!=""&&
                                       // valueChoose!=null
 
@@ -572,8 +602,9 @@ class _infoPageState extends State<infoPage> {
                             nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
                             phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
                             emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
+                            passwordController.text!=confirmPasswordController.text?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter valid password"))):
                             passwordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your password"))):
-                            confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your confirm password"))):
+                            confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your password"))):
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
                           }
                         },

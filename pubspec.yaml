@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.18.1
   shared_preferences: ^2.2.2
   favorite_button: ^0.0.4
+  image_picker: ^1.0.4
 
 
 dev_dependencies:

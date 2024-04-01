@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 
 import '../../../main.dart';
@@ -15,9 +16,9 @@ class _morePageState extends State<morePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorConst.white,
 appBar: AppBar(
-  backgroundColor: Colors.white,
+  backgroundColor: colorConst.white,
   elevation: 0,
   leading: Padding(
     padding:  EdgeInsets.all(scrWidth*0.03),
@@ -54,269 +55,274 @@ appBar: AppBar(
 ),
       body: Padding(
         padding:  EdgeInsets.all(scrWidth*0.03),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text("General",
-              style:TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: scrWidth*0.05,
-              ),),
-            Container(
-              width: scrWidth*0.9,
-              height: scrWidth*0.5,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(scrWidth*0.06),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 2,
-                      offset: Offset(0,4),
-                      blurRadius: 4,
-                    )
-                  ]
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text("General",
+                style:TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: scrWidth*0.05,
+                ),),
+              Container(
+                width: scrWidth*0.9,
+                height: scrWidth*0.45,
+                margin: EdgeInsets.only(bottom: scrWidth*0.05,top: scrWidth*0.05),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(scrWidth*0.04),
+                    boxShadow: [
+                      BoxShadow(
+                        color:  colorConst.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        offset: Offset(0,4),
+                        blurRadius: 4,
+                      )
+                    ]
+                ),
+                child: Padding(
+                  padding:  EdgeInsets.all(scrWidth*0.05),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: scrWidth*0.05,
+                            width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.profile1)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("My Profile",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.black12,
+                          thickness: scrWidth*0.001,
+                          indent: scrWidth*0.04,
+                          endIndent: scrWidth*0.04,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              height: scrWidth*0.05,
+                              width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.address)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("My Address",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.black12,
+                          thickness: scrWidth*0.001,
+                          indent: scrWidth*0.04,
+                          endIndent: scrWidth*0.04,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              height: scrWidth*0.05,
+                              width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.language)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("Language",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+
+
+                    ],
+
+                  ),
+                ),
               ),
-              child: Padding(
-                padding:  EdgeInsets.all(scrWidth*0.05),
-                child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
+              Text("Help And Support",
+                style:TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: scrWidth*0.05,
+                ),),
+              Container(
+                width: scrWidth*0.9,
+                height: scrWidth*0.6,
+                margin: EdgeInsets.only(bottom: scrWidth*0.05,top: scrWidth*0.05),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(scrWidth*0.04),
+                    boxShadow: [
+                      BoxShadow(
+                        color:  colorConst.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        offset: Offset(0,4),
+                        blurRadius: 4,
+                      )
+                    ]
+                ),
+                child: Padding(
+                  padding:  EdgeInsets.all(scrWidth*0.05),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                              height: scrWidth*0.05,
+                              width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.help)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("Help & Support",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.black12,
+                          thickness: scrWidth*0.001,
+                          indent: scrWidth*0.04,
+                          endIndent: scrWidth*0.04,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              height: scrWidth*0.05,
+                              width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.about)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("About Us",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.black12,
+                          thickness: scrWidth*0.001,
+                          indent: scrWidth*0.04,
+                          endIndent: scrWidth*0.04,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              height: scrWidth*0.05,
+                              width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.conditions)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("Terms & Conditions",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.black12,
+                          thickness: scrWidth*0.001,
+                          indent: scrWidth*0.04,
+                          endIndent: scrWidth*0.04,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              height: scrWidth*0.05,
+                              width: scrWidth*0.05,
+                              child: SvgPicture.asset(iconConst.privacy)
+                          ),
+                          SizedBox(width: scrWidth*0.03,),
+                          Text("Privacy Policy",
+                            style: TextStyle(
+                                // color: colorConst.color2,
+                                fontSize: scrWidth*0.04,
+                                fontWeight: FontWeight.w400
+                            ),),
+
+                        ],
+
+                      ),
+                    ],
+
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap:(){} ,
+                child: Container(
+                  height: scrWidth*0.14,
+                  width: scrWidth*0.9,
+                  decoration: BoxDecoration(
+                      border: Border.all(color:colorConst.grey1),
+                      borderRadius: BorderRadius.circular(scrWidth*0.04)
+                  ),
+                  child: Center(
+                    child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           height: scrWidth*0.05,
-                          width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.profile1)
-                        ),
-                        SizedBox(width: scrWidth*0.03,),
-                        Text("My Profile",
-                          style: TextStyle(
-                              // color: colorConst.color2,
-                              fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
-                          ),),
-
-                      ],
-
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black12,
-                        thickness: scrWidth*0.001,
-                        indent: scrWidth*0.04,
-                        endIndent: scrWidth*0.04,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            height: scrWidth*0.05,
                             width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.address)
-                        ),
+                            // color: Colors.white,
+                            child: Center(child: SvgPicture.asset(iconConst.logout))),
                         SizedBox(width: scrWidth*0.03,),
-                        Text("My Address",
+                        Text("Log Out",
                           style: TextStyle(
-                              // color: colorConst.color2,
+                              fontWeight: FontWeight.w500,
                               fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
+                              // color: colorConst.primaryColor
                           ),),
-
                       ],
-
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black12,
-                        thickness: scrWidth*0.001,
-                        indent: scrWidth*0.04,
-                        endIndent: scrWidth*0.04,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            height: scrWidth*0.05,
-                            width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.language)
-                        ),
-                        SizedBox(width: scrWidth*0.03,),
-                        Text("Language",
-                          style: TextStyle(
-                              // color: colorConst.color2,
-                              fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
-                          ),),
-
-                      ],
-
                     ),
 
-
-                  ],
-
-                ),
-              ),
-            ),
-            Text("Help And Support",
-              style:TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: scrWidth*0.05,
-              ),),
-            Container(
-              width: scrWidth*0.9,
-              height: scrWidth*0.7,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(scrWidth*0.06),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 2,
-                      offset: Offset(0,4),
-                      blurRadius: 4,
-                    )
-                  ]
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(scrWidth*0.05),
-                child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                            height: scrWidth*0.05,
-                            width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.help)
-                        ),
-                        SizedBox(width: scrWidth*0.03,),
-                        Text("Help & Support",
-                          style: TextStyle(
-                              // color: colorConst.color2,
-                              fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
-                          ),),
-
-                      ],
-
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black12,
-                        thickness: scrWidth*0.001,
-                        indent: scrWidth*0.04,
-                        endIndent: scrWidth*0.04,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            height: scrWidth*0.05,
-                            width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.about)
-                        ),
-                        SizedBox(width: scrWidth*0.03,),
-                        Text("About Us",
-                          style: TextStyle(
-                              // color: colorConst.color2,
-                              fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
-                          ),),
-
-                      ],
-
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black12,
-                        thickness: scrWidth*0.001,
-                        indent: scrWidth*0.04,
-                        endIndent: scrWidth*0.04,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            height: scrWidth*0.05,
-                            width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.conditions)
-                        ),
-                        SizedBox(width: scrWidth*0.03,),
-                        Text("Terms & Conditions",
-                          style: TextStyle(
-                              // color: colorConst.color2,
-                              fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
-                          ),),
-
-                      ],
-
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black12,
-                        thickness: scrWidth*0.001,
-                        indent: scrWidth*0.04,
-                        endIndent: scrWidth*0.04,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            height: scrWidth*0.05,
-                            width: scrWidth*0.05,
-                            child: SvgPicture.asset(iconConst.privacy)
-                        ),
-                        SizedBox(width: scrWidth*0.03,),
-                        Text("Privacy Policy",
-                          style: TextStyle(
-                              // color: colorConst.color2,
-                              fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w400
-                          ),),
-
-                      ],
-
-                    ),
-                  ],
-
-                ),
-              ),
-            ),
-            InkWell(
-              onTap:(){} ,
-              child: Container(
-                height: scrWidth*0.14,
-                width: scrWidth*0.9,
-                decoration: BoxDecoration(
-                    // border: Border.all(color: colorConst.color1),
-                    borderRadius: BorderRadius.circular(scrWidth*0.04)
-                ),
-                child: Center(
-                  child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: scrWidth*0.05,
-                          width: scrWidth*0.05,
-                          // color: Colors.white,
-                          child: Center(child: SvgPicture.asset(iconConst.logout))),
-                      SizedBox(width: scrWidth*0.03,),
-                      Text("Log Out",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: scrWidth*0.04,
-                            // color: colorConst.primaryColor
-                        ),),
-                    ],
                   ),
-
                 ),
               ),
-            ),
 
 
-          ],
+            ],
+          ),
         ),
       ),
     );

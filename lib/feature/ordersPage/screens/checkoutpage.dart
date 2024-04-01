@@ -18,8 +18,15 @@ class checkoutpage extends StatefulWidget {
 }
 
 class _checkoutpageState extends State<checkoutpage> {
+  TextEditingController addressController=TextEditingController();
+  TextEditingController nameController=TextEditingController();
+  TextEditingController numberController=TextEditingController();
+  TextEditingController landmarkController=TextEditingController();
+  TextEditingController housenoController=TextEditingController();
+  TextEditingController pincodeController=TextEditingController();
   String pymnt="";
   String labelas="";
+  bool check=false;
   List <DateTime?> date=[];
   int date1=0;
   String? _d1;
@@ -245,9 +252,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                       border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
                                     ),
                                     child: TextField(
+                                      controller: addressController,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        labelText: " 44CCR+05 Kuwait City- Kuwait",
+                                        labelText: " Address",
                                         labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                       ),
                                     ),
@@ -263,9 +271,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                           border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
                                       ),
                                       child: TextField(
+                                        controller: nameController,
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: " Aneesh Babu",
+                                            labelText: " Name",
                                             labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
 
                                         ),
@@ -279,9 +288,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                           border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
                                       ),
                                       child: TextField(
+                                        controller: numberController,
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: "+965 98546908",
+                                            labelText: " Mob no",
                                             labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                         ),
                                       ),
@@ -295,9 +305,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                         border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
                                     ),
                                     child: TextField(
+                                      controller: landmarkController,
                                       decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          labelText: " Cutom Address",
+                                          labelText: " Land mark",
                                           labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
 
                                       ),
@@ -314,9 +325,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                             border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
                                         ),
                                         child: TextField(
+                                          controller: housenoController,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              labelText: " House",
+                                              labelText: " House no",
                                               labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                           ),
                                         ),
@@ -329,9 +341,10 @@ class _checkoutpageState extends State<checkoutpage> {
                                             border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
                                         ),
                                         child: TextField(
+                                          controller: pincodeController,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              labelText: " Floor",
+                                              labelText: " Pincode",
                                               labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                                           ),
                                         ),
@@ -565,30 +578,45 @@ class _checkoutpageState extends State<checkoutpage> {
               ),
             ),
             Container(
-              width: scrWidth*0.88,
+              height: scrWidth*0.2,
+              width: scrWidth*0.92,
+              // color: colorConst.grey,
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("I have read and agreed with "),
-                      Text("Privacy Policy ",style: TextStyle(
-                          color: colorConst.meroon,fontWeight: FontWeight.bold,fontSize: scrWidth*0.035
+                      Checkbox(
+                        value: check,
+                          onChanged: (value) {
+                        setState(() {
+                          check=value!;
+                        });
+                          },),
+                      Text("I have read and agreed with ",style: TextStyle(
+                          color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.032
+                      ),),
+                      Text(" Privacy Policy ",style: TextStyle(
+                          color: colorConst.meroon,fontWeight: FontWeight.bold,fontSize: scrWidth*0.032
                       ),),
                     ],
                   ),
                   Row(
                     children: [
-                      Text(" and"),
+                      Text(" and ",style: TextStyle(
+                          color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.032
+                      ),),
                       Text(" Terms & Conditions",style: TextStyle(
-                          color: colorConst.meroon,fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),),
+                          color: colorConst.meroon,fontWeight: FontWeight.bold,fontSize: scrWidth*0.032),),
                     ],
                   ),
+                  // SizedBox(height: scrWidth*0.02,)
                 ],
               ),
             ),
 
             SizedBox(
-              height: scrWidth*0.3,
+              height: scrWidth*0.34,
             )
 
 

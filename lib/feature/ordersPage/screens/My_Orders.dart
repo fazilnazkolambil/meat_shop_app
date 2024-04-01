@@ -45,8 +45,10 @@ class _MyOrdersState extends State<MyOrders> {
           TabBar(
             indicatorColor: colorConst.meroon,
             indicatorSize: TabBarIndicatorSize.tab,
-            tabAlignment: TabAlignment.fill,
+            //tabAlignment: TabAlignment.fill,
             indicatorWeight: 5.0,
+            labelColor: colorConst.meroon,
+            unselectedLabelColor: colorConst.grey,
             // indicatorWeight: ,
             tabs: [
               Padding(
@@ -57,7 +59,7 @@ class _MyOrdersState extends State<MyOrders> {
                     children: [
                       Text("Running",
                       style: TextStyle(
-                        color: selectIndex == 0 ? colorConst.meroon :  colorConst.grey,
+                        // color: colorConst.meroon ,
                         fontSize: scrWidth*0.045,
                         fontWeight: FontWeight.w800
                       ),)
@@ -70,7 +72,7 @@ class _MyOrdersState extends State<MyOrders> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("History",style: TextStyle(
-                    color: selectIndex == 0 ? colorConst.grey : colorConst.meroon,
+                    // color: colorConst.grey ,
                     fontSize: scrWidth*0.045,
                     fontWeight: FontWeight.w800
                 ),)

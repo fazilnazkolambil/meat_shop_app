@@ -55,51 +55,54 @@ class _orderdetailsState extends State<orderdetails> {
                   borderRadius: BorderRadius.circular(scrWidth*0.04),
                   border: Border.all(width: scrWidth*0.002,color: colorConst.grey),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "   Order ID: #23584",style: TextStyle(
-                            fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
-                        ),
-                        Text(
-                          "Delivery",style: TextStyle(
-                            fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
-                        ),
-                        Text(
-                          "Item: 2",style: TextStyle(
-                            fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
-                        ),
-                      ],),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(children: [
-                          Icon(Icons.calendar_month_outlined),
-                          Text("15 Mar 2024 - 11 PM  ",style: TextStyle(
-                              fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))
+                child: Padding(
+                  padding:  EdgeInsets.only(right: scrWidth*0.02),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "   Order ID: #23584",style: TextStyle(
+                              fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
+                          ),
+                          Text(
+                            "Delivery",style: TextStyle(
+                              fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
+                          ),
+                          Text(
+                            "Item: 2",style: TextStyle(
+                              fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
+                          ),
                         ],),
-                        Container(
-                          height: scrWidth*0.08,
-                          width: scrWidth*0.4,
-                          decoration: BoxDecoration(
-                              color: colorConst.meroon,
-                              borderRadius: BorderRadius.circular(scrWidth*0.04)
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(children: [
+                            Icon(Icons.calendar_month_outlined),
+                            Text("15 Mar 2024 - 11 PM  ",style: TextStyle(
+                                fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))
+                          ],),
+                          Container(
+                            height: scrWidth*0.08,
+                            width: scrWidth*0.4,
+                            decoration: BoxDecoration(
+                                color: colorConst.meroon,
+                                borderRadius: BorderRadius.circular(scrWidth*0.04)
+                            ),
+                            child: Center(
+                              child: Text("DigitalPayment",style: TextStyle(
+                                  color: colorConst.white,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03)),
+                            ),
                           ),
-                          child: Center(
-                            child: Text("DigitalPayment",style: TextStyle(
-                                color: colorConst.white,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03)),
-                          ),
-                        ),
-                        Row(children: [
-                          Text("• Delivered",style: TextStyle(
-                              color: colorConst.green,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))
-                        ],)
-                      ],),
-                  ],
+                          Row(children: [
+                            Text("• Delivered",style: TextStyle(
+                                color: colorConst.green,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))
+                          ],)
+                        ],),
+                    ],
+                  ),
                 )
             ),
             Row(
@@ -111,7 +114,7 @@ class _orderdetailsState extends State<orderdetails> {
               ],
             ),
             Container(
-                height: scrWidth*0.34,
+                height: scrWidth*0.32,
                 width: scrWidth*0.93,
                 decoration: BoxDecoration(
                   color: colorConst.white,
@@ -173,7 +176,7 @@ class _orderdetailsState extends State<orderdetails> {
                 )
             ),
             Container(
-                height: scrWidth*0.34,
+                height: scrWidth*0.32,
                 width: scrWidth*0.93,
                 decoration: BoxDecoration(
                   color: colorConst.white,
@@ -244,6 +247,7 @@ class _orderdetailsState extends State<orderdetails> {
             Container(
               width: scrWidth*0.9,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(Icons.location_on_outlined,color: colorConst.grey,),
                   Column(
@@ -296,6 +300,7 @@ class _orderdetailsState extends State<orderdetails> {
                 )
               ],
             ),
+            SizedBox(height: scrWidth*0.03,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -308,6 +313,7 @@ class _orderdetailsState extends State<orderdetails> {
                 )
               ],
             ),
+            SizedBox(height: scrWidth*0.01,),
           ],),
       ),
     );

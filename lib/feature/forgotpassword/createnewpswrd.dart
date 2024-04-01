@@ -76,7 +76,7 @@ class _createnewpswrdState extends State<createnewpswrd> {
                         // textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        maxLength: 8,
+                        // maxLength: 8,
                         obscureText: hide1?true:false,
                         style: TextStyle(
                             fontSize: scrWidth*0.04,

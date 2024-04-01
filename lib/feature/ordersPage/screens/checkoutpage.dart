@@ -419,28 +419,28 @@ class _checkoutpageState extends State<checkoutpage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  DateTimePicker(
-                                    initialSelectedDate: DateTime.now(),
-                                    startDate: DateTime.now(),
-                                    // endDate: date!.add(Duration(days: 60)),
-                                    startTime: DateTime.now(),
-                                    // endTime: DateTime(date!.year, date!.month, date!.day, 18),
-                                    timeInterval: Duration(minutes: 15),
-                                    // datePickerTitle: 'Pick your preferred date',
-                                    // timePickerTitle: 'Pick your preferred time',
-                                    // timeOutOfRangeError: 'Sorry shop is closed now',
-                                    // is24h: false,
-                                    onDateChanged: (date) {
-                                      setState(() {
-                                        _d1 = DateFormat('dd MMM, yyyy').format(date);
-                                      });
-                                    },
-                                    onTimeChanged: (time) {
-                                      setState(() {
-                                        _t1 = DateFormat('hh:mm:ss aa').format(time);
-                                      });
-                                    },
-                                  )
+                                  // DateTimePicker(
+                                  //   initialSelectedDate: date,
+                                  //   startDate: date.add(Duration(days: 1)),
+                                  //   endDate: date!.add(Duration(days: 60)),
+                                  //   startTime: DateTime(date!.year, date!.month, date!.day, 6),
+                                  //   endTime: DateTime(date!.year, date!.month, date!.day, 18),
+                                  //   timeInterval: Duration(minutes: 15),
+                                  //   datePickerTitle: 'Pick your preferred date',
+                                  //   timePickerTitle: 'Pick your preferred time',
+                                  //   timeOutOfRangeError: 'Sorry shop is closed now',
+                                  //   is24h: false,
+                                  //   onDateChanged: (date) {
+                                  //     setState(() {
+                                  //       _d1 = DateFormat('dd MMM, yyyy').format(date);
+                                  //     });
+                                  //   },
+                                  //   onTimeChanged: (time) {
+                                  //     setState(() {
+                                  //       _t1 = DateFormat('hh:mm:ss aa').format(time);
+                                  //     });
+                                  //   },
+                                  // )
                                 ],
                               ),
                             ),

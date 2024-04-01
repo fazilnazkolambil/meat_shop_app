@@ -105,7 +105,7 @@ class _BeefListState extends State<BeefList> {
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return InkWell(
+                          return GestureDetector(
                             onTap: () {
                               setState(() {
                                 selectIndex=index;
@@ -140,282 +140,280 @@ class _BeefListState extends State<BeefList> {
                       )
                   ),
                   SizedBox(height: scrWidth*0.05,),
-                  Container(
-                    child: ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: beef.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: scrWidth*0.33,
-                          decoration: BoxDecoration(
-                              color: colorConst.white,
-                              borderRadius: BorderRadius.circular(scrWidth*0.04),
-                              border: Border.all(
-                                  width: scrWidth*0.0003,
-                                  color: colorConst.black.withOpacity(0.38)),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: colorConst.black.withOpacity(0.1),
-                                    blurRadius: 14,
-                                    offset: Offset(0, 4),
-                                    spreadRadius:0
-                                )
-                              ]
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(width: scrWidth*0.02,),
-                              Container(
-                                  height: scrWidth*0.27,
-                                  width: scrWidth*0.27,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(scrWidth*0.04),
-                                      border: Border.all(
-                                          width: scrWidth*0.0003,
-                                          color: colorConst.black.withOpacity(0.38)),
-                                      image: DecorationImage(image: AssetImage(beef[index]["image"]),fit: BoxFit.fill))
-                              ),
-                              SizedBox(width: scrWidth*0.02,),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: scrWidth*0.4,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(beef[index]["name"],
-                                          style: TextStyle(
-                                              fontSize: scrWidth*0.04,
-                                              fontWeight: FontWeight.w700,
-                                              color: colorConst.black
-                                          ),),
-                                        Text("Chuck, short ribs, skirt, flank"),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
+                 selectIndex == 0? ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: beef.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: scrWidth*0.33,
+                        decoration: BoxDecoration(
+                            color: colorConst.white,
+                            borderRadius: BorderRadius.circular(scrWidth*0.04),
+                            border: Border.all(
+                                width: scrWidth*0.0003,
+                                color: colorConst.black.withOpacity(0.38)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: colorConst.black.withOpacity(0.1),
+                                  blurRadius: 14,
+                                  offset: Offset(0, 4),
+                                  spreadRadius:0
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(width: scrWidth*0.02,),
+                            Container(
+                                height: scrWidth*0.27,
+                                width: scrWidth*0.27,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                    border: Border.all(
+                                        width: scrWidth*0.0003,
+                                        color: colorConst.black.withOpacity(0.38)),
+                                    image: DecorationImage(image: AssetImage(beef[index]["image"]),fit: BoxFit.fill))
+                            ),
+                            SizedBox(width: scrWidth*0.02,),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: scrWidth*0.4,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("1 KG - ",
+                                      Text(beef[index]["name"],
                                         style: TextStyle(
                                             fontSize: scrWidth*0.04,
                                             fontWeight: FontWeight.w700,
                                             color: colorConst.black
                                         ),),
-                                      Text(beef[index]["price"],
-                                        style: TextStyle(
-                                            fontSize: scrWidth*0.04,
-                                            fontWeight: FontWeight.w700,
-                                            color: colorConst.meroon
-                                        ),),
+                                      Text("Chuck, short ribs, skirt, flank"),
                                     ],
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  FavoriteButton(
-                                    valueChanged: (_) {
-
-                                    },
-                                    iconSize: 39,
-                                    iconColor: colorConst.meroon,
                                   ),
-                                  // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
-                                  InkWell(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          backgroundColor: colorConst.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(scrWidth*0.07),
-                                              topRight: Radius.circular(scrWidth*0.07),
-                                            )
-                                        ),
-                                          builder: (context) {
-                                            return Padding(
-                                              padding:  EdgeInsets.all(scrWidth*0.06),
-                                              child: Container(
-                                                child: Column(
+                                ),
+                                Row(
+                                  children: [
+                                    Text("1 KG - ",
+                                      style: TextStyle(
+                                          fontSize: scrWidth*0.04,
+                                          fontWeight: FontWeight.w700,
+                                          color: colorConst.black
+                                      ),),
+                                    Text(beef[index]["price"],
+                                      style: TextStyle(
+                                          fontSize: scrWidth*0.04,
+                                          fontWeight: FontWeight.w700,
+                                          color: colorConst.meroon
+                                      ),),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                FavoriteButton(
+                                  valueChanged: (_) {
+
+                                  },
+                                  iconSize: 39,
+                                  iconColor: colorConst.meroon,
+                                ),
+                                // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      backgroundColor: colorConst.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(scrWidth*0.07),
+                                            topRight: Radius.circular(scrWidth*0.07),
+                                          )
+                                      ),
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:  EdgeInsets.all(scrWidth*0.06),
+                                          child: Container(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                   children: [
-                                                    Row(
-                                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        Container(
-                                                            height: scrWidth*0.34,
-                                                            width: scrWidth*0.34,
-                                                            decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(scrWidth*0.04),
-                                                                border: Border.all(
-                                                                    width: scrWidth*0.0003,
-                                                                    color: colorConst.black.withOpacity(0.38)),
-                                                                image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: scrWidth*0.37,
-                                                              child: Column(
-                                                                children: [
-                                                                  Text("Beef Curry Cut (Large piece)",
-                                                                    style: TextStyle(
-                                                                        fontSize: scrWidth*0.04,
-                                                                        fontWeight: FontWeight.w700,
-                                                                        color: colorConst.black
-                                                                    ),),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            SizedBox(height: scrWidth*0.02,),
-                                                            Row(
-                                                              children: [
-                                                                Text("1 KG - ",
-                                                                  style: TextStyle(
-                                                                      fontSize: scrWidth*0.04,
-                                                                      fontWeight: FontWeight.w700,
-                                                                      color: colorConst.black
-                                                                  ),),
-                                                                Text("₹ 250",
-                                                                  style: TextStyle(
-                                                                      fontSize: scrWidth*0.04,
-                                                                      fontWeight: FontWeight.w700,
-                                                                      color: colorConst.meroon
-                                                                  ),),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
+                                                    Container(
+                                                        height: scrWidth*0.34,
+                                                        width: scrWidth*0.34,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                                            border: Border.all(
+                                                                width: scrWidth*0.0003,
+                                                                color: colorConst.black.withOpacity(0.38)),
+                                                            image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
                                                     ),
-                                                    Text("Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo.",
-                                                    style: TextStyle(
-                                                      color: colorConst.black.withOpacity(0.4)
-                                                    ),),
-                                                    Divider(),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Text("₹  250.00",
-                                                          style: TextStyle(
-                                                              fontSize: scrWidth*0.04,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: colorConst.meroon
-                                                          ),),
+                                                        SizedBox(
+                                                          width: scrWidth*0.37,
+                                                          child: Column(
+                                                            children: [
+                                                              Text("Beef Curry Cut (Large piece)",
+                                                                style: TextStyle(
+                                                                    fontSize: scrWidth*0.04,
+                                                                    fontWeight: FontWeight.w700,
+                                                                    color: colorConst.black
+                                                                ),),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: scrWidth*0.02,),
                                                         Row(
                                                           children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                count<=0? 0:count--;
-                                                                setState(() {
-
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                height:scrWidth*0.065,
-                                                                width:scrWidth*0.065,
-                                                                decoration: BoxDecoration(
-                                                                    color:colorConst.grey1,
-                                                                    borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                                                    border: Border.all(
-                                                                        width: scrWidth*0.0003,
-                                                                        color: colorConst.black.withOpacity(0.38)
-                                                                    )
-                                                                ),
-                                                                child:Icon(Icons.remove,
-                                                                    size:scrWidth*0.04),
-                                                              ),
-                                                            ),
-                                                            SizedBox(width: scrWidth*0.015,),
-                                                            Text(count.toString(),
+                                                            Text("1 KG - ",
                                                               style: TextStyle(
                                                                   fontSize: scrWidth*0.04,
-                                                                  fontWeight: FontWeight.w600
+                                                                  fontWeight: FontWeight.w700,
+                                                                  color: colorConst.black
                                                               ),),
-                                                            SizedBox(width: scrWidth*0.015,),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                count++;
-                                                                setState(() {
-
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                height:scrWidth*0.065,
-                                                                width:scrWidth*0.065,
-                                                                decoration: BoxDecoration(
-                                                                    color:colorConst.grey1,
-                                                                    borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                                                    border: Border.all(
-                                                                        width: scrWidth*0.0003,
-                                                                        color: colorConst.black.withOpacity(0.38)
-                                                                    )
-                                                                ),
-                                                                child:Center(child: Icon(Icons.add,
-                                                                    size:scrWidth*0.04)),
-                                                              ),
-                                                            )
+                                                            Text("₹ 250",
+                                                              style: TextStyle(
+                                                                  fontSize: scrWidth*0.04,
+                                                                  fontWeight: FontWeight.w700,
+                                                                  color: colorConst.meroon
+                                                              ),),
                                                           ],
-
-                                                        ),
-
+                                                        )
                                                       ],
                                                     ),
-                                                    Container(
-                                                      height: scrHeight*0.07,
-                                                      width: scrWidth*0.9,
-                                                      decoration: BoxDecoration(
-                                                          color: colorConst.meroon,
-                                                        borderRadius: BorderRadius.circular(scrWidth*0.05)
-                                                      ),
-                                                      child: Center(
-                                                        child: Text("Add To Cart",
-                                                        style: TextStyle(
-                                                          color: colorConst.white,
-
-                                                        ),),
-                                                      ),
-                                                    )
                                                   ],
                                                 ),
-                                              ),
-                                            );
-                                          },);
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 11.5,
-                                      backgroundColor:colorConst.meroon ,
-                                      child: Icon(Icons.add,
-                                        color: colorConst.white,
-                                        size:scrWidth*0.04 ,),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(width: scrWidth*0.02,),
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return SizedBox(height: scrWidth*0.03,);
-                      },
-                    ),
-                  ),
-              
-              
-              
-              
-              
-                    
+                                                Text("Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo.",
+                                                  style: TextStyle(
+                                                      color: colorConst.black.withOpacity(0.4)
+                                                  ),),
+                                                Divider(),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("₹  250.00",
+                                                      style: TextStyle(
+                                                          fontSize: scrWidth*0.04,
+                                                          fontWeight: FontWeight.w700,
+                                                          color: colorConst.meroon
+                                                      ),),
+                                                    Row(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            count<=0? 0:count--;
+                                                            setState(() {
+
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            height:scrWidth*0.065,
+                                                            width:scrWidth*0.065,
+                                                            decoration: BoxDecoration(
+                                                                color:colorConst.grey1,
+                                                                borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                                                border: Border.all(
+                                                                    width: scrWidth*0.0003,
+                                                                    color: colorConst.black.withOpacity(0.38)
+                                                                )
+                                                            ),
+                                                            child:Icon(Icons.remove,
+                                                                size:scrWidth*0.04),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: scrWidth*0.015,),
+                                                        Text(count.toString(),
+                                                          style: TextStyle(
+                                                              fontSize: scrWidth*0.04,
+                                                              fontWeight: FontWeight.w600
+                                                          ),),
+                                                        SizedBox(width: scrWidth*0.015,),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            count++;
+                                                            setState(() {
+
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            height:scrWidth*0.065,
+                                                            width:scrWidth*0.065,
+                                                            decoration: BoxDecoration(
+                                                                color:colorConst.grey1,
+                                                                borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                                                border: Border.all(
+                                                                    width: scrWidth*0.0003,
+                                                                    color: colorConst.black.withOpacity(0.38)
+                                                                )
+                                                            ),
+                                                            child:Center(child: Icon(Icons.add,
+                                                                size:scrWidth*0.04)),
+                                                          ),
+                                                        )
+                                                      ],
+
+                                                    ),
+
+                                                  ],
+                                                ),
+                                                Container(
+                                                  height: scrHeight*0.07,
+                                                  width: scrWidth*0.9,
+                                                  decoration: BoxDecoration(
+                                                      color: colorConst.meroon,
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.05)
+                                                  ),
+                                                  child: Center(
+                                                    child: Text("Add To Cart",
+                                                      style: TextStyle(
+                                                        color: colorConst.white,
+
+                                                      ),),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },);
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 11.5,
+                                    backgroundColor:colorConst.meroon ,
+                                    child: Icon(Icons.add,
+                                      color: colorConst.white,
+                                      size:scrWidth*0.04 ,),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(width: scrWidth*0.02,),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                     :selectIndex == 1?SizedBox(
+                   child: Text("2"),
+                 )
+                     :selectIndex == 2?SizedBox(
+                   child: Text("3"),
+                 )
+                     :SizedBox(
+                   child: Text("4"),
+                 )
                 ],
               ),
             ),

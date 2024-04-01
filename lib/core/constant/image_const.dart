@@ -38,6 +38,7 @@ class iconConst{
   static const home="assets/icons/home.svg";
   static const Favourite="assets/icons/heart.svg";
   static const Favourite1="assets/icons/heart1.svg";
+  static const Favourite2="assets/icons/fav.red.svg";
   static const more="assets/icons/more.svg";
   static const backarrow="assets/icons/backarrow.svg";
   static const delete="assets/icons/delete.svg";

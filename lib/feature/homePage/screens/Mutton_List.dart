@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -45,7 +46,8 @@ class _MuttonListState extends State<MuttonList> {
       "price":"₹ 250"
     },
   ];
-
+ List fav=[];
+ List fav1=[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +93,7 @@ class _MuttonListState extends State<MuttonList> {
                   fontWeight: FontWeight.w700,
                   color:Colors.black
               ),),
-            Container(
+            SizedBox(
                 height: scrHeight * 0.08,
                 width: scrWidth * 1,
                 child: ListView.builder(
@@ -225,7 +227,21 @@ class _MuttonListState extends State<MuttonList> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            SvgPicture.asset(iconConst.Favourite1,),
+                            InkWell(
+                            onTap: () {
+                              if(fav.contains(mutton[index])){
+                                fav.remove(mutton[index]);
+                                fav1.remove(index);
+                              }else{
+                                fav.add(mutton[index]);
+                                fav1.add(index);
+                              }
+                              setState(() {
+
+                              });
+                            },
+
+                                child: fav1.contains(index)?SvgPicture.asset(iconConst.Favourite2) : SvgPicture.asset(iconConst.Favourite1,)),
                             InkWell(
                               onTap: () {
                                 showModalBottomSheet(

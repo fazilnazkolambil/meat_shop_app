@@ -152,6 +152,7 @@ class _CartPageState extends State<cartPage> {
                                 Container(
                                   width: scrWidth*0.4,
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("Beef Curry Cut(Large.)",
                                         style: TextStyle(

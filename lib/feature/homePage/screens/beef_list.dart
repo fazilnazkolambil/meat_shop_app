@@ -1,3 +1,4 @@
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -47,7 +48,6 @@ class _BeefListState extends State<BeefList> {
       "price":"₹ 250"
     },
   ];
-  List favourite=[];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -89,7 +89,7 @@ class _BeefListState extends State<BeefList> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Meat",
+                  Text("Beef",
                     style: TextStyle(
                         fontSize: scrWidth*0.07,
                         fontWeight: FontWeight.w700,
@@ -220,19 +220,14 @@ class _BeefListState extends State<BeefList> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  InkWell(
-                                    onTap:(){
-                                      if(favourite.contains(index)){
-                                        favourite.remove(index);
-                                      }
-                                      else{
-                                        favourite.add(index);
-                                      }
-                                      setState(() {
+                                  FavoriteButton(
+                                    valueChanged: (_) {
 
-                                      });
-                                      },
-                                      child: SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,)),
+                                    },
+                                    iconSize: 39,
+                                    iconColor: colorConst.meroon,
+                                  ),
+                                  // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
                                   InkWell(
                                     onTap: () {
                                       showModalBottomSheet(

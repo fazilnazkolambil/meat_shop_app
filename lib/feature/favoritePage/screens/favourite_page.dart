@@ -1,3 +1,4 @@
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -113,7 +114,14 @@ class _favouritePageState extends State<favouritePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            SvgPicture.asset(iconConst.Favourite,color: colorConst.meroon,),
+                            FavoriteButton(
+                              valueChanged: (_) {
+
+                              },
+                              iconSize: 39,
+                              iconColor: colorConst.meroon,
+                            ),
+                            // SvgPicture.asset(iconConst.Favourite,color: colorConst.meroon,),
                             CircleAvatar(
                               radius: 11.5,
                               backgroundColor:colorConst.meroon ,

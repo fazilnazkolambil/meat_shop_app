@@ -1,3 +1,4 @@
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -84,7 +85,7 @@ class _CamelListState extends State<CamelList> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Meat",
+              Text("Camel",
                 style: TextStyle(
                     fontSize: scrWidth*0.07,
                     fontWeight: FontWeight.w700,
@@ -215,19 +216,14 @@ class _CamelListState extends State<CamelList> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              InkWell(
-                                  onTap:(){
-                                    if(favourite.contains(index)){
-                                      favourite.remove(index);
-                                    }
-                                    else{
-                                      favourite.add(index);
-                                    }
-                                    setState(() {
+                              FavoriteButton(
+                                valueChanged: (_) {
 
-                                    });
-                                  },
-                                  child: SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,)),
+                                },
+                                iconSize: 39,
+                                iconColor: colorConst.meroon,
+                              ),
+                              // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
                               InkWell(
                                 onTap: () {
                                   showModalBottomSheet(

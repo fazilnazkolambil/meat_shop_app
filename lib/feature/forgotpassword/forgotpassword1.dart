@@ -28,6 +28,9 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
     };
     print(num);
     print(email);
+    setState(() {
+
+    });
   }
   @override
   void initState() {
@@ -108,7 +111,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                         padding: EdgeInsets.only(right: scrWidth*0.1),
                         child: Text("via SMS:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),
                       ),
-                      Text("+91${num.toString()}",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
+                      Text(" ${num.toString()}",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
                     ],
                   )
                 ],

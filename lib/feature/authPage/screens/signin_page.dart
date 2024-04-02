@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -300,10 +301,16 @@ class _signinPageState extends State<signinPage> {
                           ),
                           SizedBox(width: scrWidth*0.04,),
                           InkWell(
-                            onTap: (){
+                            onTap: () async {
                               if(phoneController.text!='') {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => (forgotpasswordpage1(number: "+91${phoneController.text}",)),));
+                                var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
+                                print("ii ${data.docs.first.data()}");
+                                print(data);
+                                // if(data.docs.first.data().length==){
+                                //   Navigator.push(context, MaterialPageRoute(
+                                //     builder: (context) => (forgotpasswordpage1(number: "+91${phoneController.text}",)),));
+                                // }
+
                               }else{
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
                               }

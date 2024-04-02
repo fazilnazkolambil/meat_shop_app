@@ -588,6 +588,7 @@ class _infoPageState extends State<infoPage> {
                       InkWell(
                         onTap: (){
                           if(
+                                  check==true&&
                                   passwordController.text==confirmPasswordController.text&&
                                   nameController.text!=""&&
                                   phoneController.text!=""&&
@@ -601,19 +602,25 @@ class _infoPageState extends State<infoPage> {
                             // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
                           }else{
+
                             nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
                             phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
                             emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
                             passwordController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a password"))):
                             confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your password"))):
+                            check==false?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please agree the terms and conditions"))):
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
                           }
                         },
-                        child: Container(
+                        child:
+                        Container(
                           height: scrWidth*0.17,
                           width: scrWidth*0.9,
                           decoration: BoxDecoration(
-                            color: colorConst.meroon,
+                            color:
+                            //formkey.currentState!.validate()? colorConst.meroon:
+                            colorConst.grey,
+                            // color: colorConst.meroon,
                             borderRadius: BorderRadius.circular(scrWidth*0.07),
         
                           ),
@@ -625,7 +632,8 @@ class _infoPageState extends State<infoPage> {
                                   fontSize: scrWidth*0.04
                               ),),
                           ),
-                        ),
+                        )
+
                       ),
         
                       SizedBox(height: scrWidth*0.15,),

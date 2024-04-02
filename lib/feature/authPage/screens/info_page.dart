@@ -618,11 +618,10 @@ class _infoPageState extends State<infoPage> {
                           width: scrWidth*0.9,
                           decoration: BoxDecoration(
                             color:
-                            //formkey.currentState!.validate()? colorConst.meroon:
+                            check == true? colorConst.meroon:
                             colorConst.grey,
                             // color: colorConst.meroon,
                             borderRadius: BorderRadius.circular(scrWidth*0.07),
-        
                           ),
                           child: Center(
                             child: Text("Sign up",
@@ -630,10 +629,10 @@ class _infoPageState extends State<infoPage> {
                                   color: colorConst.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: scrWidth*0.04
-                              ),),
-                          ),
+                              )
+                            )
+                          )
                         )
-
                       ),
         
                       SizedBox(height: scrWidth*0.15,),

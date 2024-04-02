@@ -443,9 +443,9 @@ class _infoPageState extends State<infoPage> {
                               fontWeight: FontWeight.w600,
                               fontSize: scrWidth*0.04
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.always,
                           validator: (value){
-                            if(!passwordValidation.hasMatch(value!)){
+                            if(confirmPasswordController.text != passwordController.text){
                                 return "Password does not match";
 
                             }else{
@@ -467,6 +467,7 @@ class _infoPageState extends State<infoPage> {
                                 child: Icon(visibility1==true?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
         
                               ),
+
                               prefixIcon: Padding(
                                 padding:  EdgeInsets.all(scrWidth*0.038),
                                 child: Container(child: SvgPicture.asset(iconConst.password)),
@@ -502,6 +503,7 @@ class _infoPageState extends State<infoPage> {
                                   )
                               )
                           ),
+
                         ),
                       ),
         
@@ -602,8 +604,7 @@ class _infoPageState extends State<infoPage> {
                             nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
                             phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
                             emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
-                            passwordController.text!=confirmPasswordController.text?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter valid password"))):
-                            passwordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your password"))):
+                            passwordController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a password"))):
                             confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your password"))):
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
                           }

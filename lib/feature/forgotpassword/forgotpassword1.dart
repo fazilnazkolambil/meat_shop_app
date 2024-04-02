@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -6,7 +7,8 @@ import 'package:meat_shop_app/feature/forgotpassword/forgotpassword2.dart';
 import 'package:meat_shop_app/main.dart';
 
 class forgotpasswordpage1 extends StatefulWidget {
-  const forgotpasswordpage1({super.key});
+  final String number;
+  const forgotpasswordpage1({super.key, required this.number});
 
   @override
   State<forgotpasswordpage1> createState() => _forgotpasswordpage1State();
@@ -15,6 +17,25 @@ class forgotpasswordpage1 extends StatefulWidget {
 class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
   bool border1=false;
   bool border2=false;
+  String? email,num;
+  getData() async {
+    var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: widget.number).get();
+    print("kkkk${data.docs.first.data()}");
+    print("oooooooo${data.docs[0]["number"]}");
+    if(data.docs[0]["number"]==widget.number){
+      num=data.docs[0]["number"];
+      email=data.docs[0]["email"];
+    };
+    print(num);
+    print(email);
+  }
+  @override
+  void initState() {
+    print("iiiii ${widget.number}");
+    getData();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +73,6 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
             onTap: () {
               border1=true;
               border2=false;
-
               setState(() {
 
               });
@@ -88,7 +108,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                         padding: EdgeInsets.only(right: scrWidth*0.1),
                         child: Text("via SMS:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),
                       ),
-                      Text("+234111******99",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
+                      Text("+91${num.toString()}",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
                     ],
                   )
                 ],
@@ -128,7 +148,10 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                         padding:EdgeInsets.only(right: scrWidth*0.33),
                         child: Text("via Email:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),
                       ),
-                      Text("kez***9@your domain.com",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
+                      Padding(
+                        padding:EdgeInsets.only(right: scrWidth*0.17),
+                        child: Text(" $email",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
+                      ),
                     ],
                   )
                 ],

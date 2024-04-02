@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/forgotpassword/forgotpassword1.dart';
 
 import '../../../main.dart';
 
@@ -300,7 +301,12 @@ class _signinPageState extends State<signinPage> {
                           SizedBox(width: scrWidth*0.04,),
                           InkWell(
                             onTap: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                              if(phoneController.text!='') {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => (forgotpasswordpage1(number: "+91${phoneController.text}",)),));
+                              }else{
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
+                              }
                             },
                             child: Text("Forgot password",
                               style: TextStyle(
@@ -314,7 +320,7 @@ class _signinPageState extends State<signinPage> {
                         children: [
                           Text("* By login I Agree with all the",
                             style: TextStyle(
-                                fontSize: scrWidth*0.036,
+                                fontSize: scrWidth*0.034,
                                 fontWeight: FontWeight.w500,
                                 color: colorConst.grey
 
@@ -325,7 +331,7 @@ class _signinPageState extends State<signinPage> {
                             },
                             child: Text(" Terms & Conditions",
                               style: TextStyle(
-                                  fontSize: scrWidth*0.036,
+                                  fontSize: scrWidth*0.034,
                                   fontWeight: FontWeight.w700,
                                   color: colorConst.meroon
                               ),),

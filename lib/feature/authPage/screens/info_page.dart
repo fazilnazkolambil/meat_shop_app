@@ -595,21 +595,29 @@ class _infoPageState extends State<infoPage> {
 
                         ],
                       ),
-
                       SizedBox(height: scrWidth*0.03,),
                       InkWell(
                         onTap: (){
-                          FirebaseFirestore.instance.collection("users").add(UserModel(
-                            name: nameController.text,
-                            number:phoneController.text,
-                            email: emailController.text,
-                            password: passwordController.text,
-                            address: [],
-                            favourites: []
+                          // FirebaseFirestore.instance.collection("users").add(UserModel(
+                          //   name: nameController.text,
+                          //   number:phoneController.text,
+                          //   email: emailController.text,
+                          //   password: passwordController.text,
+                          //   address: [],
+                          //   favourites: []
+                          //
+                          // ).toMap());
+                          FirebaseFirestore.instance.collection('users').doc(phoneController.text).set(
+                            UserModel(
+                                name: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              number: phoneController.text,
+                              address: [],
+                              favourites: [],
 
-                          ).toMap());
-
-                          
+                            ).toMap()
+                          );
                           if(
                                   check==true&&
                                   passwordController.text==confirmPasswordController.text&&

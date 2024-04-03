@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
 
@@ -29,6 +32,7 @@ class _infoPageState extends State<infoPage> {
   bool check=false;
   final emailValidation=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final passwordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  final phoneValidation=RegExp(r"[0-9]{10}");
   // final confirmPasswordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final formkey=GlobalKey<FormState>();
   File? file;
@@ -201,6 +205,14 @@ class _infoPageState extends State<infoPage> {
                               fontWeight: FontWeight.w600
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value){
+                            if(!phoneValidation.hasMatch(value!)){
+                              return "enter valid phone number";
+                            }
+                            else{
+                              return null;
+                            }
+                          },
                           cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               counterText: "",
@@ -587,6 +599,17 @@ class _infoPageState extends State<infoPage> {
                       SizedBox(height: scrWidth*0.03,),
                       InkWell(
                         onTap: (){
+                          FirebaseFirestore.instance.collection("users").add(UserModel(
+                            name: nameController.text,
+                            number:phoneController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            address: [],
+                            favourites: []
+
+                          ).toMap());
+
+                          
                           if(
                                   check==true&&
                                   passwordController.text==confirmPasswordController.text&&

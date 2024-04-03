@@ -1,7 +1,7 @@
 class UserModel{
   String? name, email, number, password, confirmPassword, id;
-  List? homeAddress, officeAddress;
-  UserModel({this.name, this.email, this.password, this.confirmPassword, this.number, this.id, this.homeAddress, this.officeAddress});
+  List? address, favourites;
+  UserModel({this.name, this.email, this.password, this.confirmPassword, this.number, this.id, this.address, this.favourites});
 
 Map <String, dynamic> toMap(){
   return{
@@ -11,8 +11,8 @@ Map <String, dynamic> toMap(){
     "password" : this.password,
     "confirmPassword" : this.confirmPassword,
     "id" : this.id,
-    "homeAddress" : this.homeAddress,
-    "officeAddress" : this.officeAddress,
+    "address" : this.address,
+    "favourites" : this.favourites,
   };
 }
  factory UserModel.fromMap (Map <String, dynamic> map){
@@ -23,13 +23,13 @@ Map <String, dynamic> toMap(){
     password : map["password"] ?? "",
     confirmPassword : map["confirmPassword"] ?? "",
     id : map["id"] ?? "",
-    homeAddress: map["homeAddress"] ?? [],
-    officeAddress: map["officeAddress"] ?? [],
+    address: map["address"] ?? [],
+    favourites: map["favourites"] ?? [],
   );
  }
 UserModel copyWith({
   String? name, email, number, password, confirmPassword, id,
-  List? homeAddress, officeAddress
+  List? homeAddress, favourites
 }){
   return UserModel(
     name: name ?? this.name,
@@ -38,8 +38,8 @@ UserModel copyWith({
     password: password ?? this.password,
     confirmPassword: confirmPassword ?? this.confirmPassword,
     id: id ?? this.id,
-    homeAddress: homeAddress ?? this.homeAddress,
-    officeAddress: officeAddress ?? this.officeAddress,
+    address: address ?? this.address,
+    favourites: favourites ?? this.favourites,
   );
 }
 

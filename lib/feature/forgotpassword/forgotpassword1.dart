@@ -167,8 +167,8 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
           InkWell(
             onTap: () async {
               await FirebaseAuth.instance.verifyPhoneNumber(
-                phoneNumber: "+916235149087",
-                // phoneNumber: "${countrycode+num.toString()}",
+                // phoneNumber: "+916235149087",
+                phoneNumber: "${countrycode+num.toString()}",
                 verificationCompleted: (PhoneAuthCredential credential){},
                 verificationFailed: (FirebaseAuthException e){},
                 codeSent: (String verificationId,int? resentToken){

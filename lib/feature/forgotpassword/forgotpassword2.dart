@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/forgotpassword/forgotpassword1.dart';
 import 'package:pinput/pinput.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -72,9 +73,8 @@ class _forgotpasswordpage2State extends State<forgotpasswordpage2> {
             onTap: () async {
               try{
                 PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                    // verificationId: forgotpasswordpage1.verify,
-                    smsCode: code,
-                    verificationId: ''
+                  verificationId: forgotpasswordpage1.verify,
+                  smsCode: code
 
                 );
                 await auth.signInWithCredential(credential);

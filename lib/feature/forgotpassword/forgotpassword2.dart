@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -16,8 +17,10 @@ class forgotpasswordpage2 extends StatefulWidget {
 }
 
 class _forgotpasswordpage2State extends State<forgotpasswordpage2> {
+  final FirebaseAuth auth=FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    var code="";
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -66,8 +69,21 @@ class _forgotpasswordpage2State extends State<forgotpasswordpage2> {
             ],
           ),
           InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => createnewpswrd(),));
+            onTap: () async {
+              try{
+                PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                    // verificationId: forgotpasswordpage1.verify,
+                    smsCode: code,
+                    verificationId: ''
+
+                );
+                await auth.signInWithCredential(credential);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => createnewpswrd(),), (route) => false);
+              }
+              catch(e){
+                print(e.toString());
+              }
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => createnewpswrd(),));
             },
             child: Container(
               height: scrWidth*0.18,

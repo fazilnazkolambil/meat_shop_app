@@ -122,6 +122,7 @@ class _BeefListState extends State<BeefList> {
                                       fontWeight: FontWeight.w600
                                   ),),
                               ),
+
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(scrWidth*0.05),
                                   color: selectIndex==index? colorConst.meroon:colorConst.white,

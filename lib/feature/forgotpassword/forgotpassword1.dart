@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -9,6 +10,7 @@ import 'package:meat_shop_app/main.dart';
 class forgotpasswordpage1 extends StatefulWidget {
   final String number;
   const forgotpasswordpage1({super.key, required this.number});
+  static String verify="";
 
   @override
   State<forgotpasswordpage1> createState() => _forgotpasswordpage1State();
@@ -18,6 +20,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
   bool border1=false;
   bool border2=false;
   String? email,num;
+  String countrycode="+91";
   getData() async {
     var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: widget.number).get();
     print("kkkk${data.docs.first.data()}");
@@ -162,8 +165,19 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
             ),
           ),
           InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => forgotpasswordpage2(),));
+            onTap: () async {
+              await FirebaseAuth.instance.verifyPhoneNumber(
+                // phoneNumber: "+916235149087",
+                phoneNumber: "${countrycode+num.toString()}",
+                verificationCompleted: (PhoneAuthCredential credential){},
+                verificationFailed: (FirebaseAuthException e){},
+                codeSent: (String verificationId,int? resentToken){
+                  forgotpasswordpage1.verify=verificationId;
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const forgotpasswordpage2(),));
+                },
+                codeAutoRetrievalTimeout: (String verificationId){},
+              );
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => otppage(),));
             },
             child: Container(
               height: scrWidth*0.18,

@@ -303,13 +303,11 @@ class _signinPageState extends State<signinPage> {
                           InkWell(
                             onTap: () async {
                               if(phoneController.text!='') {
-                                var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
-                                print("ii ${data.docs.first.data()}");
-                                print(data);
-                                // if(data.docs.first.data().length==){
-                                //   Navigator.push(context, MaterialPageRoute(
-                                //     builder: (context) => (forgotpasswordpage1(number: "+91${phoneController.text}",)),));
-                                // }
+                                // var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
+                                // print("ii ${data.docs.first.data()}");
+                                // print(data);
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => (forgotpasswordpage1(number: phoneController.text,)),));
 
                               }else{
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,6 +22,11 @@ class infoPage extends StatefulWidget {
 }
 
 class _infoPageState extends State<infoPage> {
+  final GlobalKey<FormState> _formkey =GlobalKey<FormState>();
+  var countryCode;
+
+
+
   TextEditingController phoneController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
   TextEditingController confirmPasswordController=TextEditingController();
@@ -51,7 +57,7 @@ class _infoPageState extends State<infoPage> {
     return Scaffold(
   appBar: AppBar(
     elevation: 0,
-    backgroundColor: Colors.white,
+    backgroundColor: colorConst.white,
     leading: InkWell(
       onTap: (){
 
@@ -71,24 +77,102 @@ class _infoPageState extends State<infoPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            InkWell(
-                onTap: () {
-                  pickFile(ImageSource.gallery);
-                },
-                child: file != null
-                    ? CircleAvatar(
-                  radius: scrWidth * 0.15,
-                  backgroundImage: FileImage(file!),
-                )
-                    : CircleAvatar(
-                  radius: scrWidth * 0.15,
-                  backgroundImage: AssetImage(imageConst.mainIcon),
-                )),
-            Text("Meet Shop",
-              style:TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: scrWidth*0.05,
-                  color: colorConst.black ) ,),
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      SizedBox(
+
+                      child: Column(
+                        children: [
+                          file!=null?CircleAvatar(
+                            radius: 50,
+                            backgroundImage: FileImage(file!),
+                          ):
+                          CircleAvatar(
+                            //backgroundColor: colorConst.meroon,
+                            radius: 50,
+                          ),
+                        ],
+                      ),
+                      ),
+                      Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: InkWell(
+                            onTap: (){
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context){
+                                  return AlertDialog(
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        InkWell(
+                                          onTap: (){
+                                            pickFile(ImageSource.camera);
+                                            // Navigator.pop(context,MaterialPageRoute(builder: (context) =>));
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Text("Choose a file form",
+                                                style: TextStyle(
+                                                    fontSize: scrWidth*0.04
+                                                ),),
+                                              SizedBox(height: scrWidth*0.04,),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: scrWidth*0.1,
+                                                    width: scrWidth*0.1,
+                                                    decoration: BoxDecoration(
+                                                        color: colorConst.white,
+                                                        borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                                        border: Border.all(color: colorConst.grey)
+                                                    ),
+                                                    child: Icon(Icons.camera_alt_outlined,color: colorConst.black,),
+                                                  ),
+                                                  SizedBox(width: scrWidth*0.05,),
+                                                  InkWell(
+                                                    onTap: (){
+                                                      pickFile(ImageSource.gallery);
+                                                      // Navigator.pop(context,MaterialPageRoute(builder: (context) => ,));
+                                                    },
+                                                    child: Container(
+                                                      height: scrWidth*0.1,
+                                                      width: scrWidth*0.1,
+                                                      decoration: BoxDecoration(
+                                                          color: colorConst.white,
+                                                          borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                                          border: Border.all(color: colorConst.meroon)
+                                                      ),
+                                                      child: Icon(Icons.image,color: colorConst.black,),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Icon(Icons.edit,)//SvgPicture.asset(iconConst.edit),
+                          ))
+
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+
             Form(
                 key: formkey,
                 child:Padding(
@@ -217,7 +301,19 @@ class _infoPageState extends State<infoPage> {
                           decoration: InputDecoration(
                               counterText: "",
                               prefixIcon: CountryCodePicker(
-                                initialSelection: "IN",
+                                onChanged: (value){
+                                  countryCode = value;
+                                  setState(() {
+
+                                  });
+                                },
+
+                                onInit: (value) {
+                                  countryCode = value;
+                                },
+                                initialSelection: "+91",
+                                showFlag: true,
+
                               ),
                               labelText: "Enter Your Phone Number",
                               labelStyle: TextStyle(
@@ -607,14 +703,15 @@ class _infoPageState extends State<infoPage> {
                           //   favourites: []
                           //
                           // ).toMap());
-                          FirebaseFirestore.instance.collection('users').doc(phoneController.text).set(
+                          FirebaseFirestore.instance.collection('users').doc(countryCode.toString()+phoneController.text).set(
                             UserModel(
-                                name: nameController.text,
+                              name: nameController.text,
                               email: emailController.text,
                               password: passwordController.text,
-                              number: phoneController.text,
+                              number:countryCode.toString()+phoneController.text,
                               address: [],
                               favourites: [],
+                              image: file?.path,
 
                             ).toMap()
                           );

@@ -43,7 +43,7 @@ class _infoPageState extends State<infoPage> {
   final formkey=GlobalKey<FormState>();
   File? file;
   pickFile(ImageSource) async {
-    final imageFile = await ImagePicker.platform.pickImage(source: ImageSource);
+    final imageFile = await ImagePicker.platform.getImageFromSource(source: ImageSource);
     file = File(imageFile!.path);
     if (mounted) {
       setState(() {

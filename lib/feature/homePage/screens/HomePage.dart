@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       autoPlayAnimationDuration: Duration(
-                        milliseconds: 100,
+                        seconds: 1,
                       )
                   ),
                   itemBuilder: (BuildContext context, int index, int realIndex) {

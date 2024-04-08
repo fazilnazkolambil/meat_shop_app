@@ -152,11 +152,11 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
                     children: [
                       Padding(
                         padding:EdgeInsets.only(right: scrWidth*0.33),
-                        child: Text("via Email:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),
+                        child: Text("via Email:",style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600,fontSize: scrWidth*0.035),),
                       ),
                       Padding(
-                        padding:EdgeInsets.only(right: scrWidth*0.17),
-                        child: Text(" $email",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400),),
+                        padding:EdgeInsets.only(right: scrWidth*0.06),
+                        child: Text(" $email",style: TextStyle(color: colorConst.black,fontWeight: FontWeight.w400,fontSize: scrWidth*0.035),),
                       ),
                     ],
                   )
@@ -168,7 +168,7 @@ class _forgotpasswordpage1State extends State<forgotpasswordpage1> {
             onTap: () async {
               await FirebaseAuth.instance.verifyPhoneNumber(
                 // phoneNumber: "+916235149087",
-                phoneNumber: "${countrycode+num.toString()}",
+                phoneNumber: "${num.toString()}",
                 verificationCompleted: (PhoneAuthCredential credential){},
                 verificationFailed: (FirebaseAuthException e){},
                 codeSent: (String verificationId,int? resentToken){

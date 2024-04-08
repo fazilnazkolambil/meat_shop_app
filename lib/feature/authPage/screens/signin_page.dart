@@ -307,7 +307,7 @@ class _signinPageState extends State<signinPage> {
                                 // print("ii ${data.docs.first.data()}");
                                 // print(data);
                                   Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => (forgotpasswordpage1(number: phoneController.text,)),));
+                                    builder: (context) => (forgotpasswordpage1(number: "+91${phoneController.text}",)),));
 
                               }else{
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));

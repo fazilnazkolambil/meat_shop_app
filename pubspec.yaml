@@ -52,6 +52,7 @@ dependencies:
   favorite_button: ^0.0.4
   image_picker: ^1.0.4
   firebase_auth: ^4.19.0
+  flutter_riverpod: ^2.5.1
 
 
 

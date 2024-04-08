@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/authPage/screens/info_page.dart';
 import 'package:meat_shop_app/feature/forgotpassword/forgotpassword1.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 
 import '../../../main.dart';
 
@@ -357,21 +359,26 @@ class _signinPageState extends State<signinPage> {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
                           }
                         },
-                        child: Container(
-                          height: scrWidth*0.17,
-                          width: scrWidth*0.9,
-                          decoration: BoxDecoration(
-                            color: colorConst.meroon,
-                            borderRadius: BorderRadius.circular(scrWidth*0.06),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                          },
+                          child: Container(
+                            height: scrWidth*0.17,
+                            width: scrWidth*0.9,
+                            decoration: BoxDecoration(
+                              color: colorConst.meroon,
+                              borderRadius: BorderRadius.circular(scrWidth*0.06),
 
-                          ),
-                          child: Center(
-                            child: Text("Sign in",
-                              style: TextStyle(
-                                  color: colorConst.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: scrWidth*0.04
-                              ),),
+                            ),
+                            child: Center(
+                              child: Text("Sign in",
+                                style: TextStyle(
+                                    color: colorConst.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: scrWidth*0.04
+                                ),),
+                            ),
                           ),
                         ),
                       ),
@@ -388,7 +395,7 @@ class _signinPageState extends State<signinPage> {
                             ),),
                           InkWell(
                             onTap: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(),));
                             },
                             child: Text("Sign up",
                               style: TextStyle(

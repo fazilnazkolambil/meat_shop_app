@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
-import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 
 import '../../../main.dart';
 
@@ -19,8 +18,6 @@ class BeefList extends StatefulWidget {
 class _BeefListState extends State<BeefList> {
   int selectIndex=0;
   int count=1;
-  List cart=[];
-  List favourite=[];
   List beefmeat=[
     "Beef cut", "Boneless Beef", "Liver", "Botti"
   ];
@@ -85,63 +82,6 @@ class _BeefListState extends State<BeefList> {
             SizedBox(width: scrWidth*0.03,),
           ],
         ),
-          bottomNavigationBar:cart.isNotEmpty? Container(
-            height: scrWidth*0.37,
-            decoration: BoxDecoration(
-                color: colorConst.white,
-                borderRadius: BorderRadius.circular(scrWidth*0.07),
-                boxShadow: [
-                  BoxShadow(
-                      color: colorConst.black.withOpacity(0.2),
-                      blurRadius: 54,
-                      offset: Offset(0, -16),
-                      spreadRadius: 0
-                  )
-                ]
-            ),
-            child: Padding(
-              padding:  EdgeInsets.all(scrWidth*0.05),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Subtotal",
-                        style: TextStyle(
-                            color: colorConst.black,
-                            fontSize: scrWidth*0.05,
-                            fontWeight: FontWeight.w700
-                        ),),
-                      Text("₹ 300.00",
-                        style: TextStyle(
-                            color: colorConst.meroon,
-                            fontSize: scrWidth*0.05,
-                            fontWeight: FontWeight.w700
-                        ),)
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
-                    },
-                    child: Container(
-                      height: scrWidth*0.15,
-                      width: scrWidth*0.9,
-                      decoration: BoxDecoration(
-                        color: colorConst.meroon,
-                        borderRadius: BorderRadius.circular(scrWidth*0.05),
-                      ),
-                      child: Center(child: Text("Proceed  To checkout",
-                        style: TextStyle(
-                            color: colorConst.white
-                        ),)),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ) :SizedBox(),
           body:Padding(
             padding:  EdgeInsets.all(scrWidth*0.05),
             child: SingleChildScrollView(
@@ -177,15 +117,15 @@ class _BeefListState extends State<BeefList> {
                               child: Center(
                                 child: Text(beefmeat[index],
                                   style: TextStyle(
-                                      color: selectIndex==index? colorConst.white:colorConst.black.withOpacity(0.5),
+                                      color: selectIndex==index? colorConst.black:colorConst.black.withOpacity(0.5),
                                       fontWeight: FontWeight.w600
                                   ),),
                               ),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(scrWidth*0.05),
-                                  color: selectIndex==index? colorConst.meroon:colorConst.white,
+                                  color: selectIndex==index? colorConst.yellow:colorConst.white,
                                   border: Border.all(
-                                      color: selectIndex==index? colorConst.meroon:colorConst.black.withOpacity(0.5),
+                                      color: selectIndex==index? colorConst.yellow:colorConst.black.withOpacity(0.5),
                                   )
                               ),
                             ),
@@ -280,15 +220,9 @@ class _BeefListState extends State<BeefList> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 FavoriteButton(
-                                  valueChanged: (isFavorite) {
-                                    if(isFavorite){
-                                      favourite.add(beef[index]);
-                                      print(favourite);
-                                    }else{
-                                      favourite.remove(beef[index]);
-                                    }
+                                  valueChanged: (_) {
+
                                   },
-                                  isFavorite: false,
                                   iconSize: 39,
                                   iconColor: colorConst.meroon,
                                 ),
@@ -434,26 +368,19 @@ class _BeefListState extends State<BeefList> {
 
                                                   ],
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    cart.add(beef[index]);
-                                                    Navigator.pop(context);
-                                                    print(cart);
-                                                  },
-                                                  child: Container(
-                                                    height: scrHeight*0.07,
-                                                    width: scrWidth*0.9,
-                                                    decoration: BoxDecoration(
-                                                        color: colorConst.meroon,
-                                                        borderRadius: BorderRadius.circular(scrWidth*0.05)
-                                                    ),
-                                                    child: Center(
-                                                      child: Text("Add To Cart",
-                                                        style: TextStyle(
-                                                          color: colorConst.white,
+                                                Container(
+                                                  height: scrHeight*0.07,
+                                                  width: scrWidth*0.9,
+                                                  decoration: BoxDecoration(
+                                                      color: colorConst.meroon,
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.05)
+                                                  ),
+                                                  child: Center(
+                                                    child: Text("Add To Cart",
+                                                      style: TextStyle(
+                                                        color: colorConst.white,
 
-                                                        ),),
-                                                    ),
+                                                      ),),
                                                   ),
                                                 )
                                               ],

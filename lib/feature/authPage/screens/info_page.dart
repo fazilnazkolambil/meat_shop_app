@@ -10,6 +10,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
@@ -741,25 +743,30 @@ class _infoPageState extends State<infoPage> {
                           }
                         },
                         child:
-                        Container(
-                          height: scrWidth*0.17,
-                          width: scrWidth*0.9,
-                          decoration: BoxDecoration(
-                            color:
-                            check == true? colorConst.meroon:
-                            colorConst.grey,
-                            // color: colorConst.meroon,
-                            borderRadius: BorderRadius.circular(scrWidth*0.07),
-                          ),
-                          child: Center(
-                            child: Text("Sign up",
-                              style: TextStyle(
-                                  color: colorConst.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: scrWidth*0.04
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                          },
+                          child: Container(
+                            height: scrWidth*0.17,
+                            width: scrWidth*0.9,
+                            decoration: BoxDecoration(
+                              color:
+                              check == true? colorConst.meroon:
+                              colorConst.grey,
+                              // color: colorConst.meroon,
+                              borderRadius: BorderRadius.circular(scrWidth*0.07),
+                            ),
+                            child: Center(
+                              child: Text("Sign up",
+                                style: TextStyle(
+                                    color: colorConst.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: scrWidth*0.04
+                                )
                               )
                             )
-                          )
+                          ),
                         )
                       ),
         
@@ -777,7 +784,7 @@ class _infoPageState extends State<infoPage> {
                           SizedBox(width: scrWidth*0.02,),
                           InkWell(
                             onTap: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(),));
                             },
                             child: Text("Sign In",
                               style: TextStyle(

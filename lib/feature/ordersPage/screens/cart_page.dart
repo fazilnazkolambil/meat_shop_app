@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
 
 import '../../../main.dart';
 import 'checkoutpage.dart';
@@ -40,60 +41,65 @@ class _CartPageState extends State<cartPage> {
           SizedBox(width: scrWidth*0.03,),
         ],
       ),
-      bottomNavigationBar:Container(
-        height: scrWidth*0.37,
-        decoration: BoxDecoration(
-          color: colorConst.white,
-          borderRadius: BorderRadius.circular(scrWidth*0.07),
-            boxShadow: [
-              BoxShadow(
-                  color: colorConst.black.withOpacity(0.2),
-                  blurRadius: 54,
-                  offset: Offset(0, -16),
-                  spreadRadius: 0
-              )
-            ]
-        ),
-        child: Padding(
-          padding:  EdgeInsets.all(scrWidth*0.05),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Subtotal",
-                    style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.05,
-                        fontWeight: FontWeight.w700
-                    ),),
-                  Text("₹ 300.00",
-                    style: TextStyle(
-                        color: colorConst.meroon,
-                        fontSize: scrWidth*0.05,
-                        fontWeight: FontWeight.w700
-                    ),)
-                ],
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
-                },
-                child: Container(
-                  height: scrWidth*0.15,
-                  width: scrWidth*0.9,
-                  decoration: BoxDecoration(
-                    color: colorConst.meroon,
-                    borderRadius: BorderRadius.circular(scrWidth*0.05),
-                  ),
-                  child: Center(child: Text("Proceed  To checkout",
-                  style: TextStyle(
-                    color: colorConst.white
-                  ),)),
+      bottomNavigationBar:InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(),));
+        },
+        child: Container(
+          height: scrWidth*0.37,
+          decoration: BoxDecoration(
+            color: colorConst.white,
+            borderRadius: BorderRadius.circular(scrWidth*0.07),
+              boxShadow: [
+                BoxShadow(
+                    color: colorConst.black.withOpacity(0.2),
+                    blurRadius: 54,
+                    offset: Offset(0, -16),
+                    spreadRadius: 0
+                )
+              ]
+          ),
+          child: Padding(
+            padding:  EdgeInsets.all(scrWidth*0.05),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Subtotal",
+                      style: TextStyle(
+                          color: colorConst.black,
+                          fontSize: scrWidth*0.05,
+                          fontWeight: FontWeight.w700
+                      ),),
+                    Text("₹ 300.00",
+                      style: TextStyle(
+                          color: colorConst.meroon,
+                          fontSize: scrWidth*0.05,
+                          fontWeight: FontWeight.w700
+                      ),)
+                  ],
                 ),
-              )
-            ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                  },
+                  child: Container(
+                    height: scrWidth*0.15,
+                    width: scrWidth*0.9,
+                    decoration: BoxDecoration(
+                      color: colorConst.meroon,
+                      borderRadius: BorderRadius.circular(scrWidth*0.05),
+                    ),
+                    child: Center(child: Text("Proceed  To checkout",
+                    style: TextStyle(
+                      color: colorConst.white
+                    ),)),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ) ,

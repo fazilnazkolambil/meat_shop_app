@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/models/addressModel.dart';
 
 import '../../../main.dart';
 import 'orderconfirm_page.dart';
@@ -18,6 +20,7 @@ class checkoutpage extends StatefulWidget {
 }
 
 class _checkoutpageState extends State<checkoutpage> {
+  var countryCode;
   TextEditingController addressController=TextEditingController();
   TextEditingController nameController=TextEditingController();
   TextEditingController numberController=TextEditingController();
@@ -136,6 +139,7 @@ class _checkoutpageState extends State<checkoutpage> {
                         enableDrag: false,
                         elevation: 20,
                         scrollControlDisabledMaxHeightRatio: Checkbox.width,
+                        isScrollControlled: false,
                         // showDragHandle: true,
                         backgroundColor: colorConst.white,
                         shape: RoundedRectangleBorder(
@@ -168,206 +172,248 @@ class _checkoutpageState extends State<checkoutpage> {
                                       )
                                     ],
                                   ),
-                                  Stack(
-                                    children:[
-                                      Container(
-                                      height: scrWidth*0.8,
-                                      width: scrWidth*1,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(scrWidth*0.03),color: colorConst.grey),
-                                      child: Image(image: AssetImage(imageConst.map1),fit: BoxFit.fill,),
-                                    ),
-                                      Positioned(
-                                        left: scrWidth*0.4,
-                                        top: scrWidth*0.35,
-                                          child: SvgPicture.asset(iconConst.location1)
-                                      ),
-                                      Positioned(
-                                          right: scrWidth*0.05,
-                                          top: scrWidth*0.07,
-                                          child: SvgPicture.asset(iconConst.gpsicon)
-                                      ),
-                                      Positioned(
-                                        left: scrWidth*0.05,
-                                        top: scrWidth*0.06,
-                                        child: Container(
-                                          height: scrWidth*0.11,
-                                          width: scrWidth*0.65,
-                                          decoration: BoxDecoration(
-                                            color: colorConst.white,
-                                            borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                          ),
-                                          child: TextField(
-                                            decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                labelText: "  Search",
-                                                labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                  Container(
+                                    height: scrWidth*1.7,
+                                    child: SingleChildScrollView(
+                                      child: Container(
+                                        // height: scrWidth*2.3,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Stack(
+                                              children:[
+                                                Container(
+                                                height: scrWidth*0.8,
+                                                width: scrWidth*1,
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(scrWidth*0.03),color: colorConst.grey),
+                                                child: Image(image: AssetImage(imageConst.map1),fit: BoxFit.fill,),
+                                              ),
+                                                Positioned(
+                                                  left: scrWidth*0.4,
+                                                  top: scrWidth*0.35,
+                                                    child: SvgPicture.asset(iconConst.location1)
+                                                ),
+                                                Positioned(
+                                                    right: scrWidth*0.05,
+                                                    top: scrWidth*0.07,
+                                                    child: SvgPicture.asset(iconConst.gpsicon)
+                                                ),
+                                                Positioned(
+                                                  left: scrWidth*0.05,
+                                                  top: scrWidth*0.06,
+                                                  child: Container(
+                                                    height: scrWidth*0.11,
+                                                    width: scrWidth*0.65,
+                                                    decoration: BoxDecoration(
+                                                      color: colorConst.white,
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                                    ),
+                                                    child: TextField(
+                                                      decoration: InputDecoration(
+                                                          border: InputBorder.none,
+                                                          labelText: "  Search",
+                                                          labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              ]
                                             ),
-                                          ),
-                                        ),
-                                      ),
+                                            Row(
+                                              children: [
+                                                Text("Label As",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035)
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                RadioMenuButton(
+                                                    value: "home",
+                                                    groupValue: labelas,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        labelas=value!;
+                                                      });
 
-                                    ]
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text("Label As",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035)
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      RadioMenuButton(
-                                          value: "home",
-                                          groupValue: labelas,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              labelas=value!;
-                                            });
+                                                    },
+                                                    child:  Text("Home",style: TextStyle(
+                                                        fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
+                                                    )
+                                                ),
+                                                RadioMenuButton(
+                                                    value: "office",
+                                                    groupValue: labelas,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        labelas=value!;
+                                                      });
 
-                                          },
-                                          child:  Text("Home",style: TextStyle(
-                                              fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
-                                          )
-                                      ),
-                                      RadioMenuButton(
-                                          value: "office",
-                                          groupValue: labelas,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              labelas=value!;
-                                            });
+                                                    },
+                                                    child:  Text("Office",style: TextStyle(
+                                                        fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
+                                                    )
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: scrWidth*0.12,
+                                              width: scrWidth*1,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              ),
+                                              child: TextField(
+                                                controller: addressController,
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    labelText: " Address",
+                                                    labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  height: scrWidth*0.12,
+                                                  width: scrWidth*0.4,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                      border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                                  ),
+                                                  child: TextField(
+                                                    controller: nameController,
+                                                    decoration: InputDecoration(
+                                                        border: InputBorder.none,
+                                                        labelText: " Name",
+                                                        labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
 
-                                          },
-                                          child:  Text("Office",style: TextStyle(
-                                              fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
-                                          )
-                                      ),
-                                  ],
-                                  ),
-                                  Container(
-                                    height: scrWidth*0.12,
-                                    width: scrWidth*1,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                      border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                    ),
-                                    child: TextField(
-                                      controller: addressController,
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        labelText: " Address",
-                                        labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                    Container(
-                                      height: scrWidth*0.12,
-                                      width: scrWidth*0.4,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                          border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                      ),
-                                      child: TextField(
-                                        controller: nameController,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            labelText: " Name",
-                                            labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: scrWidth*0.12,
+                                                  width: scrWidth*0.5,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                      border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                                  ),
+                                                  child: TextField(
+                                                    controller: numberController,
+                                                    decoration: InputDecoration(
+                                                        border: InputBorder.none,
+                                                        labelText: " Mob no",
+                                                        labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],),
+                                            Container(
+                                              height: scrWidth*0.12,
+                                              width: scrWidth*1,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              ),
+                                              child: TextField(
+                                                controller: landmarkController,
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    labelText: " Land mark",
+                                                    labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
 
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: scrWidth*0.12,
-                                      width: scrWidth*0.5,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                          border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                      ),
-                                      child: TextField(
-                                        controller: numberController,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            labelText: " Mob no",
-                                            labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                        ),
-                                      ),
-                                    ),
-                                  ],),
-                                  Container(
-                                    height: scrWidth*0.12,
-                                    width: scrWidth*1,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                        border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                    ),
-                                    child: TextField(
-                                      controller: landmarkController,
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          labelText: " Land mark",
-                                          labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  height: scrWidth*0.12,
+                                                  width: scrWidth*0.4,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                      border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                                  ),
+                                                  child: TextField(
+                                                    controller: housenoController,
+                                                    decoration: InputDecoration(
+                                                        border: InputBorder.none,
+                                                        labelText: " House no",
+                                                        labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: scrWidth*0.12,
+                                                  width: scrWidth*0.5,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                      border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                                  ),
+                                                  child: TextField(
+                                                    controller: pincodeController,
+                                                    decoration: InputDecoration(
+                                                        border: InputBorder.none,
+                                                        labelText: " Pincode",
+                                                        labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],),
+                                            InkWell(
+                                              onTap: () {
+                                                   var data= addressModel(
+                                                      name: nameController.text,
+                                                      number:countryCode.toString()+numberController.text,
+                                                      landmark: landmarkController.text,
+                                                      houseno: housenoController.text,
+                                                      pincode: pincodeController.text,
+                                                      address: addressController.text,
 
+                                                    ).toMap();
+                                                if(
+                                                    nameController.text!=""&&
+                                                    addressController.text!=""&&
+                                                    landmarkController.text!=""&&
+                                                    pincodeController.text!=""&&
+                                                    housenoController.text!=""&&
+                                                    numberController.text!=""
+
+                                                ){
+                                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
+                                                }else{
+
+                                                  nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
+                                                  numberController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
+                                                  addressController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your address"))):
+                                                  landmarkController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a landmark"))):
+                                                  pincodeController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your pincode"))):
+                                                  housenoController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your houseno"))):
+                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
+                                                }
+                                                // Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                height: scrWidth*0.13,
+                                                width: scrWidth*0.9,
+                                                decoration: BoxDecoration(
+                                                  color: colorConst.meroon,
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.05),
+                                                ),
+                                                child: Center(child: Text("Save Address",
+                                                  style: TextStyle(
+                                                      color: colorConst.white
+                                                  ),)),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        height: scrWidth*0.12,
-                                        width: scrWidth*0.4,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                            border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                        ),
-                                        child: TextField(
-                                          controller: housenoController,
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              labelText: " House no",
-                                              labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: scrWidth*0.12,
-                                        width: scrWidth*0.5,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                            border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                        ),
-                                        child: TextField(
-                                          controller: pincodeController,
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              labelText: " Pincode",
-                                              labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                          ),
-                                        ),
-                                      ),
-                                    ],),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      height: scrWidth*0.13,
-                                      width: scrWidth*0.9,
-                                      decoration: BoxDecoration(
-                                        color: colorConst.meroon,
-                                        borderRadius: BorderRadius.circular(scrWidth*0.05),
-                                      ),
-                                      child: Center(child: Text("Save Address",
-                                        style: TextStyle(
-                                            color: colorConst.white
-                                        ),)),
-                                    ),
-                                  )
-                                  
                                 ],
                               ),
                             ),

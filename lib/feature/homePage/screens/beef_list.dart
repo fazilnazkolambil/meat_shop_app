@@ -11,7 +11,8 @@ import 'package:meat_shop_app/core/constant/image_const.dart';
 import '../../../main.dart';
 
 class BeefList extends StatefulWidget {
-  const BeefList({super.key,});
+  final String type;
+  const BeefList({super.key, required this.type,});
 
 
   @override
@@ -22,50 +23,27 @@ class _BeefListState extends State<BeefList> {
   int selectIndex = -1;
   String selectCategory = '';
   int count = 1;
-  List beefmeat = ["Beef cut", "Boneless Beef", "Liver", "Botti"];
-  List beef = [
-    {
-      "image": "assets/images/beefcurrycut.png",
-      "name": "Beef Curry Cut(Large.)",
-      "price": "₹ 250"
-    },
-    {
-      "image": "assets/images/beeffrycut.png",
-      "name": "Beef Fry Cut ( Larg.",
-      "price": "₹ 280"
-    },
-    {
-      "image": "assets/images/beefbigpiece.png",
-      "name": "Beef Big Pice",
-      "price": "₹ 280"
-    },
-    {
-      "image": "assets/images/beefmediumpiece.png",
-      "name": "Beef Medium Pice",
-      "price": "₹ 230"
-    },
-    {
-      "image": "assets/images/beefbiriyanicut.png",
-      "name": "Biriyani Cut",
-      "price": "₹ 250"
-    },
-  ];
+  getMeats() async {
+    var Meats = await FirebaseFirestore.instance.collection("meats").snapshots();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: EdgeInsets.all(scrWidth * 0.03),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: colorConst.grey1,
-                    borderRadius: BorderRadius.circular(scrWidth * 0.08)),
-                child: Center(
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset(iconConst.backarrow)))),
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: EdgeInsets.all(scrWidth * 0.03),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: colorConst.grey1,
+                      borderRadius: BorderRadius.circular(scrWidth * 0.08)),
+                  child: Center(
+                      child: SvgPicture.asset(iconConst.backarrow))),
+            ),
           ),
           title: Row(
             children: [
@@ -179,11 +157,11 @@ class _BeefListState extends State<BeefList> {
                 StreamBuilder<QuerySnapshot>(
                     stream: selectCategory == ""
                         ? FirebaseFirestore.instance
-                            .collection("meats").where('type',isEqualTo: "Beef")
+                            .collection("meats").where('type',isEqualTo: widget.type)
                             .snapshots()
                         : FirebaseFirestore.instance
                             .collection('meats')
-                        .where('type', isEqualTo: "Beef")
+                        .where('type', isEqualTo: widget.type)
                         .where('category', isEqualTo: selectCategory)
                             .snapshots(),
                     builder: (context, snapshot) {
@@ -192,7 +170,7 @@ class _BeefListState extends State<BeefList> {
                       }
                       var data = snapshot.data!.docs;
                       return data.length == 0
-                          ? Lottie.asset(gifs.loadingGif)
+                          ? Center(child: Text("No Meats Found!"),)
                           : ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,

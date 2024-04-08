@@ -181,6 +181,7 @@ class _HomePageState extends State<HomePage> {
                           return InkWell(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => BeefList(
+                                type: data[index]["type"],
                               ),));
                             },
                             child: Container(

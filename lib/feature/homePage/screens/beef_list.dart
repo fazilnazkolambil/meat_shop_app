@@ -18,7 +18,6 @@ class BeefList extends StatefulWidget {
 class _BeefListState extends State<BeefList> {
   int selectIndex=0;
   int count=1;
-  List favourite=[];
   List beefmeat=[
     "Beef cut", "Boneless Beef", "Liver", "Botti"
   ];
@@ -118,16 +117,15 @@ class _BeefListState extends State<BeefList> {
                               child: Center(
                                 child: Text(beefmeat[index],
                                   style: TextStyle(
-                                      color: selectIndex==index? colorConst.white:colorConst.black.withOpacity(0.5),
+                                      color: selectIndex==index? colorConst.black:colorConst.black.withOpacity(0.5),
                                       fontWeight: FontWeight.w600
                                   ),),
                               ),
-
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(scrWidth*0.05),
-                                  color: selectIndex==index? colorConst.meroon:colorConst.white,
+                                  color: selectIndex==index? colorConst.yellow:colorConst.white,
                                   border: Border.all(
-                                      color: selectIndex==index? colorConst.meroon:colorConst.black.withOpacity(0.5),
+                                      color: selectIndex==index? colorConst.yellow:colorConst.black.withOpacity(0.5),
                                   )
                               ),
                             ),
@@ -222,10 +220,9 @@ class _BeefListState extends State<BeefList> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 FavoriteButton(
-                                  valueChanged: (value) {
+                                  valueChanged: (_) {
 
-                                    },
-
+                                  },
                                   iconSize: 39,
                                   iconColor: colorConst.meroon,
                                 ),

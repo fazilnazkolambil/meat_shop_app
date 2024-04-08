@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/homePage/screens/beef_list.dart';
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     "assets/images/carosal1.png",
     "assets/images/carosal1.png",
   ];
-  int currentIndex=0;
+  int currentIndex=-1;
   List picandtext=[
     {
       "pic":"assets/images/beef.png",
@@ -44,6 +46,7 @@ class _HomePageState extends State<HomePage> {
 
 
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,45 +159,62 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: scrHeight*0.012,),
                 Expanded(
-                  child: GridView.builder(
-                    itemCount: 4,
-                    physics: BouncingScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: scrWidth * 0.04 ,
-                      childAspectRatio:1 ,
-                      crossAxisSpacing: scrWidth* 0.04,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: scrWidth*0.45,
-                        width: scrWidth*0.45,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(scrWidth*0.03),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.15),
-                                offset: Offset(0, 4),
-                                blurRadius: 4,
-                                spreadRadius: 2,
-                              )
-                            ]
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('meatTypes').snapshots(),
+                    builder: (context, snapshot) {
+                      if(!snapshot.hasData){
+                        return Lottie.asset(gifs.loadingGif);
+                      }
+                      var data = snapshot.data!.docs;
+                      return  data.length==0?
+                      Lottie.asset(gifs.loadingGif):
+                        GridView.builder(
+                        itemCount: data.length,
+                        physics: BouncingScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: scrWidth * 0.04 ,
+                          childAspectRatio:1 ,
+                          crossAxisSpacing: scrWidth* 0.04,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CircleAvatar(
-                              radius: scrWidth*0.15,
-                              backgroundColor: Colors.amber,
-                              backgroundImage: AssetImage(picandtext[index]["pic"],),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => BeefList(
+                              ),));
+                            },
+                            child: Container(
+                              height: scrWidth*0.45,
+                              width: scrWidth*0.45,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.15),
+                                      offset: Offset(0, 4),
+                                      blurRadius: 4,
+                                      spreadRadius: 2,
+                                    )
+                                  ]
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircleAvatar(
+                                    radius: scrWidth*0.15,
+                                    backgroundColor: Colors.amber,
+                                    backgroundImage: NetworkImage(data[index]["mainImage"],),
+                                  ),
+                                  Text(data[index]["type"],
+                                    style: TextStyle(fontSize: scrWidth*0.04),),
+                                ],
+                              ),
                             ),
-                            Text(picandtext[index]["text1"],
-                              style: TextStyle(fontSize: scrWidth*0.04),),
-                          ],
-                        ),
+                          );
+                        },
                       );
-                    },
+                    }
                   ),
                 ),
               ],

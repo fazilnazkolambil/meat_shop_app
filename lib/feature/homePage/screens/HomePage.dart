@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/homePage/screens/beef_list.dart';
+import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
 
 import '../../../main.dart';
 
@@ -166,8 +167,20 @@ class _HomePageState extends State<HomePage> {
                         return Lottie.asset(gifs.loadingGif);
                       }
                       var data = snapshot.data!.docs;
-                      return  data.length==0?
-                      Lottie.asset(gifs.loadingGif):
+                      return  data.isEmpty?
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                              height: scrHeight*0.15,
+                              child: Lottie.asset(gifs.comingSoon)),
+                          Text("Meats will be available Soon!",style: TextStyle(
+                              fontSize: scrWidth*0.05,
+                              fontWeight: FontWeight.w700,
+                              color: colorConst.meroon
+                          ),)
+                        ],
+                      ):
                         GridView.builder(
                         itemCount: data.length,
                         physics: BouncingScrollPhysics(),

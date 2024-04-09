@@ -8,22 +8,29 @@ import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/main.dart';
 
 class LambPage extends StatefulWidget {
-  const LambPage({super.key});
+  final String type;
+  const LambPage({super.key, required this.type});
 
   @override
   State<LambPage> createState() => _LambPageState();
 }
 
 class _LambPageState extends State<LambPage> {
-  getData(){
-    FirebaseFirestore.instance.collection("111111").doc("11111").collection("2222222").doc("2222222").collection("33333").add({
-      "aaaa" : "AAAA",
-      "bbbb" : "BBBB",
-      "cccc" : "CCCC",
+  List categoryCollection = [];
+  getMeats() async {
+    var meats = await FirebaseFirestore.instance.collection("meatTypes").doc(widget.type).collection(widget.type).get();
+    categoryCollection = meats.docs;
+    setState(() {
+
     });
   }
   int selectedIndex = 0;
   @override
+  void initState() {
+    getMeats();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
@@ -57,7 +64,7 @@ class _LambPageState extends State<LambPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Meat",style: TextStyle(
+              Text(widget.type,style: TextStyle(
                 fontSize: scrWidth*0.05,
                 fontWeight: FontWeight.w700
               ),),
@@ -65,7 +72,7 @@ class _LambPageState extends State<LambPage> {
                 height: scrHeight*0.04,
                 width: scrWidth*1,
                 child: ListView.separated(
-                  itemCount: 4,
+                  itemCount: categoryCollection.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
@@ -75,7 +82,7 @@ class _LambPageState extends State<LambPage> {
                         height: scrHeight*0.05,
                         padding: EdgeInsets.only(left: scrWidth*0.04,right: scrWidth*0.04),
                         child: Center(
-                          child: Text("Beef Cut",
+                          child: Text(categoryCollection[index]["category"],
                             style: TextStyle(
                                 color:colorConst.white,
                                 fontWeight: FontWeight.w600

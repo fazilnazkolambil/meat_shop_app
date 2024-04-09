@@ -54,6 +54,36 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
   Widget build(BuildContext context) {
     final quantity = ref.watch(quantityProvider);
     return Scaffold(
+      backgroundColor: colorConst.white,
+      bottomNavigationBar: add.isEmpty? SizedBox()
+      :SizedBox(
+        height: scrHeight*0.12,
+        child: Padding(
+          padding:  EdgeInsets.all(scrWidth*0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
+                },
+                child: Container(
+                  height: scrWidth*0.15,
+                  width: scrWidth*0.9,
+                  decoration: BoxDecoration(
+                    color: colorConst.meroon,
+                    borderRadius: BorderRadius.circular(scrWidth*0.05),
+                  ),
+                  child: Center(child: Text("Go to Cart",
+                    style: TextStyle(
+                        color: colorConst.white
+                    ),)),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
@@ -164,7 +194,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                   height: scrWidth * 0.05,
                 ),
                  SizedBox(
-                  height: add.isEmpty?scrHeight*0.7:scrHeight*0.55,
+                  height: add.isEmpty?scrHeight*0.7:scrHeight*0.6,
                   width: scrWidth*1,
                   child:categoryCollection.isEmpty?
                   Column(
@@ -268,34 +298,48 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                   .withOpacity(0.4)),
                                         ),
                                         Divider(),
+                                        add.isEmpty?
                                         Row(
-
-                                        ),
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              height: scrHeight*0.05,
+                                              width: scrWidth*0.4,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  border: Border.all(color: colorConst.meroon)
+                                              ),
+                                              child: Center(child: Text("Buy Now"),),
+                                            ),
+                                            Container(
+                                              height: scrHeight*0.05,
+                                              width: scrWidth*0.4,
+                                              decoration: BoxDecoration(
+                                                  color: colorConst.meroon,
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  border: Border.all(color: colorConst.meroon)
+                                              ),
+                                              child: Center(child: Text("Add to Cart",style: TextStyle(
+                                                  color: colorConst.white
+                                              ),),),
+                                            ),
+                                          ],
+                                        ):
                                         InkWell(
                                           onTap: () {
-                                            if(add.contains(index)){
-                                              add.remove(index);
-                                            }else{
-                                              add.add(index);
-                                            }
-                                            setState(() {
-
-                                            });
-                                            //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                                            //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
                                           },
                                           child: Container(
-                                            height: scrHeight * 0.07,
-                                            width: scrWidth * 0.9,
+                                            height: scrWidth*0.15,
+                                            width: scrWidth*0.9,
                                             decoration: BoxDecoration(
-                                                color: colorConst.meroon,
-                                                borderRadius: BorderRadius.circular(scrWidth * 0.05)),
-                                            child: Center(
-                                              child: Text("Add to Cart",
-                                                style: TextStyle(
-                                                  color: colorConst.white,
-                                                ),
-                                              ),
+                                              color: colorConst.meroon,
+                                              borderRadius: BorderRadius.circular(scrWidth*0.05),
                                             ),
+                                            child: Center(child: Text("Go to Cart",
+                                              style: TextStyle(
+                                                  color: colorConst.white
+                                              ),)),
                                           ),
                                         )
                                       ],

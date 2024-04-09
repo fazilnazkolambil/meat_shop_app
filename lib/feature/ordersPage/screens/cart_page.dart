@@ -102,7 +102,7 @@ class _CartPageState extends State<cartPage> {
             ),
           ),
         ),
-      ) ,
+      ),
       body: Padding(
         padding:  EdgeInsets.all(scrWidth*0.028),
         child: SingleChildScrollView(

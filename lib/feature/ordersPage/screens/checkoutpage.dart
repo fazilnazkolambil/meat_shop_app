@@ -13,7 +13,8 @@ import '../../../main.dart';
 import 'orderconfirm_page.dart';
 
 class checkoutpage extends StatefulWidget {
-  const checkoutpage({super.key});
+  final String id;
+  const checkoutpage({super.key, required this.id});
 
   @override
   State<checkoutpage> createState() => _checkoutpageState();

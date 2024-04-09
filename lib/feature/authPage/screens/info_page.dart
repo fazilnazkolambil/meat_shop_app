@@ -1,11 +1,8 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +10,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
-import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
@@ -46,8 +44,6 @@ class _infoPageState extends State<infoPage> {
   // final confirmPasswordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final formkey=GlobalKey<FormState>();
   File? file;
-  String imageUrl="";
-  bool loading=false;
   pickFile(ImageSource) async {
     final imageFile = await ImagePicker.platform.getImageFromSource(source: ImageSource);
     file = File(imageFile!.path);
@@ -55,51 +51,31 @@ class _infoPageState extends State<infoPage> {
       setState(() {
         file = File(imageFile.path);
       });
-      uploadfile(file!);
       print(imageFile);
     }
-  }
-  uploadfile(File file) async {
-    loading=true;
-    setState(() {
-
-    });
-    var uploadtask=await FirebaseStorage.instance
-        .ref("users")
-        .child(DateTime.now().toString())
-        .putFile(file, SettableMetadata(
-        contentType: "image/jpg"));
-
-    var getImage=await uploadtask.ref.getDownloadURL();
-    imageUrl = getImage;
-    loading=false;
-    setState(() {
-
-    });
-    // print(geturl);
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorConst.white,
-        leading: InkWell(
-          onTap: (){
+  appBar: AppBar(
+    elevation: 0,
+    backgroundColor: colorConst.white,
+    leading: InkWell(
+      onTap: (){
 
-          },
-          child: Padding(
-            padding:  EdgeInsets.all(scrWidth*0.03),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: colorConst.grey1,
-                    borderRadius: BorderRadius.circular(scrWidth*0.08)
-                ),
-                child: Center(child: SvgPicture.asset(iconConst.backarrow))
+      },
+      child: Padding(
+        padding:  EdgeInsets.all(scrWidth*0.03),
+        child: Container(
+            decoration: BoxDecoration(
+                color: colorConst.grey1,
+                borderRadius: BorderRadius.circular(scrWidth*0.08)
             ),
-          ),
+            child: Center(child: SvgPicture.asset(iconConst.backarrow))
         ),
       ),
+    ),
+  ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -111,85 +87,85 @@ class _infoPageState extends State<infoPage> {
                     children: [
                       SizedBox(
 
-                        child: Column(
-                          children: [
-                            file!=null?CircleAvatar(
-                              radius: 50,
-                              backgroundImage: FileImage(file!),
-                            ):
-                            CircleAvatar(
-                              //backgroundColor: colorConst.meroon,
-                              radius: 50,
-                            ),
-                          ],
-                        ),
+                      child: Column(
+                        children: [
+                          file!=null?CircleAvatar(
+                            radius: 50,
+                            backgroundImage: FileImage(file!),
+                          ):
+                          CircleAvatar(
+                            //backgroundColor: colorConst.meroon,
+                            radius: 50,
+                          ),
+                        ],
+                      ),
                       ),
                       Positioned(
                           bottom: 0,
                           right: 0,
                           child: InkWell(
-                              onTap: (){
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context){
-                                    return AlertDialog(
-                                      title: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          InkWell(
-                                            onTap: (){
-                                              pickFile(ImageSource.camera);
-                                              // Navigator.pop(context,MaterialPageRoute(builder: (context) =>));
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Text("Choose a file form",
-                                                  style: TextStyle(
-                                                      fontSize: scrWidth*0.04
-                                                  ),),
-                                                SizedBox(height: scrWidth*0.04,),
-                                                Row(
-                                                  children: [
-                                                    Container(
+                            onTap: (){
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context){
+                                  return AlertDialog(
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        InkWell(
+                                          onTap: (){
+                                            pickFile(ImageSource.camera);
+                                            // Navigator.pop(context,MaterialPageRoute(builder: (context) =>));
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Text("Choose a file form",
+                                                style: TextStyle(
+                                                    fontSize: scrWidth*0.04
+                                                ),),
+                                              SizedBox(height: scrWidth*0.04,),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: scrWidth*0.1,
+                                                    width: scrWidth*0.1,
+                                                    decoration: BoxDecoration(
+                                                        color: colorConst.white,
+                                                        borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                                        border: Border.all(color: colorConst.grey)
+                                                    ),
+                                                    child: Icon(Icons.camera_alt_outlined,color: colorConst.black,),
+                                                  ),
+                                                  SizedBox(width: scrWidth*0.05,),
+                                                  InkWell(
+                                                    onTap: (){
+                                                      pickFile(ImageSource.gallery);
+                                                      // Navigator.pop(context,MaterialPageRoute(builder: (context) => ,));
+                                                    },
+                                                    child: Container(
                                                       height: scrWidth*0.1,
                                                       width: scrWidth*0.1,
                                                       decoration: BoxDecoration(
                                                           color: colorConst.white,
                                                           borderRadius: BorderRadius.circular(scrWidth*0.04),
-                                                          border: Border.all(color: colorConst.grey)
+                                                          border: Border.all(color: colorConst.meroon)
                                                       ),
-                                                      child: Icon(Icons.camera_alt_outlined,color: colorConst.black,),
+                                                      child: Icon(Icons.image,color: colorConst.black,),
                                                     ),
-                                                    SizedBox(width: scrWidth*0.05,),
-                                                    InkWell(
-                                                      onTap: (){
-                                                        pickFile(ImageSource.gallery);
-                                                        // Navigator.pop(context,MaterialPageRoute(builder: (context) => ,));
-                                                      },
-                                                      child: Container(
-                                                        height: scrWidth*0.1,
-                                                        width: scrWidth*0.1,
-                                                        decoration: BoxDecoration(
-                                                            color: colorConst.white,
-                                                            borderRadius: BorderRadius.circular(scrWidth*0.04),
-                                                            border: Border.all(color: colorConst.meroon)
-                                                        ),
-                                                        child: Icon(Icons.image,color: colorConst.black,),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Icon(Icons.edit,)//SvgPicture.asset(iconConst.edit),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Icon(Icons.edit,)//SvgPicture.asset(iconConst.edit),
                           ))
 
                     ],
@@ -243,13 +219,13 @@ class _infoPageState extends State<infoPage> {
                           cursorColor: colorConst.grey,
                           decoration:
                           InputDecoration(
-                              prefixIcon: Padding(
-                                padding:  EdgeInsets.all(scrWidth*0.04),
-                                child: Container(
-                                  height: scrWidth*0.07,
-                                  width: scrWidth*0.07,
-                                  child: SvgPicture.asset(iconConst.profile,color: colorConst.grey,),),
-                              ),
+                            prefixIcon: Padding(
+                              padding:  EdgeInsets.all(scrWidth*0.04),
+                              child: Container(
+                                height: scrWidth*0.07,
+                                width: scrWidth*0.07,
+                                child: SvgPicture.asset(iconConst.profile,color: colorConst.grey,),),
+                            ),
                               labelText: "Enter your full name",
                               labelStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
@@ -262,7 +238,7 @@ class _infoPageState extends State<infoPage> {
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w700,
-                                  color: colorConst.grey
+                                color: colorConst.grey
                               ),
                               border:OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -353,7 +329,7 @@ class _infoPageState extends State<infoPage> {
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w700,
-                                  color: colorConst.grey
+                                color: colorConst.grey
                               ),
                               border:OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -429,7 +405,7 @@ class _infoPageState extends State<infoPage> {
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w700,
-                                  color: colorConst.grey
+                                color: colorConst.grey
                               ),
                               border:OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -472,9 +448,9 @@ class _infoPageState extends State<infoPage> {
                         child:   TextFormField(
                           onChanged: (value){
                             setState(() {
-
+        
                             });
-
+        
                           },
                           controller: passwordController,
                           keyboardType: TextInputType.text,
@@ -501,11 +477,11 @@ class _infoPageState extends State<infoPage> {
                                 onTap: (){
                                   visibility=!visibility;
                                   setState(() {
-
+        
                                   });
                                 },
                                 child: Icon(visibility==true?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
-
+        
                               ),
                               prefixIcon: Padding(
                                 padding:  EdgeInsets.all(scrWidth*0.038),
@@ -521,12 +497,12 @@ class _infoPageState extends State<infoPage> {
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w700,
-                                  color: colorConst.grey
+                                color: colorConst.grey
                               ),
                               border:OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: colorConst.red,
-                                ),
+                                  borderSide: BorderSide(
+                                      color: colorConst.red,
+                                  ),
                                 borderRadius: BorderRadius.circular(scrWidth*0.03),
                               ),
                               enabledBorder: OutlineInputBorder(
@@ -565,9 +541,9 @@ class _infoPageState extends State<infoPage> {
                         child:   TextFormField(
                           onChanged: (value){
                             setState(() {
-
+        
                             });
-
+        
                           },
                           controller: confirmPasswordController,
                           keyboardType: TextInputType.text,
@@ -580,7 +556,7 @@ class _infoPageState extends State<infoPage> {
                           autovalidateMode: AutovalidateMode.always,
                           validator: (value){
                             if(confirmPasswordController.text != passwordController.text){
-                              return "Password does not match";
+                                return "Password does not match";
 
                             }else{
                               return null;
@@ -595,11 +571,11 @@ class _infoPageState extends State<infoPage> {
                                 onTap: (){
                                   visibility1=!visibility1;
                                   setState(() {
-
+        
                                   });
                                 },
                                 child: Icon(visibility1==true?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
-
+        
                               ),
 
                               prefixIcon: Padding(
@@ -616,12 +592,12 @@ class _infoPageState extends State<infoPage> {
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w700,
-                                  color: colorConst.grey
+                                color: colorConst.grey
                               ),
                               border:OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: colorConst.red
-                                ),
+                                  borderSide: BorderSide(
+                                      color: colorConst.red
+                                  ),
                                 borderRadius: BorderRadius.circular(scrWidth*0.03),
                               ),
                               enabledBorder: OutlineInputBorder(
@@ -640,7 +616,7 @@ class _infoPageState extends State<infoPage> {
 
                         ),
                       ),
-
+        
                       SizedBox(height: scrWidth*0.06),
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -682,7 +658,7 @@ class _infoPageState extends State<infoPage> {
                                       });
                                     },
                                   ),
-
+        
                                 ),
                                 SizedBox(width: scrWidth*0.04,),
                                 Padding(
@@ -719,102 +695,96 @@ class _infoPageState extends State<infoPage> {
                       ),
                       SizedBox(height: scrWidth*0.03,),
                       InkWell(
-                          onTap: (){
-                            // FirebaseFirestore.instance.collection("users").add(UserModel(
-                            //   name: nameController.text,
-                            //   number:phoneController.text,
-                            //   email: emailController.text,
-                            //   password: passwordController.text,
-                            //   address: [],
-                            //   favourites: []
-                            //
-                            // ).toMap());
-                            FirebaseFirestore.instance.collection('users').doc(countryCode.toString()+phoneController.text).set(
-                                UserModel(
-                                    name: nameController.text,
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    number:countryCode.toString()+phoneController.text,
-                                    address: [],
-                                    favourites: [],
-                                    image:imageUrl
-
-                                ).toMap()
-                            );
-                            FirebaseAuth.instance.createUserWithEmailAndPassword(
-                              email: emailController.text.trim(),
+                        onTap: (){
+                          // FirebaseFirestore.instance.collection("users").add(UserModel(
+                          //   name: nameController.text,
+                          //   number:phoneController.text,
+                          //   email: emailController.text,
+                          //   password: passwordController.text,
+                          //   address: [],
+                          //   favourites: []
+                          //
+                          // ).toMap());
+                          FirebaseFirestore.instance.collection('users').doc(countryCode.toString()+phoneController.text).set(
+                            UserModel(
+                              name: nameController.text,
+                              email: emailController.text,
                               password: passwordController.text,
-                            ).then((value) {
-                              FirebaseFirestore.instance.collection("user").doc(emailController.text);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>HomePage(),));
+                              number:countryCode.toString()+phoneController.text,
+                              address: [],
+                              favourites: [],
+                              image: file?.path,
 
+                            ).toMap()
+                          );
+                          if(
+                                  check==true&&
+                                  passwordController.text==confirmPasswordController.text&&
+                                  nameController.text!=""&&
+                                  phoneController.text!=""&&
+                                  emailController.text!=""&&
+                                  passwordController.text!=""&&
+                                  confirmPasswordController.text!=""&&
+                                      // valueChoose!=null
 
-                            }).catchError((error){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
-                            });
-                            if(
-                            check==true&&
-                                passwordController.text==confirmPasswordController.text&&
-                                nameController.text!=""&&
-                                phoneController.text!=""&&
-                                emailController.text!=""&&
-                                passwordController.text!=""&&
-                                confirmPasswordController.text!=""&&
-                                // valueChoose!=null
+                              formkey.currentState!.validate()
+                          ){
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
+                          }else{
 
-                                formkey.currentState!.validate()
-                            ){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
-                            }else{
-
-                              nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
-                              phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
-                              emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
-                              passwordController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a password"))):
-                              confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your password"))):
-                              check==false?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please agree the terms and conditions"))):
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
-                            }
+                            nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
+                            phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
+                            emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
+                            passwordController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a password"))):
+                            confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your password"))):
+                            check==false?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please agree the terms and conditions"))):
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
+                          }
+                        },
+                        child:
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
                           },
-                          child:
-                          Container(
-                              height: scrWidth*0.17,
-                              width: scrWidth*0.9,
-                              decoration: BoxDecoration(
-                                color:
-                                check == true? colorConst.meroon:
-                                colorConst.grey,
-                                // color: colorConst.meroon,
-                                borderRadius: BorderRadius.circular(scrWidth*0.07),
-                              ),
-                              child: Center(
-                                  child: Text("Sign up",
-                                      style: TextStyle(
-                                          color: colorConst.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: scrWidth*0.04
-                                      )
-                                  )
+                          child: Container(
+                            height: scrWidth*0.17,
+                            width: scrWidth*0.9,
+                            decoration: BoxDecoration(
+                              color:
+                              check == true? colorConst.meroon:
+                              colorConst.grey,
+                              // color: colorConst.meroon,
+                              borderRadius: BorderRadius.circular(scrWidth*0.07),
+                            ),
+                            child: Center(
+                              child: Text("Sign up",
+                                style: TextStyle(
+                                    color: colorConst.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: scrWidth*0.04
+                                )
                               )
-                          )
+                            )
+                          ),
+                        )
                       ),
-
+        
                       SizedBox(height: scrWidth*0.15,),
-
+        
                       Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("Already have account",
                             style: TextStyle(
-                                fontSize: scrWidth*0.04,
+                              fontSize: scrWidth*0.04,
                                 fontWeight: FontWeight.w500,
                                 color: colorConst.grey
-
+        
                             ),),
                           SizedBox(width: scrWidth*0.02,),
                           InkWell(
                             onTap: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(),));
                             },
                             child: Text("Sign In",
                               style: TextStyle(
@@ -825,7 +795,7 @@ class _infoPageState extends State<infoPage> {
                           )
                         ],),
 
-
+        
                     ],),
                 ))
           ],

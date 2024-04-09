@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/homePage/screens/camel_list.dart';
 import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
 
@@ -193,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MeatListPage(
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CamelListPage(
                                 type: data[index]["type"],
                               ),));
                             },

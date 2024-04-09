@@ -8,8 +8,8 @@ import '../../../main.dart';
 import 'checkoutpage.dart';
 
 class cartPage extends StatefulWidget {
-  const cartPage({super.key});
-
+  const cartPage({super.key, required this.cartItems});
+  final List cartItems;
   @override
   State<cartPage> createState() => _CartPageState();
 }
@@ -115,8 +115,9 @@ class _CartPageState extends State<cartPage> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
-                    itemCount: 2,
+                    itemCount: widget.cartItems.length,
                     itemBuilder: (context, index) {
+                      var item=widget.cartItems[index];
                       return Container(
                         height: scrWidth*0.33,
                         decoration: BoxDecoration(
@@ -148,7 +149,7 @@ class _CartPageState extends State<cartPage> {
                                     width: scrWidth*0.0003,
                                     color: colorConst.black.withOpacity(0.38)
                                 ),
-                                image: DecorationImage(image: AssetImage(imageConst.beefcurrycut),fit: BoxFit.fill))
+                                image: DecorationImage(image: AssetImage(item["image"]),fit: BoxFit.fill))
                               ),
                             SizedBox(width: scrWidth*0.02,),
                             Column(
@@ -160,13 +161,13 @@ class _CartPageState extends State<cartPage> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Beef Curry Cut(Large.)",
+                                      Text( item["name"],
                                         style: TextStyle(
                                             fontSize: scrWidth*0.035,
                                             fontWeight: FontWeight.w700,
                                             color: colorConst.black
                                         ),),
-                                      Text("Chuck, short ribs, skirt, flank",style: TextStyle(
+                                      Text(item["description"],style: TextStyle(
                                         fontSize: scrWidth*0.03
                                       ),),
                                     ],
@@ -180,7 +181,7 @@ class _CartPageState extends State<cartPage> {
                                           fontWeight: FontWeight.w700,
                                           color: colorConst.black
                                       ),),
-                                    Text("₹ 250",
+                                    Text("₹ ${item["rate"]}",
                                       style: TextStyle(
                                           fontSize: scrWidth*0.035,
                                           fontWeight: FontWeight.w700,

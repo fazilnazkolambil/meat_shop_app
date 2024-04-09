@@ -9,7 +9,6 @@ import 'package:meat_shop_app/feature/forgotpassword/createnewpswrd.dart';
 import 'package:meat_shop_app/feature/forgotpassword/forgotpassword1.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/homePage/screens/Mutton_List.dart';
-import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/camel_list.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
             textTheme:GoogleFonts.manropeTextTheme()
         ),
         debugShowCheckedModeBanner: false,
-        home:NavigationPage(),
+        home:cartPage(cartItems: [],),
       ),
     );
   }

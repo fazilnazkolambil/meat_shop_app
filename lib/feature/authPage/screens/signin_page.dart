@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,11 +20,12 @@ class signinPage extends StatefulWidget {
 }
 
 class _signinPageState extends State<signinPage> {
-  TextEditingController phoneController=TextEditingController();
+  TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
 
   bool visibility=true;
   bool check=false;
+  final emailValidation=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final passwordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final formkey=GlobalKey<FormState>();
   @override
@@ -103,25 +105,30 @@ class _signinPageState extends State<signinPage> {
                             ]
                         ),
                         child:TextFormField(
-                          controller: phoneController,
-                          keyboardType:  TextInputType.number,
-                          maxLength: 10,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
                               fontSize: scrWidth*0.04,
-                              fontWeight: FontWeight.w500
+                              fontWeight: FontWeight.w600
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           cursorColor: colorConst.grey,
-                          decoration: InputDecoration(
-                              counterText: "",
-                              prefixIcon: CountryCodePicker(
-                                initialSelection: "IN",
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value){
+                            if(!emailValidation.hasMatch(value!)){
+                              return "enter valid email";
+                            }
+                            else{
+                              return null;
+                            }
+                          },
+                          decoration:
+                          InputDecoration(
+                              prefixIcon: Padding(
+                                padding:  EdgeInsets.all(scrWidth*0.04),
+                                child: Container(child: SvgPicture.asset(iconConst.email,),),
                               ),
-                              labelText: "Enter Your Phone Number",
+                              labelText: "Enter Your Email",
                               labelStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
                                   fontWeight: FontWeight.w600,
@@ -129,10 +136,11 @@ class _signinPageState extends State<signinPage> {
                               ),
                               filled: true,
                               fillColor: colorConst.white,
-                              hintText: "Enter your Phone Number",
+                              hintText: "Enter your Email Address",
                               hintStyle: TextStyle(
                                   fontSize: scrWidth*0.04,
-                                  fontWeight: FontWeight.w700
+                                  fontWeight: FontWeight.w700,
+                                  color: colorConst.grey
                               ),
                               border:OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -142,7 +150,7 @@ class _signinPageState extends State<signinPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(scrWidth*0.03),
                                   borderSide: BorderSide(
-                                    color: colorConst.black.withOpacity(0.1)
+                                      color: colorConst.black.withOpacity(0.1)
                                   )
                               ),
                               focusedBorder: OutlineInputBorder(
@@ -189,14 +197,6 @@ class _signinPageState extends State<signinPage> {
                               fontSize: scrWidth*0.05
                           ),
                           // autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value){
-                            if(
-                            !passwordValidation.hasMatch(value!)){
-                              return "Password must contain at least 8 characters with \n one lowercae(a-z),one uppercase(A-Z)";
-                            }else{
-                              return null;
-                            }
-                          },
                           cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               filled: true,
@@ -304,16 +304,16 @@ class _signinPageState extends State<signinPage> {
                           SizedBox(width: scrWidth*0.04,),
                           InkWell(
                             onTap: () async {
-                              if(phoneController.text!='') {
-                                // var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
-                                // print("ii ${data.docs.first.data()}");
-                                // print(data);
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => (forgotpasswordpage1(number: "+91${phoneController.text}",)),));
-
-                              }else{
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
-                              }
+                              // if(emailController.text!='') {
+                              //   // var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
+                              //   // print("ii ${data.docs.first.data()}");
+                              //   // print(data);
+                              //     Navigator.push(context, MaterialPageRoute(
+                              //       builder: (context) => (forgotpasswordpage1(number: '',)),));
+                              //
+                              // }else{
+                              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
+                              // }
                             },
                             child: Text("Forgot password",
                               style: TextStyle(
@@ -347,14 +347,23 @@ class _signinPageState extends State<signinPage> {
                       SizedBox(height: scrWidth*0.03,),
                       InkWell(
                         onTap: (){
+
+                          FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: emailController.text.trim(),
+                            password: passwordController.text,
+                          ).catchError((error){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+                          });
+
+
                           if(
-                          phoneController.text!=""&&
+                          emailController.text!=""&&
                               formkey.currentState!.validate()
                           ){
                             // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
                           }else{
-                            phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
+                            emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
                             passwordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your password"))):
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
                           }

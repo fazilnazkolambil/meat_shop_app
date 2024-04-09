@@ -1,6 +1,12 @@
 class addressModel{
   String? address,name,number,landmark,houseno,pincode;
-  addressModel({required this.name,required this.number,required this.address, required landmark, required houseno, required pincode});
+  addressModel({
+    required this.name,
+    required this.number,
+    required this.address,
+    required this.landmark,
+    required this.houseno,
+    required this.pincode});
 
   Map <String, dynamic> toMap(){
     return{
@@ -16,7 +22,7 @@ class addressModel{
     return addressModel (
         address : map["address"] ?? "",
         name : map["name"] ?? "",
-        number : map["number"] ?? "",
+        number : map["number"]??"",
         landmark : map["landmark"] ?? "",
         houseno: map["houseno"] ?? "",
         pincode: map["pincode"]??""

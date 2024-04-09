@@ -27,7 +27,7 @@ Map <String, dynamic> toMap(){
  }
 UserModel copyWith({
   String? name, email, number, password, confirmPassword, id,image,
-  List? homeAddress, favourites
+  List? address, favourites
 }){
   return UserModel(
     name: name ?? this.name,

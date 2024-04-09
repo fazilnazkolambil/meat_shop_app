@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/models/addressModel.dart';
+import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
 import 'orderconfirm_page.dart';
@@ -32,15 +33,34 @@ class _checkoutpageState extends State<checkoutpage> {
   String labelas="";
   bool check=false;
   List <DateTime?> date=[];
+  List addre=[];
   int date1=0;
+  UserModel? userModel;
+  addAddress()async{
+    addre.add(addressModel(
+      name: nameController.text,
+      number:numberController.text,
+      landmark: landmarkController.text,
+      houseno: housenoController.text,
+      pincode: pincodeController.text,
+      address: addressController.text,
+
+    ).toMap());
+    await FirebaseFirestore.instance.collection("users").doc("+918555535689").get().then((value) {
+      userModel = UserModel.fromMap(value.data()!);
+    });
+    UserModel tempuserModel=userModel!.copyWith(
+      address: addre
+    );
+    await FirebaseFirestore.instance.collection("users").doc("+918555535689").update(tempuserModel.toMap());
+  }
   String? _d1;
    String? _t1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton:
-      Container(
+      floatingActionButton: Container(
         height: scrWidth*0.33,
         width: scrWidth*1.1,
         decoration: BoxDecoration(
@@ -365,36 +385,12 @@ class _checkoutpageState extends State<checkoutpage> {
                                               ],),
                                             InkWell(
                                               onTap: () {
-                                                   var data= addressModel(
-                                                      name: nameController.text,
-                                                      number:countryCode.toString()+numberController.text,
-                                                      landmark: landmarkController.text,
-                                                      houseno: housenoController.text,
-                                                      pincode: pincodeController.text,
-                                                      address: addressController.text,
+                                                addAddress();
 
-                                                    ).toMap();
-                                                if(
-                                                    nameController.text!=""&&
-                                                    addressController.text!=""&&
-                                                    landmarkController.text!=""&&
-                                                    pincodeController.text!=""&&
-                                                    housenoController.text!=""&&
-                                                    numberController.text!=""
+                                                   print("lllllllll$addre");
+                                                setState(() {
 
-                                                ){
-                                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
-                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
-                                                }else{
-
-                                                  nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
-                                                  numberController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
-                                                  addressController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your address"))):
-                                                  landmarkController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a landmark"))):
-                                                  pincodeController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your pincode"))):
-                                                  housenoController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your houseno"))):
-                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
-                                                }
+                                                });
                                                 // Navigator.pop(context);
                                               },
                                               child: Container(

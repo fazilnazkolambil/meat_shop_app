@@ -86,7 +86,7 @@ class _MeatListPageState extends ConsumerState<CamelListPage> {
           actions: [
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(cartItems: add,),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
               },
                 child: SvgPicture.asset(iconConst.cart)),
             SizedBox(
@@ -505,7 +505,7 @@ class _MeatListPageState extends ConsumerState<CamelListPage> {
                                                               .showSnackBar(SnackBar(
                                                                   content: Text(
                                                                       "Item Added to Cart")));
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(cartItems: add,),));
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
                                                         }
                                                         setState(() {});
                                                       },

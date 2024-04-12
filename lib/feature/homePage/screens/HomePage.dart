@@ -15,6 +15,7 @@ import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
 
 import '../../../main.dart';
+import '../../ordersPage/screens/cart_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -83,34 +84,39 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
 
         actions: [
-          addCart.isEmpty?SvgPicture.asset(iconConst.cart,):
-          SizedBox(
-            height: scrWidth*0.08,
-            width: scrWidth*0.08,
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: scrWidth*0.03,
-                  left: scrWidth*0.03,
-                  child: CircleAvatar(
-                    backgroundColor: colorConst.meroon,
-                    radius: scrWidth*0.025,
-                    child: Center(
-                      child: Text(addCart.length.toString(),style: TextStyle(
-                        color: colorConst.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: scrWidth*0.03
-                      ),),
+          InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
+              },
+              child: addCart.isEmpty?
+              SvgPicture.asset(iconConst.cart):
+              SizedBox(
+                height: scrWidth*0.08,
+                width: scrWidth*0.08,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      bottom: scrWidth*0.03,
+                      left: scrWidth*0.03,
+                      child: CircleAvatar(
+                        backgroundColor: colorConst.meroon,
+                        radius: scrWidth*0.025,
+                        child: Center(
+                          child: Text(addCart.length.toString(),style: TextStyle(
+                              color: colorConst.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: scrWidth*0.03
+                          ),),
+                        ),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                        left: 0,
+                        bottom: 0,
+                        child: SvgPicture.asset(iconConst.cart,)),
+                  ],
                 ),
-                Positioned(
-                    left: 0,
-                    bottom: 0,
-                    child: SvgPicture.asset(iconConst.cart,)),
-              ],
-            ),
-          ),
+              )),
           SizedBox(width: scrWidth*0.03,),
           SvgPicture.asset(iconConst.notification),
           SizedBox(width: scrWidth*0.03,),

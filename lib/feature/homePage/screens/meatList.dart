@@ -26,6 +26,7 @@ class MeatListPage extends ConsumerStatefulWidget {
   ConsumerState<MeatListPage> createState() => _MeatListPageState();
 }
 List addCart = [];
+List meatDetailCollection = [];
 class _MeatListPageState extends ConsumerState<MeatListPage> {
   int selectedIndex = 0;
   String selectedCategory = '';
@@ -41,7 +42,22 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         .collection(widget.type)
         .get();
     categoryCollection = category.docs;
+
     setState(() {});
+  }
+
+  getMeatDetails() async {
+      var meatDetails = await FirebaseFirestore.instance
+        .collection("meatTypes")
+        .doc(widget.type)
+        .collection(widget.type)
+        .doc(selectedCategory)
+        .collection(widget.type)
+        .get();
+      meatDetailCollection = meatDetails.docs;
+      setState(() {
+
+      });
   }
 
   @override
@@ -64,7 +80,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
             children: [
               InkWell(
                 onTap: () {
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(cartItems: cartItems)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage()));
                 },
                 child: Container(
                   height: scrWidth*0.15,
@@ -86,7 +102,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
-              //Navigator.pop(context);
+              Navigator.pop(context);
             },
             child: Padding(
               padding: EdgeInsets.all(scrWidth * 0.03),
@@ -111,7 +127,40 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
             ],
           ),
           actions: [
-            SvgPicture.asset(iconConst.cart),
+            InkWell(
+              onTap: () {
+                //print(meatDetailCollection);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
+              },
+                child: addCart.isEmpty?
+                SvgPicture.asset(iconConst.cart):
+            SizedBox(
+              height: scrWidth*0.08,
+              width: scrWidth*0.08,
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: scrWidth*0.03,
+                    left: scrWidth*0.03,
+                    child: CircleAvatar(
+                      backgroundColor: colorConst.meroon,
+                      radius: scrWidth*0.025,
+                      child: Center(
+                        child: Text(addCart.length.toString(),style: TextStyle(
+                            color: colorConst.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: scrWidth*0.03
+                        ),),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: SvgPicture.asset(iconConst.cart,)),
+                ],
+              ),
+            )),
             SizedBox(
               width: scrWidth * 0.04,
             ),
@@ -297,33 +346,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                   .withOpacity(0.4)),
                                         ),
                                         Divider(),
-                                        addCart.isEmpty?
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: scrHeight*0.05,
-                                              width: scrWidth*0.4,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                  border: Border.all(color: colorConst.meroon)
-                                              ),
-                                              child: Center(child: Text("Buy Now"),),
-                                            ),
-                                            Container(
-                                              height: scrHeight*0.05,
-                                              width: scrWidth*0.4,
-                                              decoration: BoxDecoration(
-                                                  color: colorConst.meroon,
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                  border: Border.all(color: colorConst.meroon)
-                                              ),
-                                              child: Center(child: Text("Add to Cart",style: TextStyle(
-                                                  color: colorConst.white
-                                              ),),),
-                                            ),
-                                          ],
-                                        ):
+                                        addCart.contains(data[index]["id"])?
                                         InkWell(
                                           onTap: () {
                                             //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
@@ -340,6 +363,52 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                   color: colorConst.white
                                               ),)),
                                           ),
+                                        )
+                                            :Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              height: scrHeight*0.05,
+                                              width: scrWidth*0.4,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  border: Border.all(color: colorConst.meroon)
+                                              ),
+                                              child: Center(child: Text("Buy Now"),),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                if(addCart.contains(data[index]["id"])){
+                                                  addCart.remove(data[index]["id"]);
+                                                  meatDetailCollection.remove(meatDetailCollection[index]);
+                                                }else{
+                                                  addCart.add(data[index]["id"]);
+                                                  meatDetailCollection.add({
+                                                    "Image" : data[index]["Image"],
+                                                    "name" : data[index]["name"],
+                                                    "ingredients" : data[index]["ingredients"],
+                                                    "rate" : data[index]["rate"],
+                                                    "quantity" : 1
+                                                  });
+                                                }
+                                                setState(() {
+
+                                                });
+                                              },
+                                              child: Container(
+                                                height: scrHeight*0.05,
+                                                width: scrWidth*0.4,
+                                                decoration: BoxDecoration(
+                                                    color: colorConst.meroon,
+                                                    borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                    border: Border.all(color: colorConst.meroon)
+                                                ),
+                                                child: Center(child: Text("Add to Cart",style: TextStyle(
+                                                    color: colorConst.white
+                                                ),),),
+                                              ),
+                                            ),
+                                          ],
                                         )
                                       ],
                                     ),
@@ -426,18 +495,24 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                       ),
                                       // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
                                       InkWell(
-                                        onTap: () {
-                                          if(addCart.contains(data[index]["id"])){
-                                            addCart.remove(data[index]["id"]);
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item Removed from Cart")));
-                                          }else{
-                                            addCart.add(data[index]["id"]);
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item Added to Cart")));
-                                          }
-                                          setState(() {
+                                          onTap: () {
+                                            if(addCart.contains(data[index]["id"])){
+                                              addCart.remove(data[index]["id"]);
+                                              meatDetailCollection.remove(meatDetailCollection[index]);
+                                            }else{
+                                              addCart.add(data[index]["id"]);
+                                              meatDetailCollection.add({
+                                                "Image" : data[index]["Image"],
+                                                "name" : data[index]["name"],
+                                                "ingredients" : data[index]["ingredients"],
+                                                "rate" : data[index]["rate"],
+                                                "quantity" : 1
+                                              });
+                                            }
+                                            setState(() {
 
-                                          });
-                                        },
+                                            });
+                                          },
                                         child:addCart.contains(data[index]["id"])?
                                         Icon(Icons.done,color: colorConst.green)
                                         :CircleAvatar(

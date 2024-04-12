@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,7 +80,33 @@ class _HomePageState extends State<HomePage> {
         ),
 
         actions: [
-          SvgPicture.asset(iconConst.cart),
+          SizedBox(
+            height: scrWidth*0.08,
+            width: scrWidth*0.08,
+            child: Stack(
+              children: [
+                Positioned(
+                  bottom: scrWidth*0.03,
+                  left: scrWidth*0.03,
+                  child: CircleAvatar(
+                    backgroundColor: colorConst.meroon,
+                    radius: scrWidth*0.025,
+                    child: Center(
+                      child: Text("1",style: TextStyle(
+                        color: colorConst.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: scrWidth*0.03
+                      ),),
+                    ),
+                  ),
+                ),
+                Positioned(
+                    left: 0,
+                    bottom: 0,
+                    child: SvgPicture.asset(iconConst.cart,)),
+              ],
+            ),
+          ),
           SizedBox(width: scrWidth*0.03,),
           SvgPicture.asset(iconConst.notification),
           SizedBox(width: scrWidth*0.03,),
@@ -194,9 +221,9 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CamelListPage(
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MeatListPage(
                                 type: data[index]["type"],
-                              ),));
+                              )));
                             },
                             child: Container(
                               height: scrWidth*0.45,

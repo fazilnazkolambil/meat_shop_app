@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 
 import '../../../main.dart';
@@ -24,13 +25,12 @@ class MeatListPage extends ConsumerStatefulWidget {
   @override
   ConsumerState<MeatListPage> createState() => _MeatListPageState();
 }
-
+List addCart = [];
 class _MeatListPageState extends ConsumerState<MeatListPage> {
   int selectedIndex = 0;
   String selectedCategory = '';
   String? category;
   int count = 1;
-  List add = [];
 
   List categoryCollection = [];
   List meatCollection = [];
@@ -52,10 +52,9 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
   }
 
   Widget build(BuildContext context) {
-    final quantity = ref.watch(quantityProvider);
     return Scaffold(
       backgroundColor: colorConst.white,
-      bottomNavigationBar: add.isEmpty? SizedBox()
+      bottomNavigationBar: addCart.isEmpty? SizedBox()
       :SizedBox(
         height: scrHeight*0.12,
         child: Padding(
@@ -65,7 +64,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
             children: [
               InkWell(
                 onTap: () {
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(cartItems: cartItems)));
                 },
                 child: Container(
                   height: scrWidth*0.15,
@@ -87,7 +86,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
-              Navigator.pop(context);
+              //Navigator.pop(context);
             },
             child: Padding(
               padding: EdgeInsets.all(scrWidth * 0.03),
@@ -194,7 +193,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                   height: scrWidth * 0.05,
                 ),
                  SizedBox(
-                  height: add.isEmpty?scrHeight*0.7:scrHeight*0.6,
+                  height: addCart.isEmpty?scrHeight*0.7:scrHeight*0.6,
                   width: scrWidth*1,
                   child:categoryCollection.isEmpty?
                   Column(
@@ -298,7 +297,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                   .withOpacity(0.4)),
                                         ),
                                         Divider(),
-                                        add.isEmpty?
+                                        addCart.isEmpty?
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -428,21 +427,21 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                       // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
                                       InkWell(
                                         onTap: () {
-                                          if(add.contains(index)){
-                                            add.remove(index);
+                                          if(addCart.contains(data[index]["id"])){
+                                            addCart.remove(data[index]["id"]);
                                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item Removed from Cart")));
                                           }else{
-                                            add.add(index);
+                                            addCart.add(data[index]["id"]);
                                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item Added to Cart")));
                                           }
                                           setState(() {
 
                                           });
                                         },
-                                        child:add.contains(index)?
+                                        child:addCart.contains(data[index]["id"])?
                                         Icon(Icons.done,color: colorConst.green)
                                         :CircleAvatar(
-                                          radius: scrWidth*0.03,
+                                          radius: scrWidth*0.04,
                                           backgroundColor: colorConst.meroon,
                                           child: Icon(
                                             Icons.add,

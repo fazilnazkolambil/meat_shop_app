@@ -21,10 +21,10 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
- bool loggedIn = false;
+ bool gotIn = false;
   getData ()async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    loggedIn = prefs.getBool("loggedIn") ?? false;
+    gotIn = prefs.getBool("gotIn") ?? false;
   }
   @override
   void initState(){
@@ -32,7 +32,7 @@ class _splashScreenState extends State<splashScreen> {
     Future.delayed(
         Duration(
       seconds: 5
-    )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) =>loggedIn?NavigationPage():onBoardingPage(),)));
+    )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) =>gotIn?NavigationPage():onBoardingPage(),)));
   }
   @override
   Widget build(BuildContext context) {

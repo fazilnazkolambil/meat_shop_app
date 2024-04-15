@@ -57,24 +57,22 @@ class _NavigationPageState extends State<NavigationPage> {
       extendBody: true,
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
-              showBottomRadius: false,
-              showTopRadius: false,
+        showBottomRadius: false,
+              showTopRadius: true,
               notchBottomBarController: _controller,
-              color: Colors.white,
+              color: colorConst.white,
               showLabel: true,
               itemLabelStyle: TextStyle(
                   color: colorConst.textgrey,
                   fontSize: scrWidth * 0.03,
                   fontWeight: FontWeight.w500),
-              shadowElevation: 1,
               notchColor: colorConst.meroon,
               removeMargins: false,
               bottomBarWidth: scrWidth * 1,
               showShadow: false,
               durationInMilliSeconds: 300,
-              kIconSize: 24.0,
-              kBottomRadius: 28.0,
-              elevation: 1,
+              kIconSize: scrWidth*0.06,
+              kBottomRadius: scrWidth*0.03,
               bottomBarItems: [
                 BottomBarItem(
                   inActiveItem: SvgPicture.asset(

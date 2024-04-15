@@ -12,6 +12,7 @@ import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/homePage/screens/Mutton_List.dart';
 import 'package:meat_shop_app/feature/homePage/screens/camel_list.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
+import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
@@ -21,7 +22,6 @@ import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/orderconfirm_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/orderdetails_page.dart';
 
-import 'feature/homePage/screens/meatList.dart';
 import 'feature/onboardPage/screens/splashScreen.dart';
 import 'firebase_options.dart';
 var scrWidth;
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             textTheme:GoogleFonts.manropeTextTheme()
         ),
         debugShowCheckedModeBanner: false,
-        home:NavigationPage(),
+        home:MeatListPage(type: "Beef",),
       ),
     );
   }

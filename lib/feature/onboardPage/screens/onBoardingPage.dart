@@ -128,7 +128,7 @@ class _onBoardingPageState extends State<onBoardingPage> {
               onTap: () async{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setBool("loggedIn", true);
+                prefs.setBool("gotIn", true);
               },
               child: Container(
                 height: scrWidth*0.1,

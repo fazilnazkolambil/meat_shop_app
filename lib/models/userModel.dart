@@ -1,8 +1,17 @@
 class UserModel{
-  String? name, email, number, password,image;
+  String? name, email, number, password, image, id;
   List? address, favourites;
 
-  UserModel({required this.name,required this.email,required this.password,required this.number,required this.address,required this.favourites,required this.image});
+  UserModel({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.number,
+    required this.address,
+    required this.favourites,
+    required this.image,
+    required this.id,
+  });
 
 Map <String, dynamic> toMap(){
   return{
@@ -13,6 +22,7 @@ Map <String, dynamic> toMap(){
     "address" : this.address,
     "favourites" : this.favourites,
     "image" : this.image,
+    "id" : this.id,
   };
 }
  factory UserModel.fromMap (Map <String, dynamic> map){
@@ -23,11 +33,12 @@ Map <String, dynamic> toMap(){
     password : map["password"] ?? "",
     address: map["address"] ?? [],
     favourites: map["favourites"] ?? [],
-    image: map["image"]??[]
+    image: map["image"]??[],
+    id: map["id"]??[],
   );
  }
 UserModel copyWith({
-  String? name, email, number, password, confirmPassword, id,image,
+  String? name, email, number, password, confirmPassword, id, image,
   List? address, favourites
 }){
   return UserModel(
@@ -38,6 +49,7 @@ UserModel copyWith({
     address: address ?? this.address,
     favourites: favourites ?? this.favourites,
     image: image ?? this.image,
+    id: id ?? this.id,
   );
 }
 

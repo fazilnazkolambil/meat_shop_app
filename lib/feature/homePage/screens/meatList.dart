@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +10,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/authPage/screens/info_page.dart';
 import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:meat_shop_app/models/userModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../authPage/screens/signin_page.dart';
@@ -28,6 +32,7 @@ class MeatListPage extends ConsumerStatefulWidget {
 }
 List addCart = [];
 List meatDetailCollection = [];
+TextEditingController emailController = TextEditingController();
 class _MeatListPageState extends ConsumerState<MeatListPage> {
   int selectedIndex = 0;
   String selectedCategory = '';
@@ -47,7 +52,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
     setState(() {});
   }
- List favoriteList =[];
+  List favoriteList =[];
   getMeatDetails() async {
       var meatDetails = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -57,19 +62,25 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         .collection(widget.type)
         .get();
       meatDetailCollection = meatDetails.docs;
-      favoriteList = meatDetails.docs;
+      //favoriteList = meatDetails.docs;
       setState(() {
 
       });
   }
-  favouriteFunc() async {
-     var favourire= await FirebaseFirestore.instance.collection("meatTypes").doc(widget.type)
-        .collection(widget.type).doc(selectedCategory)
-        .collection(widget.type).get();
+  bool login = false;
+  String? loginId;
+  Map favFB = {};
+  getData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    login = prefs.getBool("LoggedIn") ?? false;
+    loginId = prefs.getString("loginUserId") ?? "";
+    var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get();
+    favFB = data.data()!;
   }
   @override
   void initState() {
     getMeats();
+    getData();
     // TODO: implement initState
     super.initState();
   }
@@ -109,8 +120,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
-              print(favoriteList);
-              print(meatDetailCollection);
+              print(favFB["favourites"]);
               //Navigator.pop(context);
             },
             child: Padding(
@@ -498,34 +508,111 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      FavoriteButton(
-                                        valueChanged: (value) {
-
-                                            // if (value == true) {
-                                            //   fav.add(data[index]['id']);
-                                            //   FirebaseFirestore.instance.collection("users").doc("+919487022519").update({
-                                            //     "favourites" : FieldValue.arrayUnion(favoriteList)
-                                            //   });
-                                            //   favoriteList.add({
-                                            //     "Image" : data[index]["Image"],
-                                            //     "name" : data[index]["name"],
-                                            //     "ingredients" : data[index]["ingredients"],
-                                            //     "rate" : data[index]["rate"],
-                                            //     "quantity" : 1
-                                            //   });
-                                            // }else{
-                                            //   fav.remove(data[index]['id']);
-                                            //   favoriteList.remove(favoriteList[index]);
-                                            // }
+                                      InkWell(
+                                        onTap:(){
+                                          print(fav);
+                                          print(favFB["favourites"][index]["id"]);
+                                          if(loginId!.isNotEmpty){
+                                            if(fav.contains(data[index]["id"])){
+                                              fav.remove(data[index]["id"]);
+                                              favoriteList.remove(favoriteList[index]);
+                                            }else{
+                                              fav.add(data[index]["id"]);
+                                              favoriteList.add({
+                                                "Image" : data[index]["Image"],
+                                                "name" : data[index]["name"],
+                                                "ingredients" : data[index]["ingredients"],
+                                                "rate" : data[index]["rate"],
+                                                "id" : data[index]["id"],
+                                              });
+                                              FirebaseFirestore.instance.collection("users").doc(loginId).update({
+                                                "favourites" : FieldValue.arrayUnion(favoriteList)
+                                              });
+                                            }
                                             setState(() {
 
                                             });
-                                            },
-                                        isFavorite: false,
-                                        iconSize: 39,
-                                        iconColor: colorConst.meroon,
+                                          }else{
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return BottomSheet(
+                                                  onClosing: () {
+
+                                                  },
+                                                  builder: (context) {
+                                                    return Container(
+                                                      height: scrHeight*0.2,
+                                                      width: scrWidth*1,
+                                                      margin: EdgeInsets.all(scrWidth*0.05),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text("Let's get you in!",style: TextStyle(
+                                                              fontWeight: FontWeight.w700,
+                                                              fontSize: scrWidth*0.05
+                                                          ),),
+                                                          Text("In just a minute, you can access all our offers,\n services and more."),
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'MeatPage',),));
+                                                                },
+                                                                child: Container(
+                                                                  height: scrHeight*0.05,
+                                                                  width: scrWidth*0.4,
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                                      border: Border.all(color: colorConst.meroon)
+                                                                  ),
+                                                                  child: Center(child: Text("Sign Up"),),
+                                                                ),
+                                                              ),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'MeatPage',),));
+                                                                },
+                                                                child: Container(
+                                                                  height: scrHeight*0.05,
+                                                                  width: scrWidth*0.4,
+                                                                  decoration: BoxDecoration(
+                                                                      color: colorConst.meroon,
+                                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                                      border: Border.all(color: colorConst.meroon)
+                                                                  ),
+                                                                  child: Center(child: Text("Log In",style: TextStyle(
+                                                                      color: colorConst.white
+                                                                  ),),),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+
+                                          }
+                                          setState(() {
+
+                                          });
+
+                                        },
+                                        child:
+                                          Icon(
+                                          Icons.favorite,
+                                          color:fav.contains(data[index]["id"])
+                                            ?colorConst.meroon:
+                                          colorConst.grey,
+                                          size: scrWidth*0.08,
+                                        ),
                                       ),
-                                      // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
                                       InkWell(
                                           onTap: () {
                                             if(addCart.contains(data[index]["id"])){
@@ -545,7 +632,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
                                             });
                                           },
-                                        child:addCart.contains(data[index]["id"])?
+                                        child:
+                                        addCart.contains(data[index]["id"])?
                                         Icon(Icons.done,color: colorConst.green)
                                         :CircleAvatar(
                                           radius: scrWidth*0.04,

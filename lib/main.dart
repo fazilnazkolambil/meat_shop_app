@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             textTheme:GoogleFonts.manropeTextTheme()
         ),
         debugShowCheckedModeBanner: false,
-        home:MeatListPage(type: "Beef",),
+        home:splashScreen()
       ),
     );
   }

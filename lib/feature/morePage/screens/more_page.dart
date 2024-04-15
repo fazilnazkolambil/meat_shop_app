@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/splashScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 
@@ -22,8 +25,7 @@ appBar: AppBar(
   elevation: 0,
   leading: Padding(
     padding:  EdgeInsets.all(scrWidth*0.03),
-    child: Container(
-        child: SvgPicture.asset(iconConst.profile)),
+    child: SvgPicture.asset(iconConst.profile),
   ),
   title: Row(
     children: [
@@ -289,7 +291,13 @@ appBar: AppBar(
                 ),
               ),
               InkWell(
-                onTap:(){} ,
+                onTap:() async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.remove("LoggedIn");
+                  prefs.remove("gotIn");
+                  prefs.remove("loginUserId");
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => splashScreen(),), (route) => false);
+                } ,
                 child: Container(
                   height: scrWidth*0.14,
                   width: scrWidth*0.9,
@@ -301,7 +309,7 @@ appBar: AppBar(
                     child:
                     Row(mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                           height: scrWidth*0.05,
                             width: scrWidth*0.05,
                             // color: Colors.white,

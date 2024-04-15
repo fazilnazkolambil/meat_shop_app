@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,13 +13,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:meat_shop_app/models/userModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 
 class infoPage extends StatefulWidget {
-  const infoPage({Key? key}) : super(key: key);
+  final String path;
+  const infoPage({Key? key, required this.path}) : super(key: key);
 
   @override
   State<infoPage> createState() => _infoPageState();
@@ -38,6 +43,8 @@ class _infoPageState extends State<infoPage> {
   bool visibility=true;
   bool visibility1=true;
   bool check=false;
+  String? loginUserId;
+
   final emailValidation=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final passwordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final phoneValidation=RegExp(r"[0-9]{10}");
@@ -51,8 +58,18 @@ class _infoPageState extends State<infoPage> {
       setState(() {
         file = File(imageFile.path);
       });
-      print(imageFile);
     }
+    uploadImage(file!);
+  }
+  String imageUrl = '';
+  uploadImage(File file) async {
+    var uploadTask = await FirebaseStorage.instance
+        .ref("userImages")
+        .child(DateTime.now().toString())
+        .putFile(file, SettableMetadata(
+      contentType: "image/jpeg"));
+    var getImage = await uploadTask.ref.getDownloadURL();
+    imageUrl = getImage;
   }
   @override
   Widget build(BuildContext context) {
@@ -89,12 +106,13 @@ class _infoPageState extends State<infoPage> {
 
                       child: Column(
                         children: [
-                          file!=null?CircleAvatar(
+                          file!=null?
+                          CircleAvatar(
                             radius: 50,
-                            backgroundImage: FileImage(file!),
+                            backgroundImage: NetworkImage(imageUrl),
                           ):
                           CircleAvatar(
-                            //backgroundColor: colorConst.meroon,
+                            backgroundImage: AssetImage(imageConst.logo),
                             radius: 50,
                           ),
                         ],
@@ -106,7 +124,6 @@ class _infoPageState extends State<infoPage> {
                           child: InkWell(
                             onTap: (){
                               showDialog(
-                                barrierDismissible: false,
                                 context: context,
                                 builder: (context){
                                   return AlertDialog(
@@ -116,7 +133,7 @@ class _infoPageState extends State<infoPage> {
                                         InkWell(
                                           onTap: (){
                                             pickFile(ImageSource.camera);
-                                            // Navigator.pop(context,MaterialPageRoute(builder: (context) =>));
+                                             Navigator.pop(context);
                                           },
                                           child: Column(
                                             children: [
@@ -141,7 +158,7 @@ class _infoPageState extends State<infoPage> {
                                                   InkWell(
                                                     onTap: (){
                                                       pickFile(ImageSource.gallery);
-                                                      // Navigator.pop(context,MaterialPageRoute(builder: (context) => ,));
+                                                      Navigator.pop(context);
                                                     },
                                                     child: Container(
                                                       height: scrWidth*0.1,
@@ -165,7 +182,14 @@ class _infoPageState extends State<infoPage> {
                                 },
                               );
                             },
-                            child: Icon(Icons.edit,)//SvgPicture.asset(iconConst.edit),
+                            child: Container(
+                              height: scrWidth*0.05,
+                                width: scrWidth*0.05,
+                                decoration: BoxDecoration(
+                                  color: colorConst.meroon,
+                                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(scrWidth*0.02),topLeft: Radius.circular(scrWidth*0.02))
+                                ),
+                                child: Icon(Icons.edit,color: colorConst.white,size: scrWidth*0.03,))//SvgPicture.asset(iconConst.edit),
                           ))
 
                     ],
@@ -211,6 +235,7 @@ class _infoPageState extends State<infoPage> {
                         child: TextFormField(
                           controller: nameController,
                           keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.words,
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
                               fontSize: scrWidth*0.04,
@@ -696,77 +721,83 @@ class _infoPageState extends State<infoPage> {
                       SizedBox(height: scrWidth*0.03,),
                       InkWell(
                         onTap: (){
-                          // FirebaseFirestore.instance.collection("users").add(UserModel(
-                          //   name: nameController.text,
-                          //   number:phoneController.text,
-                          //   email: emailController.text,
-                          //   password: passwordController.text,
-                          //   address: [],
-                          //   favourites: []
-                          //
-                          // ).toMap());
-                          FirebaseFirestore.instance.collection('users').doc(countryCode.toString()+phoneController.text).set(
-                            UserModel(
-                              name: nameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              number:countryCode.toString()+phoneController.text,
-                              address: [],
-                              favourites: [],
-                              image: file?.path,
-
-                            ).toMap()
-                          );
                           if(
-                                  check==true&&
-                                  passwordController.text==confirmPasswordController.text&&
-                                  nameController.text!=""&&
-                                  phoneController.text!=""&&
-                                  emailController.text!=""&&
-                                  passwordController.text!=""&&
-                                  confirmPasswordController.text!=""&&
-                                      // valueChoose!=null
-
+                              check  == true &&
+                              passwordController.text == confirmPasswordController.text&&
+                              nameController.text != ""&&
+                              phoneController.text != ""&&
+                              emailController.text !=""&&
+                              passwordController.text != ""&&
+                              confirmPasswordController.text != ""&&
                               formkey.currentState!.validate()
                           ){
-                            // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("submitted Successfully")));
+                            FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text
+                            ).then((value) {
+                              FirebaseFirestore.instance.collection('users')
+                                  .add(
+                                  UserModel(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    number: countryCode.toString() +
+                                        phoneController.text,
+                                    address: [],
+                                    favourites: [],
+                                    image: imageUrl,
+                                    id: '',
+                                  ).toMap())
+                                  .then((value) {
+                                loginUserId = value.id;
+                                value.update({
+                                  "id": value.id
+                                }).then((value) async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setBool("LoggedIn", true);
+                                  prefs.setString("loginUserId",loginUserId!);
+                                }).then((value) {
+                                  if(widget.path == "MeatPage"){
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+                                  }else{
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                                  }
+                                });
+                              });
+                            }).catchError((onError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(onError.code)));
+                            });
                           }else{
-
-                            nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your name"))):
-                            phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your phone number"))):
-                            emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your email"))):
-                            passwordController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter a password"))):
-                            confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please re-enter your password"))):
-                            check==false?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please agree the terms and conditions"))):
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please enter your valid details")));
+                            nameController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your name!"))):
+                            phoneController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number!"))):
+                            emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your email!"))):
+                            passwordController.text== ""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter a password!"))):
+                            confirmPasswordController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please re-enter your password!"))):
+                            check==false?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please agree to the Terms and Conditions!"))):
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
                           }
                         },
                         child:
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
-                          },
-                          child: Container(
-                            height: scrWidth*0.17,
-                            width: scrWidth*0.9,
-                            decoration: BoxDecoration(
-                              color:
-                              check == true? colorConst.meroon:
-                              colorConst.grey,
-                              // color: colorConst.meroon,
-                              borderRadius: BorderRadius.circular(scrWidth*0.07),
-                            ),
-                            child: Center(
-                              child: Text("Sign up",
-                                style: TextStyle(
-                                    color: colorConst.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: scrWidth*0.04
-                                )
+                        Container(
+                          height: scrWidth*0.17,
+                          width: scrWidth*0.9,
+                          decoration: BoxDecoration(
+                            color:
+                            check == true? colorConst.meroon:
+                            colorConst.grey,
+                            // color: colorConst.meroon,
+                            borderRadius: BorderRadius.circular(scrWidth*0.07),
+                          ),
+                          child: Center(
+                            child: Text("Sign up",
+                              style: TextStyle(
+                                  color: colorConst.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: scrWidth*0.04
                               )
                             )
-                          ),
+                          )
                         )
                       ),
         
@@ -784,7 +815,7 @@ class _infoPageState extends State<infoPage> {
                           SizedBox(width: scrWidth*0.02,),
                           InkWell(
                             onTap: (){
-                               Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(),));
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'InfoPage',),));
                             },
                             child: Text("Sign In",
                               style: TextStyle(

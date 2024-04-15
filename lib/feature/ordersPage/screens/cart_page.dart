@@ -136,7 +136,7 @@ addingTotal (){
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
                 },
                 child: Container(
                   height: scrWidth*0.15,

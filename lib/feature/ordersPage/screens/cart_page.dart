@@ -1,26 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
+import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
+import 'package:meat_shop_app/feature/ordersPage/repository/providers.dart';
 
 import '../../../main.dart';
 import '../../homePage/screens/meatList.dart';
 import 'checkoutpage.dart';
 
-class cartPage extends StatefulWidget {
+class cartPage extends ConsumerStatefulWidget {
   const cartPage({super.key});
   @override
-  State<cartPage> createState() => _CartPageState();
+  ConsumerState<cartPage> createState() => _CartPageState();
 }
 
-class _CartPageState extends State<cartPage> {
-
-
+class _CartPageState extends ConsumerState<cartPage> {
+  var totalPrice = 0;
+addingTotal (){
+  for(int i = 0; i < meatDetailCollection.length; i++){
+    totalPrice = meatDetailCollection[i]["quantity"]*meatDetailCollection[i]["rate"];
+    // ref.read(totalProviders.notifier).update((state) => totalPrice);
+    print(totalPrice);
+  }
+}
   @override
   void initState() {
-    // TODO: implement initState
+  addingTotal();
+  // TODO: implement initState
     super.initState();
   }
   Widget build(BuildContext context) {
@@ -28,12 +40,17 @@ class _CartPageState extends State<cartPage> {
       appBar: AppBar(
         leading: Padding(
           padding:  EdgeInsets.all(scrWidth*0.03),
-          child: Container(
-              decoration: BoxDecoration(
-                color: colorConst.grey1,
-                borderRadius: BorderRadius.circular(scrWidth*0.08)
-              ),
-              child: Center(child: SvgPicture.asset(iconConst.backarrow))
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: colorConst.grey1,
+                  borderRadius: BorderRadius.circular(scrWidth*0.08)
+                ),
+                child: Center(child: SvgPicture.asset(iconConst.backarrow))
+            ),
           ),
         ),
         title: Text("My Cart",
@@ -43,7 +60,8 @@ class _CartPageState extends State<cartPage> {
         actions: [
           InkWell(
               onTap: () {
-
+                //print(meatDetailCollection);
+                print(totalPrice);
               },
               child: addCart.isEmpty?
               SvgPicture.asset(iconConst.cart):
@@ -79,7 +97,8 @@ class _CartPageState extends State<cartPage> {
           SizedBox(width: scrWidth*0.03,),
         ],
       ),
-      bottomNavigationBar:Container(
+      bottomNavigationBar:addCart.isEmpty?SizedBox():
+      Container(
         height: scrWidth*0.37,
         decoration: BoxDecoration(
           color: colorConst.white,
@@ -107,7 +126,7 @@ class _CartPageState extends State<cartPage> {
                         fontSize: scrWidth*0.05,
                         fontWeight: FontWeight.w700
                     ),),
-                  Text("₹ 300.00",
+                  Text("₹ $totalPrice.00",
                     style: TextStyle(
                         color: colorConst.meroon,
                         fontSize: scrWidth*0.05,
@@ -138,8 +157,37 @@ class _CartPageState extends State<cartPage> {
       ),
       body: Padding(
         padding:  EdgeInsets.all(scrWidth*0.028),
-        child: SingleChildScrollView(
-          child: Column(
+        child: addCart.isEmpty?
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Lottie.asset(gifs.emptyCart),
+            Text("There's nothing yet in you Cart!",style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: scrWidth*0.04
+            )),
+            InkWell(
+              onTap: () {
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
+              },
+              child: Container(
+                height: scrWidth*0.15,
+                width: scrWidth*0.9,
+                decoration: BoxDecoration(
+                  color: colorConst.meroon,
+                  borderRadius: BorderRadius.circular(scrWidth*0.05),
+                ),
+                child: Center(child: Text("Add Items",
+                  style: TextStyle(
+                      color: colorConst.white
+                  ),)),
+              ),
+            )
+          ],
+        )
+            : SingleChildScrollView(
+          child:
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -212,7 +260,7 @@ class _CartPageState extends State<cartPage> {
                                         fontWeight: FontWeight.w700,
                                         color: colorConst.black
                                     ),),
-                                  Text("₹ ${meatDetailCollection[index]["rate"]}",
+                                  Text("₹ ${(meatDetailCollection[index]["rate"])*(meatDetailCollection[index]["quantity"])}",
                                     style: TextStyle(
                                         fontSize: scrWidth*0.035,
                                         fontWeight: FontWeight.w700,
@@ -233,7 +281,7 @@ class _CartPageState extends State<cartPage> {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text("Are you sure you wanted to remove this item from Cart ?",style: TextStyle(
+                                        title: Text("Are you sure you want to remove this item from the Cart ?",style: TextStyle(
                                           fontSize: scrWidth*0.04,
                                           fontWeight: FontWeight.w600
                                         ),),
@@ -309,6 +357,7 @@ class _CartPageState extends State<cartPage> {
                                     onTap: () {
                                       meatDetailCollection[index]["quantity"]<=1? 1
                                           :meatDetailCollection[index]["quantity"]--;
+                                      addingTotal();
                                       setState(() {
 
                                       });
@@ -338,6 +387,7 @@ class _CartPageState extends State<cartPage> {
                                   InkWell(
                                     onTap: () {
                                       meatDetailCollection[index]["quantity"]++;
+                                      addingTotal();
                                       setState(() {
 
                                       });
@@ -432,7 +482,7 @@ class _CartPageState extends State<cartPage> {
                         fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
-                      Text("₹ 250.00",
+                      Text("₹ $totalPrice.00",
                       style: TextStyle(
                         color: colorConst.black,
                         fontSize: scrWidth*0.04,

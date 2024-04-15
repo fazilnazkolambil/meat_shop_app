@@ -59,10 +59,19 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
       });
   }
-
+bool loading = false;
   @override
   void initState() {
     getMeats();
+    loading =true;
+    Future.delayed(
+     Duration(
+       seconds: 2),() {
+         setState(() {
+           loading = false;
+         });
+       },
+    );
     // TODO: implement initState
     super.initState();
   }
@@ -170,7 +179,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
             ),
           ],
         ),
-        body: Padding(
+        body:Padding(
           padding: EdgeInsets.all(scrWidth * 0.05),
           child: SingleChildScrollView(
               child: Column(

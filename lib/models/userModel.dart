@@ -1,6 +1,7 @@
 class UserModel{
   String? name, email, number, password,image;
   List? address, favourites;
+
   UserModel({required this.name,required this.email,required this.password,required this.number,required this.address,required this.favourites,required this.image});
 
 Map <String, dynamic> toMap(){

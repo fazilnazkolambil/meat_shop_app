@@ -115,9 +115,11 @@ class _favouritePageState extends State<favouritePage> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             FavoriteButton(
-                              valueChanged: (_) {
+                              valueChanged: (isFavorite) {
+
 
                               },
+                              isFavorite: true,
                               iconSize: 39,
                               iconColor: colorConst.meroon,
                             ),

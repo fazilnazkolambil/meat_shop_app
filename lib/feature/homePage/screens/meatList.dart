@@ -11,6 +11,7 @@ import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
+import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
 import '../../authPage/screens/signin_page.dart';
@@ -35,6 +36,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
   List categoryCollection = [];
   List meatCollection = [];
+  List fav=[];
   getMeats() async {
     var category = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -45,7 +47,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
     setState(() {});
   }
-
+ List favoriteList =[];
   getMeatDetails() async {
       var meatDetails = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -55,23 +57,19 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         .collection(widget.type)
         .get();
       meatDetailCollection = meatDetails.docs;
+      favoriteList = meatDetails.docs;
       setState(() {
 
       });
   }
-bool loading = false;
+  favouriteFunc() async {
+     var favourire= await FirebaseFirestore.instance.collection("meatTypes").doc(widget.type)
+        .collection(widget.type).doc(selectedCategory)
+        .collection(widget.type).get();
+  }
   @override
   void initState() {
     getMeats();
-    loading =true;
-    Future.delayed(
-     Duration(
-       seconds: 2),() {
-         setState(() {
-           loading = false;
-         });
-       },
-    );
     // TODO: implement initState
     super.initState();
   }
@@ -111,7 +109,9 @@ bool loading = false;
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
-              Navigator.pop(context);
+              print(favoriteList);
+              print(meatDetailCollection);
+              //Navigator.pop(context);
             },
             child: Padding(
               padding: EdgeInsets.all(scrWidth * 0.03),
@@ -179,7 +179,7 @@ bool loading = false;
             ),
           ],
         ),
-        body:Padding(
+        body: Padding(
           padding: EdgeInsets.all(scrWidth * 0.05),
           child: SingleChildScrollView(
               child: Column(
@@ -498,7 +498,28 @@ bool loading = false;
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       FavoriteButton(
-                                        valueChanged: (_) {},
+                                        valueChanged: (value) {
+                                            if (value == true) {
+                                              fav.add(data[index]['id']);
+                                              FirebaseFirestore.instance.collection("users").doc("+919487022519").update({
+                                                "favourites" : FieldValue.arrayUnion(favoriteList)
+                                              });
+                                              favoriteList.add({
+                                                "Image" : data[index]["Image"],
+                                                "name" : data[index]["name"],
+                                                "ingredients" : data[index]["ingredients"],
+                                                "rate" : data[index]["rate"],
+                                                "quantity" : 1
+                                              });
+                                            }else{
+                                              fav.remove(data[index]['id']);
+                                              favoriteList.remove(favoriteList[index]);
+                                            }
+                                            setState(() {
+
+                                            });
+                                            },
+                                        isFavorite: false,
                                         iconSize: 39,
                                         iconColor: colorConst.meroon,
                                       ),

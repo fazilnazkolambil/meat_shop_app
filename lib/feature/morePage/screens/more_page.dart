@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/morePage/screens/EditProfile.dart';
@@ -10,7 +11,10 @@ import 'package:meat_shop_app/feature/onboardPage/screens/splashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
+import '../../authPage/screens/info_page.dart';
+import '../../authPage/screens/signin_page.dart';
 import '../../homePage/screens/meatList.dart';
+import '../../onboardPage/screens/NavigationPage.dart';
 import '../../ordersPage/screens/cart_page.dart';
 
 class morePage extends StatefulWidget {
@@ -145,7 +149,62 @@ class _morePageState extends State<morePage> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
+                              return loginId == ""?
+                              AlertDialog(
+                                title: Lottie.asset(gifs.login),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  // crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children:
+                                  [
+                                    Text("Please Login your Profile!",textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: scrWidth*0.04
+                                        )),
+                                    SizedBox(
+                                      height: scrHeight*0.01,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'MeatPage',),));
+                                      },
+                                      child: Container(
+                                        height: scrHeight*0.05,
+                                        width: scrWidth*0.4,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                            border: Border.all(color: colorConst.meroon)
+                                        ),
+                                        child: Center(child: Text("Sign Up"),),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: scrHeight*0.01,
+                                    ),
+
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'MeatPage',),));
+                                      },
+                                      child: Container(
+                                        height: scrHeight*0.05,
+                                        width: scrWidth*0.4,
+                                        decoration: BoxDecoration(
+                                            color: colorConst.meroon,
+                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                            border: Border.all(color: colorConst.meroon)
+                                        ),
+                                        child: Center(child: Text("Log In",style: TextStyle(
+                                            color: colorConst.white
+                                        ),),),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ):
+                                AlertDialog(
                                 title: Center(child: Text('My Profile',style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: scrWidth*0.055

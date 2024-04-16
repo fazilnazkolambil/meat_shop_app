@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:meat_shop_app/Image_Page.dart';
 // import 'package:meat_shop_app/constant/Color_Page.dart';
 
@@ -20,7 +21,7 @@ class NavigationPage extends StatefulWidget {
   @override
   State<NavigationPage> createState() => _NavigationPageState();
 }
-
+String? loginId;
 class _NavigationPageState extends State<NavigationPage> {
   final _controller = NotchBottomBarController(index: 0);
   final _pageController = PageController(initialPage: 0);
@@ -44,8 +45,19 @@ class _NavigationPageState extends State<NavigationPage> {
       selectedIndex = Index;
     });
   }
+  bool login = false;
 
+  getData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    login = prefs.getBool("LoggedIn") ?? false;
+    loginId = prefs.getString("loginUserId") ?? "";
+  }
   @override
+  void initState() {
+    getData();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(

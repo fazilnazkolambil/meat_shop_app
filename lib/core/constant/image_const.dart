@@ -70,4 +70,5 @@ class gifs{
   static const comingSoon="assets/gifs/coming Soon.json";
   static const addToCart="assets/gifs/addtocartGIF.json";
   static const emptyCart="assets/gifs/emptyCart.json";
+  static const login="assets/gifs/login.json";
 }

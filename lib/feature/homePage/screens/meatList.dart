@@ -42,6 +42,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
   List categoryCollection = [];
   List meatCollection = [];
   List fav=[];
+  bool favorite = false;
   getMeats() async {
     var category = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -286,8 +287,9 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                         .collection(widget.type).doc(selectedCategory)
                         .collection(widget.type).snapshots(),
                     builder: (context, snapshot) {
-                      if(!snapshot.hasData)
+                      if(!snapshot.hasData) {
                         return Lottie.asset(gifs.loadingGif);
+                      }
                       var data = snapshot.data!.docs;
                       return data.isEmpty?
                           Center(child: Text("No Meats Available right now!")):
@@ -468,7 +470,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: scrWidth * 0.4,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -510,8 +512,9 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                     children: [
                                       InkWell(
                                         onTap:(){
-                                          print(fav);
-                                          print(favFB["favourites"][index]["id"]);
+                                          // favFB['favourites'][index]["id"].contains(data[index]["id"])?print("Trueeee"):print("Falseeeee");
+                                          // print(data[index]["id"]);
+                                          // print(favFB["favourites"][index]["id"]);
                                           if(loginId!.isNotEmpty){
                                             if(fav.contains(data[index]["id"])){
                                               fav.remove(data[index]["id"]);
@@ -524,11 +527,13 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 "ingredients" : data[index]["ingredients"],
                                                 "rate" : data[index]["rate"],
                                                 "id" : data[index]["id"],
+                                                "description" : data[index]["description"],
                                               });
                                               FirebaseFirestore.instance.collection("users").doc(loginId).update({
                                                 "favourites" : FieldValue.arrayUnion(favoriteList)
                                               });
                                             }
+
                                             setState(() {
 
                                             });
@@ -604,14 +609,20 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                           });
 
                                         },
-                                        child:
+                                        child:fav.contains(data[index]["id"])
+                                            ?
                                           Icon(
                                           Icons.favorite,
-                                          color:fav.contains(data[index]["id"])
-                                            ?colorConst.meroon:
+                                          color:favFB["favourites"][index]["id"].contains(data[index]["id"])? colorConst.meroon:
+                                          colorConst.meroon,
+                                          size: scrWidth*0.08,
+                                        )
+                                          :Icon(
+                                          Icons.favorite,
+                                          color://fav.contains(data[index]["id"]) ?colorConst.meroon:
                                           colorConst.grey,
                                           size: scrWidth*0.08,
-                                        ),
+                                        )
                                       ),
                                       InkWell(
                                           onTap: () {

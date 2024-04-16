@@ -111,7 +111,7 @@ class _morePageState extends State<morePage> {
         ],
       ),
       body: SizedBox(
-        height: scrHeight*0.8,
+        height: scrHeight * 0.8,
         child: Padding(
           padding: EdgeInsets.all(scrWidth * 0.03),
           child: SingleChildScrollView(
@@ -149,103 +149,143 @@ class _morePageState extends State<morePage> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return loginId == ""?
-                              AlertDialog(
-                                title: Lottie.asset(gifs.login),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  // crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children:
-                                  [
-                                    Text("Please Login your Profile!",textAlign: TextAlign.center,
+                              return loginId == ""
+                                  ? AlertDialog(
+                                      title: Lottie.asset(gifs.login),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        // crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text("Please Login your Profile!",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: scrWidth * 0.04)),
+                                          SizedBox(
+                                            height: scrHeight * 0.01,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        infoPage(
+                                                      path: 'MeatPage',
+                                                    ),
+                                                  ));
+                                            },
+                                            child: Container(
+                                              height: scrHeight * 0.05,
+                                              width: scrWidth * 0.4,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          scrWidth * 0.03),
+                                                  border: Border.all(
+                                                      color:
+                                                          colorConst.meroon)),
+                                              child: Center(
+                                                child: Text("Sign Up"),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: scrHeight * 0.01,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        signinPage(
+                                                      path: 'MeatPage',
+                                                    ),
+                                                  ));
+                                            },
+                                            child: Container(
+                                              height: scrHeight * 0.05,
+                                              width: scrWidth * 0.4,
+                                              decoration: BoxDecoration(
+                                                  color: colorConst.meroon,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          scrWidth * 0.03),
+                                                  border: Border.all(
+                                                      color:
+                                                          colorConst.meroon)),
+                                              child: Center(
+                                                child: Text(
+                                                  "Log In",
+                                                  style: TextStyle(
+                                                      color: colorConst.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : AlertDialog(
+                                      title: Center(
+                                          child: Text(
+                                        'My Profile',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
-                                            fontSize: scrWidth*0.04
-                                        )),
-                                    SizedBox(
-                                      height: scrHeight*0.01,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'MeatPage',),));
-                                      },
-                                      child: Container(
-                                        height: scrHeight*0.05,
-                                        width: scrWidth*0.4,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                            border: Border.all(color: colorConst.meroon)
-                                        ),
-                                        child: Center(child: Text("Sign Up"),),
+                                            fontSize: scrWidth * 0.055),
+                                      )),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: scrWidth * 0.17,
+                                          ),
+                                          Text(
+                                            'John Doe',
+                                            style: TextStyle(
+                                                fontSize: scrWidth * 0.044,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          Text(
+                                            '5674843290',
+                                            style: TextStyle(
+                                                fontSize: scrWidth * 0.044,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Text(
+                                            'john@gmail.com',
+                                            style: TextStyle(
+                                                fontSize: scrWidth * 0.044,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: scrHeight*0.01,
-                                    ),
-
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'MeatPage',),));
-                                      },
-                                      child: Container(
-                                        height: scrHeight*0.05,
-                                        width: scrWidth*0.4,
-                                        decoration: BoxDecoration(
-                                            color: colorConst.meroon,
-                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                            border: Border.all(color: colorConst.meroon)
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditProfile(),
+                                                ));
+                                          },
+                                          child: Center(
+                                              child: Text(
+                                            'Edit Profile',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: scrWidth * 0.04,
+                                                color: colorConst.meroon),
+                                          )),
                                         ),
-                                        child: Center(child: Text("Log In",style: TextStyle(
-                                            color: colorConst.white
-                                        ),),),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ):
-                                AlertDialog(
-                                title: Center(child: Text('My Profile',style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: scrWidth*0.055
-                                ),)),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children:
-                                  [
-                                    CircleAvatar(
-                                      radius: scrWidth*0.17,
-                                    ),
-                                    Text('John Doe',style: TextStyle(
-                                      fontSize: scrWidth*0.044,
-                                      fontWeight: FontWeight.w600
-                                    ),),
-                                    Text('5674843290',style: TextStyle(
-                                        fontSize: scrWidth*0.044,
-                                        fontWeight: FontWeight.w500
-                                    ),),
-                                    Text('john@gmail.com',style: TextStyle(
-                                        fontSize: scrWidth*0.044,
-                                        fontWeight: FontWeight.w500
-                                    ),),
-
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile(),));
-                                    },
-                                    child: Center(child: Text('Edit Profile',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: scrWidth*0.04,
-                                      color: colorConst.meroon
-                                    ),)),
-                                  ),
-                                ],
-                              );
+                                      ],
+                                    );
                             },
                           );
                         },
@@ -348,7 +388,7 @@ class _morePageState extends State<morePage> {
                         endIndent: scrWidth * 0.04,
                       ),
                       ListTile(
-                        leading:  SvgPicture.asset(iconConst.conditions),
+                        leading: SvgPicture.asset(iconConst.conditions),
                         title: Text(
                           "Terms & Conditions",
                           style: TextStyle(
@@ -363,7 +403,7 @@ class _morePageState extends State<morePage> {
                         endIndent: scrWidth * 0.04,
                       ),
                       ListTile(
-                        leading:  SvgPicture.asset(iconConst.privacy),
+                        leading: SvgPicture.asset(iconConst.privacy),
                         title: Text(
                           "Privacy Policy",
                           style: TextStyle(

@@ -29,6 +29,7 @@ class imageConst{
   static const muttonfrycut="assets/images/muttonfrycut.jpg";
   static const padlock="assets/images/Padlock.png";
   static const protect="assets/images/Protect.png";
+
 }
 class iconConst{
   static const location="assets/icons/location.svg";

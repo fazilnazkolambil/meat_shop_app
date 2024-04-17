@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,7 +26,33 @@ class morePage extends StatefulWidget {
 }
 
 class _morePageState extends State<morePage> {
+  String username = "";
+  String email = "";
+  String phonenumber = "";
+  String id = "";
+  String? userImage;
+
+  getUser() async {
+    var data = await FirebaseFirestore.instance
+        .collection('users')
+        .where("id", isEqualTo: loginId)
+        .get();
+    print(data.docs[0]["image"]);
+    username = data.docs[0]['name'];
+    email = data.docs[0]['email'];
+    phonenumber = data.docs[0]['number'];
+    id = data.docs[0]['id'];
+    userImage = data.docs[0]['image'] ?? "";
+    setState(() {});
+  }
+
   @override
+  void initState() {
+    getUser();
+    // TODO: implement initState
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorConst.white,
@@ -242,23 +269,31 @@ class _morePageState extends State<morePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          CircleAvatar(
-                                            radius: scrWidth * 0.17,
-                                          ),
+                                          userImage!.isNotEmpty
+                                              ? CircleAvatar(
+                                                  radius: scrWidth * 0.17,
+                                                  backgroundImage:
+                                                      NetworkImage(userImage!),
+                                                )
+                                              : CircleAvatar(
+                                                  radius: scrWidth * 0.17,
+                                                  backgroundImage: AssetImage(
+                                                      imageConst.logo),
+                                                ),
                                           Text(
-                                            'John Doe',
+                                            username,
                                             style: TextStyle(
                                                 fontSize: scrWidth * 0.044,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Text(
-                                            '5674843290',
+                                            phonenumber,
                                             style: TextStyle(
                                                 fontSize: scrWidth * 0.044,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                           Text(
-                                            'john@gmail.com',
+                                            email,
                                             style: TextStyle(
                                                 fontSize: scrWidth * 0.044,
                                                 fontWeight: FontWeight.w500),
@@ -272,7 +307,13 @@ class _morePageState extends State<morePage> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EditProfile(),
+                                                      EditProfile(
+                                                    id: id,
+                                                    image: userImage!,
+                                                    username: username,
+                                                    email: email,
+                                                    phonenumber: phonenumber,
+                                                  ),
                                                 ));
                                           },
                                           child: Center(

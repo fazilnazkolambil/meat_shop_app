@@ -44,12 +44,14 @@ class _signinPageState extends State<signinPage> {
           },
           child: Padding(
             padding:  EdgeInsets.all(scrWidth*0.03),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: colorConst.grey1,
-                    borderRadius: BorderRadius.circular(scrWidth*0.08)
-                ),
-                child: Center(child: SvgPicture.asset(iconConst.backarrow))
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: CircleAvatar(
+                  backgroundColor: colorConst.grey1,
+                  child: Center(child: SvgPicture.asset(iconConst.backarrow))
+              ),
             ),
           ),
         ),

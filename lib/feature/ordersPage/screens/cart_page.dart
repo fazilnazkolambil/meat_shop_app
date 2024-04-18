@@ -11,6 +11,7 @@ import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/repository/providers.dart';
 
 import '../../../main.dart';
+import '../../authPage/screens/info_page.dart';
 import '../../homePage/screens/meatList.dart';
 import 'checkoutpage.dart';
 
@@ -136,7 +137,77 @@ addingTotal (){
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                  if(loginId!.isNotEmpty){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                  }else{
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return BottomSheet(
+                          onClosing: () {
+
+                          },
+                          builder: (context) {
+                            return Container(
+                              height: scrHeight*0.2,
+                              width: scrWidth*1,
+                              margin: EdgeInsets.all(scrWidth*0.05),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Let's get you in!",style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: scrWidth*0.05
+                                  ),),
+                                  Text("In just a minute, you can access all our offers, services and more.",
+                                    textAlign: TextAlign.center,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'CartPage',),));
+                                        },
+                                        child: Container(
+                                          height: scrHeight*0.05,
+                                          width: scrWidth*0.4,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                              border: Border.all(color: colorConst.meroon)
+                                          ),
+                                          child: Center(child: Text("Sign Up"),),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'CartPage',),));
+                                        },
+                                        child: Container(
+                                          height: scrHeight*0.05,
+                                          width: scrWidth*0.4,
+                                          decoration: BoxDecoration(
+                                              color: colorConst.meroon,
+                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                              border: Border.all(color: colorConst.meroon)
+                                          ),
+                                          child: Center(child: Text("Log In",style: TextStyle(
+                                              color: colorConst.white
+                                          ),),),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+
+                  }
+
                 },
                 child: Container(
                   height: scrWidth*0.15,

@@ -123,17 +123,15 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
         ),
       ),
         appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              //print(favFB["favourites"][0]['id']);
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: EdgeInsets.all(scrWidth * 0.03),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.grey1,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.08)),
+          backgroundColor: colorConst.white,
+          leading: Padding(
+            padding:EdgeInsets.all(scrWidth*0.03),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: CircleAvatar(
+                  backgroundColor: colorConst.grey1,
                   child: Center(child: SvgPicture.asset(iconConst.backarrow))),
             ),
           ),
@@ -374,7 +372,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                         addCart.contains(data[index]["id"])?
                                         InkWell(
                                           onTap: () {
-                                            //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
                                           },
                                           child: Container(
                                             height: scrWidth*0.15,
@@ -406,6 +404,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 if(addCart.contains(data[index]["id"])){
                                                   addCart.remove(data[index]["id"]);
                                                   meatDetailCollection.remove(meatDetailCollection[index]);
+                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
                                                 }else{
                                                   addCart.add(data[index]["id"]);
                                                   meatDetailCollection.add({
@@ -415,6 +414,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                     "rate" : data[index]["rate"],
                                                     "quantity" : 1
                                                   });
+                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
                                                 }
                                                 Navigator.pop(context);
                                                 setState(() {
@@ -565,7 +565,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                               fontWeight: FontWeight.w700,
                                                               fontSize: scrWidth*0.05
                                                           ),),
-                                                          Text("In just a minute, you can access all our offers,\n services and more."),
+                                                          Text("In just a minute, you can access all our offers, services and more.",
+                                                            textAlign: TextAlign.center,),
                                                           Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                             children: [
@@ -617,24 +618,25 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
                                         },
                                          child:
-                                         //favFB["favourites"].length < data.length ?
+                                         favFB["favourites"] != null ?
                                          Icon(
                                            Icons.favorite,
                                            color:favFB["favourites"].contains(data[index]["id"])?
                                            colorConst.meroon:colorConst.grey,
                                            size: scrWidth*0.08,
                                          )
-                                         //     :Icon(
-                                         //   Icons.favorite,
-                                         //   color:colorConst.grey,
-                                         //   size: scrWidth*0.08,
-                                         // )
+                                             :Icon(
+                                           Icons.favorite,
+                                           color:colorConst.grey,
+                                           size: scrWidth*0.08,
+                                         )
                                       ),
                                       InkWell(
                                           onTap: () {
                                             if(addCart.contains(data[index]["id"])){
                                               addCart.remove(data[index]["id"]);
                                               meatDetailCollection.remove(meatDetailCollection[index]);
+                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
                                             }else{
                                               addCart.add(data[index]["id"]);
                                               meatDetailCollection.add({
@@ -644,6 +646,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 "rate" : data[index]["rate"],
                                                 "quantity" : 1
                                               });
+                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
                                             }
                                             setState(() {
 

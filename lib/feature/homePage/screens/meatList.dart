@@ -78,6 +78,10 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
     loginId = prefs.getString("loginUserId") ?? "";
     var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get();
     favFB = data.data()!;
+    favoriteList=favFB['favourites'];
+    for(int i=0;i<favoriteList.length;i++){
+      fav.add(favFB["favourites"][i]["id"]);
+    }
     setState(() {
 
     });
@@ -517,9 +521,9 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                       InkWell(
                                         onTap:(){
                                           if(loginId!.isNotEmpty){
-                                            if(favFB["favourites"].contains(data[index]["id"])){
-                                              favFB["favourites"].remove(data[index]["id"]);
-                                              favoriteList.remove(favoriteList[index]);
+                                            if(fav.contains(data[index]["id"])){
+                                              fav.remove(data[index]["id"]);
+                                              favoriteList.removeWhere((element) => element["id"]==data[index]["id"]);
                                               FirebaseFirestore.instance.collection("users").doc(loginId).update({
                                                 "favourites" : favoriteList
                                               });
@@ -527,7 +531,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
                                               });
                                             }else{
-                                              favFB["favourites"].add(data[index]["id"]);
+                                              fav.add(data[index]["id"]);
                                               favoriteList.add({
                                                 "Image" : data[index]["Image"],
                                                 "name" : data[index]["name"],
@@ -618,16 +622,10 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
                                         },
                                          child:
-                                         favFB["favourites"] != null ?
                                          Icon(
                                            Icons.favorite,
-                                           color:favFB["favourites"].contains(data[index]["id"])?
+                                           color:fav.contains(data[index]["id"])?
                                            colorConst.meroon:colorConst.grey,
-                                           size: scrWidth*0.08,
-                                         )
-                                             :Icon(
-                                           Icons.favorite,
-                                           color:colorConst.grey,
                                            size: scrWidth*0.08,
                                          )
                                       ),

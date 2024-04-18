@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,9 +11,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/authPage/screens/info_page.dart';
 import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
+import 'package:meat_shop_app/models/userModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../authPage/screens/signin_page.dart';
@@ -27,6 +33,7 @@ class MeatListPage extends ConsumerStatefulWidget {
 }
 List addCart = [];
 List meatDetailCollection = [];
+TextEditingController emailController = TextEditingController();
 class _MeatListPageState extends ConsumerState<MeatListPage> {
   int selectedIndex = 0;
   String selectedCategory = '';
@@ -35,6 +42,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
   List categoryCollection = [];
   List meatCollection = [];
+  List fav=[];
+
   getMeats() async {
     var category = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -45,7 +54,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
     setState(() {});
   }
-
+  List favoriteList =[];
   getMeatDetails() async {
       var meatDetails = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -59,19 +68,24 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
       });
   }
-bool loading = false;
+  bool login = false;
+  String? loginId;
+  UserModel? usermodel;
+  Map favFB = {};
+  getData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    login = prefs.getBool("LoggedIn") ?? false;
+    loginId = prefs.getString("loginUserId") ?? "";
+    var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get();
+    favFB = data.data()!;
+    setState(() {
+
+    });
+  }
   @override
   void initState() {
     getMeats();
-    loading =true;
-    Future.delayed(
-     Duration(
-       seconds: 2),() {
-         setState(() {
-           loading = false;
-         });
-       },
-    );
+    getData();
     // TODO: implement initState
     super.initState();
   }
@@ -92,7 +106,7 @@ bool loading = false;
                   Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage()));
                 },
                 child: Container(
-                  height: scrWidth*0.15,
+                  height: scrWidth*0.12,
                   width: scrWidth*0.9,
                   decoration: BoxDecoration(
                     color: colorConst.meroon,
@@ -109,8 +123,9 @@ bool loading = false;
         ),
       ),
         appBar: AppBar(
-          leading: InkWell(
+          leading: GestureDetector(
             onTap: () {
+              //print(favFB["favourites"][0]['id']);
               Navigator.pop(context);
             },
             child: Padding(
@@ -179,7 +194,7 @@ bool loading = false;
             ),
           ],
         ),
-        body:Padding(
+        body: Padding(
           padding: EdgeInsets.all(scrWidth * 0.05),
           child: SingleChildScrollView(
               child: Column(
@@ -276,8 +291,9 @@ bool loading = false;
                         .collection(widget.type).doc(selectedCategory)
                         .collection(widget.type).snapshots(),
                     builder: (context, snapshot) {
-                      if(!snapshot.hasData)
+                      if(!snapshot.hasData) {
                         return Lottie.asset(gifs.loadingGif);
+                      }
                       var data = snapshot.data!.docs;
                       return data.isEmpty?
                           Center(child: Text("No Meats Available right now!")):
@@ -400,6 +416,7 @@ bool loading = false;
                                                     "quantity" : 1
                                                   });
                                                 }
+                                                Navigator.pop(context);
                                                 setState(() {
 
                                                 });
@@ -457,7 +474,7 @@ bool loading = false;
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: scrWidth * 0.4,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -497,12 +514,122 @@ bool loading = false;
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      FavoriteButton(
-                                        valueChanged: (_) {},
-                                        iconSize: 39,
-                                        iconColor: colorConst.meroon,
+                                      InkWell(
+                                        onTap:(){
+                                          if(loginId!.isNotEmpty){
+                                            if(favFB["favourites"].contains(data[index]["id"])){
+                                              favFB["favourites"].remove(data[index]["id"]);
+                                              favoriteList.remove(favoriteList[index]);
+                                              FirebaseFirestore.instance.collection("users").doc(loginId).update({
+                                                "favourites" : favoriteList
+                                              });
+                                              setState(() {
+
+                                              });
+                                            }else{
+                                              favFB["favourites"].add(data[index]["id"]);
+                                              favoriteList.add({
+                                                "Image" : data[index]["Image"],
+                                                "name" : data[index]["name"],
+                                                "ingredients" : data[index]["ingredients"],
+                                                "rate" : data[index]["rate"],
+                                                "id" : data[index]["id"],
+                                                "description" : data[index]["description"],
+                                                "added" : true,
+                                              });
+                                              FirebaseFirestore.instance.collection("users").doc(loginId).update({
+                                                "favourites" : FieldValue.arrayUnion(favoriteList)
+                                              });
+                                              setState(() {
+
+                                              });
+                                            }
+                                          }else{
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return BottomSheet(
+                                                  onClosing: () {
+
+                                                  },
+                                                  builder: (context) {
+                                                    return Container(
+                                                      height: scrHeight*0.2,
+                                                      width: scrWidth*1,
+                                                      margin: EdgeInsets.all(scrWidth*0.05),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text("Let's get you in!",style: TextStyle(
+                                                              fontWeight: FontWeight.w700,
+                                                              fontSize: scrWidth*0.05
+                                                          ),),
+                                                          Text("In just a minute, you can access all our offers,\n services and more."),
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'MeatPage',),));
+                                                                },
+                                                                child: Container(
+                                                                  height: scrHeight*0.05,
+                                                                  width: scrWidth*0.4,
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                                      border: Border.all(color: colorConst.meroon)
+                                                                  ),
+                                                                  child: Center(child: Text("Sign Up"),),
+                                                                ),
+                                                              ),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'MeatPage',),));
+                                                                },
+                                                                child: Container(
+                                                                  height: scrHeight*0.05,
+                                                                  width: scrWidth*0.4,
+                                                                  decoration: BoxDecoration(
+                                                                      color: colorConst.meroon,
+                                                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                                      border: Border.all(color: colorConst.meroon)
+                                                                  ),
+                                                                  child: Center(child: Text("Log In",style: TextStyle(
+                                                                      color: colorConst.white
+                                                                  ),),),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+
+                                          }
+                                          setState(() {
+
+                                          });
+
+                                        },
+                                         child:
+                                         //favFB["favourites"].length < data.length ?
+                                         Icon(
+                                           Icons.favorite,
+                                           color:favFB["favourites"].contains(data[index]["id"])?
+                                           colorConst.meroon:colorConst.grey,
+                                           size: scrWidth*0.08,
+                                         )
+                                         //     :Icon(
+                                         //   Icons.favorite,
+                                         //   color:colorConst.grey,
+                                         //   size: scrWidth*0.08,
+                                         // )
                                       ),
-                                      // SvgPicture.asset(iconConst.Favourite,color: favourite.contains(index)?colorConst.meroon:colorConst.grey,),
                                       InkWell(
                                           onTap: () {
                                             if(addCart.contains(data[index]["id"])){
@@ -522,7 +649,8 @@ bool loading = false;
 
                                             });
                                           },
-                                        child:addCart.contains(data[index]["id"])?
+                                        child:
+                                        addCart.contains(data[index]["id"])?
                                         Icon(Icons.done,color: colorConst.green)
                                         :CircleAvatar(
                                           radius: scrWidth*0.04,

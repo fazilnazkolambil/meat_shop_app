@@ -281,7 +281,9 @@ addingTotal (){
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text("Are you sure you want to remove this item from the Cart ?",style: TextStyle(
+                                        title: Text("Are you sure you want to remove this item from the Cart ?",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
                                           fontSize: scrWidth*0.04,
                                           fontWeight: FontWeight.w600
                                         ),),

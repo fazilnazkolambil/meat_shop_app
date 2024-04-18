@@ -26,7 +26,10 @@ class _favouritePageState extends State<favouritePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorConst.white,
       appBar: AppBar(
+        leading: SizedBox(),
+        leadingWidth: 0,
         title: Text("Favourite",
         style: TextStyle(
           fontWeight: FontWeight.w800,
@@ -385,87 +388,66 @@ class _favouritePageState extends State<favouritePage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
-                                      onTap:(){
-                                        // favFB['favourites'][index]["id"].contains(data[index]["id"])?print("Trueeee"):print("Falseeeee");
-                                        // print(data[index]["id"]);
-                                        // print(favFB["favourites"][index]["id"]);
-                                        if(loginId!.isNotEmpty){
-                                          print("USER ID IS EMPTY");
-                                          setState(() {
-          
-                                          });
-                                        }else{
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              return BottomSheet(
-                                                onClosing: () {
-          
-                                                },
-                                                builder: (context) {
-                                                  return Container(
-                                                    height: scrHeight*0.2,
-                                                    width: scrWidth*1,
-                                                    margin: EdgeInsets.all(scrWidth*0.05),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text("Let's get you in!",style: TextStyle(
-                                                            fontWeight: FontWeight.w700,
-                                                            fontSize: scrWidth*0.05
-                                                        ),),
-                                                        Text("In just a minute, you can access all our offers,\n services and more."),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'MeatPage',),));
-                                                              },
-                                                              child: Container(
-                                                                height: scrHeight*0.05,
-                                                                width: scrWidth*0.4,
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                                    border: Border.all(color: colorConst.meroon)
-                                                                ),
-                                                                child: Center(child: Text("Sign Up"),),
-                                                              ),
-                                                            ),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'MeatPage',),));
-                                                              },
-                                                              child: Container(
-                                                                height: scrHeight*0.05,
-                                                                width: scrWidth*0.4,
-                                                                decoration: BoxDecoration(
-                                                                    color: colorConst.meroon,
-                                                                    borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                                    border: Border.all(color: colorConst.meroon)
-                                                                ),
-                                                                child: Center(child: Text("Log In",style: TextStyle(
-                                                                    color: colorConst.white
-                                                                ),),),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
+                                      onTap: () {
+                                        showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text("Are you sure you want to remove this item from Favourites?",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: scrWidth*0.04,
+                                                  fontWeight: FontWeight.w600
+                                              ),),
+                                              content: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
+                                                      height: scrWidth*0.08,
+                                                      width: scrWidth*0.2,
+                                                      decoration: BoxDecoration(
+                                                        color: colorConst.textgrey,
+                                                        borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                      ),
+                                                      child: Center(child: Text("No",
+                                                        style: TextStyle(
+                                                            color: Colors.white
+                                                        ),)),
                                                     ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          );
-          
-                                        }
-                                        setState(() {
-          
-                                        });
-          
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      Navigator.pop(context);
+                                                      await FirebaseFirestore.instance.collection("users").doc(loginId).update({
+                                                        "favourites":FieldValue.arrayRemove([data[index]])
+                                                      });
+
+                                                    },
+                                                    child: Container(
+                                                      height: scrWidth*0.08,
+                                                      width: scrWidth*0.2,
+                                                      decoration: BoxDecoration(
+                                                        color: colorConst.meroon,
+                                                        borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                      ),
+                                                      child: Center(child: Text("Yes",
+                                                        style: TextStyle(
+                                                            color: Colors.white
+                                                        ),)),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
                                       },
+
                                       child:
                                       Icon(
                                         Icons.favorite,

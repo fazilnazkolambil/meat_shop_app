@@ -13,6 +13,7 @@ import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart
 import 'package:meat_shop_app/feature/homePage/screens/camel_list.dart';
 import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../main.dart';
@@ -33,7 +34,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     "assets/images/carosal1.png",
   ];
 bool loading  = false;
-
   @override
   Widget build(BuildContext context) {
     final select = ref.watch(carouselaProvider)??0;
@@ -228,17 +228,7 @@ bool loading  = false;
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                loading? Shimmer(
-                                    child: CircleAvatar(
-                                      radius: scrWidth*0.15,
-                                    ),
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          colorConst.grey,
-                                          colorConst.white
-                                        ])
-                                )
-                                :CircleAvatar(
+                                CircleAvatar(
                                   radius: scrWidth*0.15,
                                   backgroundImage: NetworkImage(data[index]["mainImage"],),
                                 ),

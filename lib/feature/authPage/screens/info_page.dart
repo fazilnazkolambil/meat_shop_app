@@ -798,9 +798,11 @@ class _infoPageState extends ConsumerState<infoPage> {
                                 //     prefs.setString("loginUserId",loginUserId!);
                                 //   }).then((value) {
                                 //     if(widget.path == "MeatPage"){
-                                //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+                                //       Navigator.pushReplacement(context,
+                                //       MaterialPageRoute(builder: (context) => NavigationPage(),));
                                 //     }else{
-                                //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                                //       Navigator.pushReplacement(context,
+                                //       MaterialPageRoute(builder: (context) => checkoutpage(),));
                                 //     }
                                 //   });
                                 // });
@@ -832,8 +834,10 @@ class _infoPageState extends ConsumerState<infoPage> {
                                                   ? ScaffoldMessenger.of(context)
                                                       .showSnackBar(SnackBar(content: Text("Please re-enter your password!")))
                                                   : check == false
-                                                      ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please agree to the Terms and Conditions!")))
-                                                      : ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
+                                                      ? ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Please agree to the Terms and Conditions!")))
+                                                      : ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Please enter your valid details!")));
                             }
                           },
                           child: Container(

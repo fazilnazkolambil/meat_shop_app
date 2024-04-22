@@ -24,7 +24,11 @@ class _myaddressState extends State<myaddress> {
                   color: colorConst.grey1,
                   borderRadius: BorderRadius.circular(scrWidth*0.08)
               ),
-              child: Center(child: SvgPicture.asset(iconConst.backarrow))
+              child: Center(child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                  child: SvgPicture.asset(iconConst.backarrow)))
           ),
         ),
         title: Text("My address",
@@ -124,7 +128,7 @@ class _myaddressState extends State<myaddress> {
                               borderRadius: BorderRadius.circular(scrWidth*0.01),
                                 color: Colors.grey[500]
                             ),
-                            child: Center(child: Icon(Icons.delete_outline)),
+                            child: Center(child: Icon(Icons.delete_outline,color: colorConst.meroon,)),
                           ),
                         ),
                         InkWell(

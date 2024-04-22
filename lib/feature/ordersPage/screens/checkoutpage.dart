@@ -12,6 +12,7 @@ import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
 import '../../homePage/screens/meatList.dart';
+import '../../onboardPage/screens/NavigationPage.dart';
 import 'cart_page.dart';
 import 'orderconfirm_page.dart';
 
@@ -47,16 +48,35 @@ class _checkoutpageState extends State<checkoutpage> {
       address: addressController.text,
 
     ).toMap());
-    await FirebaseFirestore.instance.collection("users").doc("+918555535689").get().then((value) {
+    await FirebaseFirestore.instance.collection("users").doc("$loginId").get().then((value) {
       userModel = UserModel.fromMap(value.data()!);
     });
     UserModel tempuserModel=userModel!.copyWith(
       address: addre
     );
-    await FirebaseFirestore.instance.collection("users").doc("+918555535689").update(tempuserModel.toMap());
+    await FirebaseFirestore.instance.collection("users").doc("$loginId").update(tempuserModel.toMap());
+  }
+  List address=  [];
+  autoFill() async {
+    var data= await FirebaseFirestore.instance.collection("users").doc("$loginId").get();
+    Map a = data.data()!;
+    address = a["address"];
+    print(address);
+    numberController.text=address[0]["number"];
+    pincodeController.text=address[0]["pincode"];
+    addressController.text=address[0]["address"];
+    nameController.text=address[0]["name"];
+    landmarkController.text=address[0]["landmark"];
+    housenoController.text=address[0]["houseno"];
   }
   String? _d1;
    String? _t1;
+   @override
+  void initState() {
+     autoFill();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -236,7 +256,7 @@ class _checkoutpageState extends State<checkoutpage> {
                                     height: scrWidth*1.7,
                                     child: SingleChildScrollView(
                                       child: Container(
-
+                                        height: scrWidth*1.75,
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [

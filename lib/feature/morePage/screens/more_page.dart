@@ -27,7 +27,7 @@ class morePage extends StatefulWidget {
 }
 
 class _morePageState extends State<morePage> {
-  String username = "";
+  String username = "User";
   String email = "";
   String phonenumber = "";
   String id = "";
@@ -64,24 +64,12 @@ class _morePageState extends State<morePage> {
           padding: EdgeInsets.all(scrWidth * 0.03),
           child: SvgPicture.asset(iconConst.profile),
         ),
-        title: Row(
-          children: [
-            Text(
-              "Aneesh,",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: scrWidth * 0.045,
-                  color: colorConst.meroon),
-            ),
-            Text(
-              "14 Mar. 2025",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: scrWidth * 0.037,
-                // color: colorConst.color2
-              ),
-            ),
-          ],
+        title: Text(
+          username,
+          style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: scrWidth * 0.045,
+              color: colorConst.meroon),
         ),
         actions: [
           Row(
@@ -186,7 +174,7 @@ class _morePageState extends State<morePage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Text("Please Login your Profile!",
+                                            Text("You haven't registered yet!",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w700,
@@ -201,7 +189,7 @@ class _morePageState extends State<morePage> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           infoPage(
-                                                        path: 'MeatPage',
+                                                        path: '',
                                                       ),
                                                     ));
                                               },

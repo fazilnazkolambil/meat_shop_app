@@ -75,18 +75,20 @@ class _infoPageState extends ConsumerState<infoPage> {
     imageUrl = getImage;
   }
 
-  addUser() {
-    ref.watch(authControllerProvider).adding(UserModel(
-        name: nameController.text,
+  addUser() async {
+    ref.watch(authControllerProvider).adding(userModel: UserModel(
+        name: nameController.text.trim(),
         email: emailController.text,
         password: passwordController.text,
         number: countryCode.toString() + phoneController.text,
         address: [],
         favourites: [],
         image: imageUrl,
-        id: ''));
+        id: ''), context: context);
+   // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setBool("LoggedIn", true);
+    // prefs.setString("loginUserId", loginUserId!);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +96,9 @@ class _infoPageState extends ConsumerState<infoPage> {
         elevation: 0,
         backgroundColor: colorConst.white,
         leading: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: Padding(
             padding: EdgeInsets.all(scrWidth * 0.03),
             child: Container(
@@ -510,6 +514,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: scrWidth * 0.04),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (!passwordValidation.hasMatch(value!)) {
                               return "Password must contain at least 8 characters with \n one lowercae(a-z),one uppercase(A-Z) \n & one special character";
@@ -599,7 +604,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: scrWidth * 0.04),
-                          autovalidateMode: AutovalidateMode.always,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (confirmPasswordController.text !=
                                 passwordController.text) {
@@ -663,77 +668,75 @@ class _infoPageState extends ConsumerState<infoPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: scrWidth * 0.05,
-                                  width: scrWidth * 0.05,
-                                  decoration: BoxDecoration(
-                                      color: colorConst.white,
-                                      borderRadius: BorderRadius.circular(
-                                          scrWidth * 0.01),
-                                      border: Border.all(
-                                          width: scrWidth * 0.0003,
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: scrWidth * 0.05,
+                                width: scrWidth * 0.05,
+                                decoration: BoxDecoration(
+                                    color: colorConst.white,
+                                    borderRadius: BorderRadius.circular(
+                                        scrWidth * 0.01),
+                                    border: Border.all(
+                                        width: scrWidth * 0.0003,
+                                        color: colorConst.black
+                                            .withOpacity(0.38)),
+                                    boxShadow: [
+                                      BoxShadow(
                                           color: colorConst.black
-                                              .withOpacity(0.38)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: colorConst.black
-                                                .withOpacity(0.1),
-                                            blurRadius: 14,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0)
-                                      ]),
-                                  child: Checkbox(
-                                    value: check,
-                                    activeColor: colorConst.meroon,
-                                    side: BorderSide(
-                                        color:
-                                            colorConst.black.withOpacity(0.1)),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            scrWidth * 0.01)),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        check = value!;
-                                      });
-                                    },
-                                  ),
+                                              .withOpacity(0.1),
+                                          blurRadius: 14,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0)
+                                    ]),
+                                child: Checkbox(
+                                  value: check,
+                                  activeColor: colorConst.meroon,
+                                  side: BorderSide(
+                                      color:
+                                          colorConst.black.withOpacity(0.1)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          scrWidth * 0.01)),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      check = value!;
+                                    });
+                                  },
                                 ),
-                                SizedBox(
-                                  width: scrWidth * 0.04,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(top: scrWidth * 0.05),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "* By login I Agree with all the",
+                              ),
+                              SizedBox(
+                                width: scrWidth * 0.04,
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: scrWidth * 0.05),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "* By login I Agree with all the",
+                                      style: TextStyle(
+                                          fontSize: scrWidth * 0.034,
+                                          fontWeight: FontWeight.w500,
+                                          color: colorConst.grey),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                                      },
+                                      child: Text(
+                                        " Terms & Conditions",
                                         style: TextStyle(
                                             fontSize: scrWidth * 0.034,
-                                            fontWeight: FontWeight.w500,
-                                            color: colorConst.grey),
+                                            fontWeight: FontWeight.w700,
+                                            color: colorConst.meroon),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
-                                        },
-                                        child: Text(
-                                          " Terms & Conditions",
-                                          style: TextStyle(
-                                              fontSize: scrWidth * 0.034,
-                                              fontWeight: FontWeight.w700,
-                                              color: colorConst.meroon),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),
@@ -742,74 +745,62 @@ class _infoPageState extends ConsumerState<infoPage> {
                       ),
                       InkWell(
                           onTap: () {
-                            if (check == true &&
-                                passwordController.text ==
-                                    confirmPasswordController.text &&
+                            if (
+                                check == true &&
+                                passwordController.text == confirmPasswordController.text &&
                                 nameController.text != "" &&
                                 phoneController.text != "" &&
                                 emailController.text != "" &&
                                 passwordController.text != "" &&
                                 confirmPasswordController.text != "" &&
                                 formkey.currentState!.validate()) {
-                              FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                      email: emailController.text,
-                                      password: passwordController.text)
-                                  .then((value) async {
-                                addUser();
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setBool("LoggedIn", true);
-                                prefs.setString("loginUserId", loginUserId!);
-                                if (widget.path == "MeatPage") {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NavigationPage(),
-                                      ));
-                                } else {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => checkoutpage(),
-                                      ));
-                                }
+                              // FirebaseAuth.instance.createUserWithEmailAndPassword(
+                              //         email: emailController.text,
+                              //         password: passwordController.text)
+                              //     .then((value) async {
+                                 addUser();
+                                //
+                                // if (widget.path == "MeatPage") {
+                                //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
+                                // } else {
+                                //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                                // }
 
-                                // FirebaseFirestore.instance.collection('users')
-                                //     .add(
-                                //     UserModel(
-                                //       name: nameController.text,
-                                //       email: emailController.text,
-                                //       password: passwordController.text,
-                                //       number: countryCode.toString() +
-                                //           phoneController.text,
-                                //       address: [],
-                                //       favourites: [],
-                                //       image: imageUrl,
-                                //       id: '',
-                                //     ).toMap())
-                                //     .then((value) {
-                                //   loginUserId = value.id;
-                                //   value.update({
-                                //     "id": value.id
-                                //   }).then((value) async {
-                                //     SharedPreferences prefs = await SharedPreferences.getInstance();
-                                //     prefs.setBool("LoggedIn", true);
-                                //     prefs.setString("loginUserId",loginUserId!);
-                                //   }).then((value) {
-                                //     if(widget.path == "MeatPage"){
-                                //       Navigator.pushReplacement(context,
-                                //       MaterialPageRoute(builder: (context) => NavigationPage(),));
-                                //     }else{
-                                //       Navigator.pushReplacement(context,
-                                //       MaterialPageRoute(builder: (context) => checkoutpage(),));
-                                //     }
-                                //   });
-                                // });
-                              }).catchError((onError) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(onError.code)));
-                              });
+                              //   FirebaseFirestore.instance.collection('users')
+                              //       .add(
+                              //       UserModel(
+                              //         name: nameController.text,
+                              //         email: emailController.text,
+                              //         password: passwordController.text,
+                              //         number: countryCode.toString() +
+                              //             phoneController.text,
+                              //         address: [],
+                              //         favourites: [],
+                              //         image: imageUrl,
+                              //         id: '',
+                              //       ).toMap())
+                              //       .then((value) {
+                              //     loginUserId = value.id;
+                              //     value.update({
+                              //       "id": value.id
+                              //     }).then((value) async {
+                              //       SharedPreferences prefs = await SharedPreferences.getInstance();
+                              //       prefs.setBool("LoggedIn", true);
+                              //       prefs.setString("loginUserId",loginUserId!);
+                              //     }).then((value) {
+                              //       if(widget.path == "MeatPage"){
+                              //         Navigator.pushReplacement(context,
+                              //         MaterialPageRoute(builder: (context) => checkoutpage(),));
+                              //       }else{
+                              //         Navigator.pushReplacement(context,
+                              //         MaterialPageRoute(builder: (context) => NavigationPage(),));
+                              //       }
+                              //     });
+                              //   });
+                              // }).catchError((onError) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //       SnackBar(content: Text(onError.code)));
+                              // });
                             } else {
                               nameController.text == ""
                                   ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(

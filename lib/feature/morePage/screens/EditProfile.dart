@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,6 +89,7 @@ class _EditProfileState extends State<EditProfile> {
       );
       await FirebaseFirestore.instance.collection('users').doc(widget.id).update(tempUserModel.toMap()).then((value){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Profile Updated!")));
       });
 
   }
@@ -127,130 +129,127 @@ class _EditProfileState extends State<EditProfile> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: loading?
-                  SizedBox(
-                    height:scrHeight*0.15,
-                      child: Lottie.asset(gifs.loadingGif)):
-                  Stack(
-                    children: [
-                      SizedBox(
-                        height:scrHeight*0.15,
-                        child: newImage.isEmpty
-                            ? CircleAvatar(
-                                radius: scrWidth*0.06,
-                                backgroundImage: AssetImage(imageConst.logo),
-                              )
-                            : CircleAvatar(
-                                backgroundImage: NetworkImage(newImage),
-                          radius: scrWidth*0.2,
-                              ),
+                loading?
+                SizedBox(
+                  height:scrHeight*0.15,
+                    child: Lottie.asset(gifs.loadingGif)):
+                Stack(
+                  children: [
+                    SizedBox(
+                      height:scrHeight*0.15,
+                      child: newImage.isEmpty
+                          ? CircleAvatar(
+                              radius: scrWidth*0.2,
+                              backgroundImage: AssetImage(imageConst.logo),
+                            )
+                          : CircleAvatar(
+                              backgroundImage: NetworkImage(newImage),
+                              radius: scrWidth*0.2,
+                            ),
 
-                      ),
-                      Positioned(
-                          bottom: 0,
-                          right: 15,
-                          child: InkWell(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              pickFile(ImageSource.camera);
-                                              Navigator.pop(context);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  "Choose a file form",
-                                                  style: TextStyle(
-                                                      fontSize: scrWidth * 0.04),
-                                                ),
-                                                SizedBox(
-                                                  height: scrWidth * 0.04,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Container(
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 15,
+                        child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            pickFile(ImageSource.camera);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "Choose a file form",
+                                                style: TextStyle(
+                                                    fontSize: scrWidth * 0.04),
+                                              ),
+                                              SizedBox(
+                                                height: scrWidth * 0.04,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: scrWidth * 0.1,
+                                                    width: scrWidth * 0.1,
+                                                    decoration: BoxDecoration(
+                                                        color: colorConst.white,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            scrWidth * 0.04),
+                                                        border: Border.all(
+                                                            color:
+                                                            colorConst.grey)),
+                                                    child: Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      color: colorConst.black,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: scrWidth * 0.05,
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      pickFile(
+                                                          ImageSource.gallery);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
                                                       height: scrWidth * 0.1,
                                                       width: scrWidth * 0.1,
                                                       decoration: BoxDecoration(
                                                           color: colorConst.white,
                                                           borderRadius:
-                                                          BorderRadius.circular(
-                                                              scrWidth * 0.04),
+                                                          BorderRadius
+                                                              .circular(
+                                                              scrWidth *
+                                                                  0.04),
                                                           border: Border.all(
-                                                              color:
-                                                              colorConst.grey)),
+                                                              color: colorConst
+                                                                  .meroon)),
                                                       child: Icon(
-                                                        Icons.camera_alt_outlined,
+                                                        Icons.image,
                                                         color: colorConst.black,
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      width: scrWidth * 0.05,
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        pickFile(
-                                                            ImageSource.gallery);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Container(
-                                                        height: scrWidth * 0.1,
-                                                        width: scrWidth * 0.1,
-                                                        decoration: BoxDecoration(
-                                                            color: colorConst.white,
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                scrWidth *
-                                                                    0.04),
-                                                            border: Border.all(
-                                                                color: colorConst
-                                                                    .meroon)),
-                                                        child: Icon(
-                                                          Icons.image,
-                                                          color: colorConst.black,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Container(
-                                  height: scrWidth * 0.05,
-                                  width: scrWidth * 0.05,
-                                  decoration: BoxDecoration(
-                                      color: colorConst.meroon,
-                                      borderRadius: BorderRadius.only(
-                                          bottomRight:
-                                          Radius.circular(scrWidth * 0.02),
-                                          topLeft:
-                                          Radius.circular(scrWidth * 0.02))),
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: colorConst.white,
-                                    size: scrWidth * 0.03,
-                                  )) //SvgPicture.asset(iconConst.edit),
-                          ))
-                    ],
-                  ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                                height: scrWidth * 0.05,
+                                width: scrWidth * 0.05,
+                                decoration: BoxDecoration(
+                                    color: colorConst.meroon,
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight:
+                                        Radius.circular(scrWidth * 0.02),
+                                        topLeft:
+                                        Radius.circular(scrWidth * 0.02))),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: colorConst.white,
+                                  size: scrWidth * 0.03,
+                                )) //SvgPicture.asset(iconConst.edit),
+                        ))
+                  ],
                 ),
                 SizedBox(
                   height: scrWidth * 0.05,

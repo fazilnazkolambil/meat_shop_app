@@ -43,6 +43,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
   List categoryCollection = [];
   List meatCollection = [];
   List fav=[];
+  List favoriteList =[];
 
   getMeats() async {
     var category = await FirebaseFirestore.instance
@@ -54,7 +55,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
 
     setState(() {});
   }
-  List favoriteList =[];
+
   getMeatDetails() async {
       var meatDetails = await FirebaseFirestore.instance
         .collection("meatTypes")
@@ -539,7 +540,6 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 "rate" : data[index]["rate"],
                                                 "id" : data[index]["id"],
                                                 "description" : data[index]["description"],
-                                                "added" : true,
                                               });
                                               FirebaseFirestore.instance.collection("users").doc(loginId).update({
                                                 "favourites" : FieldValue.arrayUnion(favoriteList)

@@ -1,6 +1,6 @@
 class UserModel{
-  String? name, email, number, password, image, id;
-  List? address, favourites;
+  String name, email, number, password, image, id;
+  List address, favourites;
 
   UserModel({
     required this.name,
@@ -20,7 +20,7 @@ Map <String, dynamic> toMap(){
     "number" : this.number,
     "password" : this.password,
     "address" : this.address,
-    "favourites" : this.favourites,
+    'favourites' : this.favourites,
     "image" : this.image,
     "id" : this.id,
   };
@@ -32,7 +32,7 @@ Map <String, dynamic> toMap(){
     number : map["number"] ?? "",
     password : map["password"] ?? "",
     address: map["address"] ?? [],
-    favourites: map["favourites"] ?? [],
+    favourites: map['favourites'] ?? [],
     image: map["image"]??[],
     id: map["id"]??[],
   );

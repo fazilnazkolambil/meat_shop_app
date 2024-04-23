@@ -105,146 +105,148 @@ bool loading  = false;
       ),
       body: Padding(
         padding: EdgeInsets.all(scrWidth*0.03),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                height: scrHeight*0.067,
-                width: scrWidth*1,
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                  style: TextStyle(
-                    fontSize: scrWidth * 0.04,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  decoration: InputDecoration(
-                    fillColor: colorConst.grey1,
-                    filled: true,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(scrWidth*0.029),
-                      child: SvgPicture.asset(iconConst.search,
-                      ),
-                    ),prefixIconConstraints: BoxConstraints(
-                    maxHeight: scrWidth*0.1,
-                    maxWidth: scrWidth*0.1
-                  ),
-                    hintText: "Search here for anything you want...",
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: scrWidth * 0.04,
-                        color: colorConst.grey),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(scrWidth * 0.09),
-                        borderSide: BorderSide(color: colorConst.grey1)
-                      ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(scrWidth * 0.09),
-                        borderSide: BorderSide(color: colorConst.grey1)),
-                  ),
-                ),
-              ),
-              CarouselSlider.builder(
-                itemCount: images.length,
-                options: CarouselOptions(
-                    autoPlay: true,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) {
-                      ref.read(carouselaProvider.notifier).update((state) => index);
-                    },
-                    autoPlayAnimationDuration: Duration(
-                      seconds: 1,
-                    )
-                ),
-                itemBuilder: (BuildContext context, int index, int realIndex) {
-                  return  Container(
-                    height: scrHeight*0.4,
-                    width: scrWidth*1,
-                    decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(scrWidth*0.04) ,
-                        image: DecorationImage(
-                            image: AssetImage(images[index]),
-                            fit: BoxFit.fill
-                        )
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  height: scrHeight*0.067,
+                  width: scrWidth*1,
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                      fontSize: scrWidth * 0.04,
+                      fontWeight: FontWeight.w400,
                     ),
-                  );
-                },
-              ),
-              SizedBox(height: scrHeight*0.03,),
-              SizedBox(
-                height: scrHeight*0.5,
-                width: scrWidth*1,
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('meatTypes').snapshots(),
-                  builder: (context, snapshot) {
-                    if(!snapshot.hasData){
-                      return Lottie.asset(gifs.loadingGif);
-                    }
-                    var data = snapshot.data!.docs;
-                    return  data.isEmpty?
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                            height: scrHeight*0.15,
-                            child: Lottie.asset(gifs.comingSoon)),
-                        Text("Meats will be available Soon!",style: TextStyle(
-                            fontSize: scrWidth*0.05,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.meroon
-                        ),)
-                      ],
-                    ):
-                      GridView.builder(
-                      itemCount: data.length,
-                      physics: BouncingScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: scrWidth * 0.05 ,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: scrWidth* 0.05,
-                      ),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MeatListPage(
-                              type: data[index]["type"],
-                            )));
-                          },
-                          child: Container(
-                            height: scrWidth*0.5,
-                            width: scrWidth*0.5,
-                            decoration: BoxDecoration(
-                                color: colorConst.white,
-                                borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                border: Border.all(color: colorConst.grey1),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: colorConst.black.withOpacity(0.1),
-                                    blurRadius: 4,
-                                  )
-                                ]
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CircleAvatar(
-                                  radius: scrWidth*0.15,
-                                  backgroundImage: NetworkImage(data[index]["mainImage"],),
-                                ),
-                                Text(data[index]["type"],
-                                  style: TextStyle(fontSize: scrWidth*0.04),),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
+                    decoration: InputDecoration(
+                      fillColor: colorConst.grey1,
+                      filled: true,
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(scrWidth*0.029),
+                        child: SvgPicture.asset(iconConst.search,
+                        ),
+                      ),prefixIconConstraints: BoxConstraints(
+                      maxHeight: scrWidth*0.1,
+                      maxWidth: scrWidth*0.1
+                    ),
+                      hintText: "Search here for anything you want...",
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: scrWidth * 0.04,
+                          color: colorConst.grey),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(scrWidth * 0.09),
+                          borderSide: BorderSide(color: colorConst.grey1)
+                        ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(scrWidth * 0.09),
+                          borderSide: BorderSide(color: colorConst.grey1)),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
+                CarouselSlider.builder(
+                  itemCount: images.length,
+                  options: CarouselOptions(
+                      autoPlay: true,
+                      viewportFraction: 1,
+                      onPageChanged: (index, reason) {
+                        ref.read(carouselaProvider.notifier).update((state) => index);
+                      },
+                      autoPlayAnimationDuration: Duration(
+                        seconds: 1,
+                      )
+                  ),
+                  itemBuilder: (BuildContext context, int index, int realIndex) {
+                    return  Container(
+                      height: scrHeight*0.4,
+                      width: scrWidth*1,
+                      decoration: BoxDecoration(
+                          borderRadius:BorderRadius.circular(scrWidth*0.04) ,
+                          image: DecorationImage(
+                              image: AssetImage(images[index]),
+                              fit: BoxFit.fill
+                          )
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: scrHeight*0.03,),
+                SizedBox(
+                  height: scrHeight*0.5,
+                  width: scrWidth*1,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('meatTypes').snapshots(),
+                    builder: (context, snapshot) {
+                      if(!snapshot.hasData){
+                        return Lottie.asset(gifs.loadingGif);
+                      }
+                      var data = snapshot.data!.docs;
+                      return  data.isEmpty?
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                              height: scrHeight*0.15,
+                              child: Lottie.asset(gifs.comingSoon)),
+                          Text("Meats will be available Soon!",style: TextStyle(
+                              fontSize: scrWidth*0.05,
+                              fontWeight: FontWeight.w700,
+                              color: colorConst.meroon
+                          ),)
+                        ],
+                      ):
+                        GridView.builder(
+                        itemCount: data.length,
+                        physics: BouncingScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: scrWidth * 0.05 ,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: scrWidth* 0.05,
+                        ),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MeatListPage(
+                                type: data[index]["type"],
+                              )));
+                            },
+                            child: Container(
+                              height: scrWidth*0.5,
+                              width: scrWidth*0.5,
+                              decoration: BoxDecoration(
+                                  color: colorConst.white,
+                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                  border: Border.all(color: colorConst.grey1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: colorConst.black.withOpacity(0.1),
+                                      blurRadius: 4,
+                                    )
+                                  ]
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircleAvatar(
+                                    radius: scrWidth*0.15,
+                                    backgroundImage: NetworkImage(data[index]["mainImage"],),
+                                  ),
+                                  Text(data[index]["type"],
+                                    style: TextStyle(fontSize: scrWidth*0.04),),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  ),
+                ),
+              ],
+            ),
+        ),
       ),
 
     );

@@ -60,7 +60,7 @@ class _morePageState extends State<morePage> {
       appBar: AppBar(
         backgroundColor: colorConst.white,
         elevation: 0,
-        leading: loginId!= null && userImage != null?
+        leading: loginId!= null && userImage != null && userImage != ""?
         CircleAvatar(
           radius: scrWidth*0.05,
           backgroundImage: NetworkImage(userImage!),

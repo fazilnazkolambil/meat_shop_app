@@ -23,7 +23,7 @@ class cartPage extends ConsumerStatefulWidget {
 
 class _CartPageState extends ConsumerState<cartPage> {
   var totalPrice = 0;
-addingTotal (){
+addingTotal (int index){
   for(int i = 0; i < meatDetailCollection.length; i++){
     totalPrice = meatDetailCollection[i]["quantity"]*meatDetailCollection[i]["rate"];
     // ref.read(totalProviders.notifier).update((state) => totalPrice);
@@ -31,11 +31,6 @@ addingTotal (){
   }
 }
   @override
-  void initState() {
-  addingTotal();
-  // TODO: implement initState
-    super.initState();
-  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +56,7 @@ addingTotal (){
         actions: [
           InkWell(
               onTap: () {
-                //print(meatDetailCollection);
+                print(meatDetailCollection);
                 print(totalPrice);
               },
               child: addCart.isEmpty?
@@ -430,7 +425,7 @@ addingTotal (){
                                     onTap: () {
                                       meatDetailCollection[index]["quantity"]<=1? 1
                                           :meatDetailCollection[index]["quantity"]--;
-                                      addingTotal();
+                                      addingTotal(index);
                                       setState(() {
 
                                       });
@@ -460,7 +455,7 @@ addingTotal (){
                                   InkWell(
                                     onTap: () {
                                       meatDetailCollection[index]["quantity"]++;
-                                      addingTotal();
+                                      addingTotal(index);
                                       setState(() {
 
                                       });

@@ -63,10 +63,10 @@ bool loading  = false;
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: loginId != null && userImage != null?
+        leading: loginId != null && userImage != null && userImage != ""?
         CircleAvatar(
           radius: scrWidth*0.05,
-          backgroundImage: NetworkImage(userImage!),
+          backgroundImage:NetworkImage(userImage!),
         ):
         CircleAvatar(
           radius: scrWidth*0.05,

@@ -7,6 +7,9 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/main.dart';
 
+import '../../homePage/screens/meatList.dart';
+import 'cart_page.dart';
+
 class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
 
@@ -24,22 +27,50 @@ class _MyOrdersState extends State<MyOrders> {
         backgroundColor: colorConst.white,
         appBar: AppBar(
           backgroundColor: colorConst.white,
-          elevation: 0,
-          toolbarHeight: scrHeight * 0.1,
-          // leadingWidth: w * 0.03,
-          title: Padding(
-            padding: EdgeInsets.all(scrWidth*0.03),
-            child: Text("My Orders",
-                style: TextStyle(
-                    color: colorConst.black,
-                    fontSize: scrWidth * 0.055,
-                    fontWeight: FontWeight.w800)),
-          ),
+          leading: SizedBox(),
+          leadingWidth: 0,
+          title: Text("My  Orders",
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+
+            ),),
           actions: [
-            SvgPicture.asset(iconConst.cart),
-            SizedBox(width: scrWidth*0.025,),
+            InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
+                },
+                child: addCart.isEmpty?
+                SvgPicture.asset(iconConst.cart):
+                SizedBox(
+                  height: scrWidth*0.08,
+                  width: scrWidth*0.08,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        bottom: scrWidth*0.03,
+                        left: scrWidth*0.03,
+                        child: CircleAvatar(
+                          backgroundColor: colorConst.meroon,
+                          radius: scrWidth*0.025,
+                          child: Center(
+                            child: Text(addCart.length.toString(),style: TextStyle(
+                                color: colorConst.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: scrWidth*0.03
+                            ),),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                          left: 0,
+                          bottom: 0,
+                          child: SvgPicture.asset(iconConst.cart,)),
+                    ],
+                  ),
+                )),
+            SizedBox(width: scrWidth*0.04,),
             SvgPicture.asset(iconConst.notification),
-            SizedBox(width: scrWidth*0.025,),
+            SizedBox(width: scrWidth*0.04,),
           ],
           bottom:
           TabBar(

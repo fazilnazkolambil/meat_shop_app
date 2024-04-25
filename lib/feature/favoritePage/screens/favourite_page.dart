@@ -28,12 +28,12 @@ class _favouritePageState extends State<favouritePage> {
     return Scaffold(
       backgroundColor: colorConst.white,
       appBar: AppBar(
+        backgroundColor: colorConst.white,
         leading: SizedBox(),
         leadingWidth: 0,
         title: Text("Favourite",
           style: TextStyle(
             fontWeight: FontWeight.w800,
-
           ),),
         actions: [
           InkWell(

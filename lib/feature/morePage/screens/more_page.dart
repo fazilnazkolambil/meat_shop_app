@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +34,17 @@ class _morePageState extends State<morePage> {
   String userEmail = "";
   String userPhoneNumber = "";
   String? userImage;
-  getUserData () async {
+  List meatDetailCollection = [];
+  Future <void> getUserData () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString("cart");
+    String? jsonString2 = prefs.getString("cart2");
+    if (jsonString != null && jsonString2 != null){
+      setState(() {
+        meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
+      });
+    }
     loginId = prefs.getString("loginUserId") ?? "";
     var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
       UserModel users = UserModel.fromMap(value.data()!);
@@ -46,6 +57,7 @@ class _morePageState extends State<morePage> {
 
     });
   }
+
 
   @override
   void initState() {
@@ -559,12 +571,9 @@ class _morePageState extends State<morePage> {
                                   prefs.remove("LoggedIn");
                                   prefs.remove("gotIn");
                                   prefs.remove("loginUserId");
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NavigationPage(),
-                                      ),
-                                          (route) => false);
+                                  prefs.remove("cart");
+                                  prefs.remove("cart2");
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage()),(route) => false);
                                 },
                                 child: Container(
                                   height: scrWidth*0.08,

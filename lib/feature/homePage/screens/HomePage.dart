@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,6 +33,18 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   String? userImage;
+  List meatDetailCollection = [];
+  Future <void> loadData()  async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString("cart");
+    String? jsonString2 = prefs.getString("cart2");
+    if (jsonString != null && jsonString2 != null){
+      setState(() {
+        meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
+      });
+    }
+  }
   getData () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginId = prefs.getString("loginUserId") ?? "";
@@ -52,7 +66,7 @@ bool loading  = false;
 @override
   void initState() {
   getData();
-
+  loadData();
   // TODO: implement initState
     super.initState();
   }
@@ -90,7 +104,7 @@ bool loading  = false;
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
               },
-              child: addCart.isEmpty?
+              child: meatDetailCollection.isEmpty?
               SvgPicture.asset(iconConst.cart):
               SizedBox(
                 height: scrWidth*0.08,
@@ -104,7 +118,7 @@ bool loading  = false;
                         backgroundColor: colorConst.meroon,
                         radius: scrWidth*0.025,
                         child: Center(
-                          child: Text(addCart.length.toString(),style: TextStyle(
+                          child: Text(meatDetailCollection.length.toString(),style: TextStyle(
                               color: colorConst.white,
                               fontWeight: FontWeight.w600,
                               fontSize: scrWidth*0.03

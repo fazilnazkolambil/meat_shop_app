@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,7 @@ import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/repository/providers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../authPage/screens/info_page.dart';
@@ -22,15 +25,44 @@ class cartPage extends ConsumerStatefulWidget {
 }
 
 class _CartPageState extends ConsumerState<cartPage> {
-  var totalPrice = 0;
-addingTotal (int index){
-  for(int i = 0; i < meatDetailCollection.length; i++){
-    totalPrice = meatDetailCollection[i]["quantity"]*meatDetailCollection[i]["rate"];
-    // ref.read(totalProviders.notifier).update((state) => totalPrice);
-    print(totalPrice);
+
+  int total = 0;
+  int totalPrice = 0;
+  int discount = 0;
+  int shippingCharge = 50;
+addingTotal() {
+  total = 0;
+  for (int i = 0; i < meatDetailCollection.length; i++){
+    total = meatDetailCollection[i]["quantity"] * meatDetailCollection[i]["rate"] + total;
+    totalPrice = total - discount + shippingCharge;
   }
 }
+  List meatDetailCollection = [];
+  Future <void> loadData()  async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString("cart");
+    String? jsonString2 = prefs.getString("cart2");
+    if (jsonString != null && jsonString2 != null){
+      setState(() {
+        meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
+      });
+    }
+  }
+  Future <void> saveData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String jsonString = json.encode(meatDetailCollection);
+    String jsonString2 = json.encode(addCart);
+    prefs.setString("cart", jsonString);
+    prefs.setString("cart2", jsonString2);
+  }
   @override
+  void initState() {
+  addingTotal();
+  loadData();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +70,7 @@ addingTotal (int index){
           padding:  EdgeInsets.all(scrWidth*0.03),
           child: InkWell(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
             },
             child: Container(
                 decoration: BoxDecoration(
@@ -55,11 +87,11 @@ addingTotal (int index){
         ),),
         actions: [
           InkWell(
-              onTap: () {
-                print(meatDetailCollection);
-                print(totalPrice);
+              onTap: () async {
+                //print(meatDetailCollection);
+                //print(totalPrice.last);
               },
-              child: addCart.isEmpty?
+              child: meatDetailCollection.isEmpty?
               SvgPicture.asset(iconConst.cart):
               SizedBox(
                 height: scrWidth*0.08,
@@ -73,7 +105,7 @@ addingTotal (int index){
                         backgroundColor: colorConst.meroon,
                         radius: scrWidth*0.025,
                         child: Center(
-                          child: Text(addCart.length.toString(),style: TextStyle(
+                          child: Text(meatDetailCollection.length.toString(),style: TextStyle(
                               color: colorConst.white,
                               fontWeight: FontWeight.w600,
                               fontSize: scrWidth*0.03
@@ -93,7 +125,7 @@ addingTotal (int index){
           SizedBox(width: scrWidth*0.03,),
         ],
       ),
-      bottomNavigationBar:addCart.isEmpty?SizedBox():
+      bottomNavigationBar:meatDetailCollection.isEmpty?SizedBox():
       Container(
         height: scrWidth*0.37,
         decoration: BoxDecoration(
@@ -122,7 +154,7 @@ addingTotal (int index){
                         fontSize: scrWidth*0.05,
                         fontWeight: FontWeight.w700
                     ),),
-                  Text("₹ $totalPrice.00",
+                  Text("₹ $totalPrice .00",
                     style: TextStyle(
                         color: colorConst.meroon,
                         fontSize: scrWidth*0.05,
@@ -223,7 +255,7 @@ addingTotal (int index){
       ),
       body: Padding(
         padding:  EdgeInsets.all(scrWidth*0.028),
-        child: addCart.isEmpty?
+        child: meatDetailCollection.isEmpty?
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -261,7 +293,7 @@ addingTotal (int index){
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  itemCount: addCart.length,
+                  itemCount: meatDetailCollection.length,
                   itemBuilder: (context, index) {
                     return Container(
                       height: scrWidth*0.33,
@@ -377,6 +409,8 @@ addingTotal (int index){
                                               onTap : () {
                                                 meatDetailCollection.removeAt(index);
                                                 addCart.removeAt(index);
+                                                saveData();
+                                                addingTotal();
                                                 Navigator.pop(context);
                                                 setState(() {
 
@@ -425,7 +459,8 @@ addingTotal (int index){
                                     onTap: () {
                                       meatDetailCollection[index]["quantity"]<=1? 1
                                           :meatDetailCollection[index]["quantity"]--;
-                                      addingTotal(index);
+                                      meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
+                                      addingTotal();
                                       setState(() {
 
                                       });
@@ -455,7 +490,8 @@ addingTotal (int index){
                                   InkWell(
                                     onTap: () {
                                       meatDetailCollection[index]["quantity"]++;
-                                      addingTotal(index);
+                                      meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
+                                      addingTotal();
                                       setState(() {
 
                                       });
@@ -550,11 +586,11 @@ addingTotal (int index){
                         fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
-                      Text("₹ $totalPrice.00",
+                      Text("₹ $total.00",
                       style: TextStyle(
                         color: colorConst.black,
                         fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w600
                       ),)
                     ],
                   ),
@@ -568,7 +604,7 @@ addingTotal (int index){
                         fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
-                      Text("₹ 0.00",
+                      Text("₹ $discount.00",
                       style: TextStyle(
                         color: colorConst.black,
                         fontSize: scrWidth*0.04,
@@ -586,7 +622,7 @@ addingTotal (int index){
                         fontSize: scrWidth*0.04,
                         fontWeight: FontWeight.w500
                       ),),
-                      Text("₹ 50.00",
+                      Text("₹ $shippingCharge.00",
                       style: TextStyle(
                         color: colorConst.black,
                         fontSize: scrWidth*0.04,

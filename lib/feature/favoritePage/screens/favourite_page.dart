@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,31 @@ class favouritePage extends StatefulWidget {
 }
 
 class _favouritePageState extends State<favouritePage> {
-
+  List meatDetailCollection = [];
+  Future <void> saveData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String jsonString = json.encode(meatDetailCollection);
+    String jsonString2 = json.encode(meatDetailCollection);
+    prefs.setString('cart', jsonString);
+    prefs.setString('cart2', jsonString2);
+  }
+  Future <void> loadData()  async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString("cart");
+    String? jsonString2 = prefs.getString("cart2");
+    if (jsonString != null && jsonString2 != null){
+      setState(() {
+        meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
+      });
+    }
+  }
+@override
+  void initState() {
+    loadData();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorConst.white,

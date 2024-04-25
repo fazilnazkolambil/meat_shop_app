@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../homePage/screens/meatList.dart';
 import 'cart_page.dart';
@@ -19,7 +22,25 @@ class MyOrders extends StatefulWidget {
 
 class _MyOrdersState extends State<MyOrders> {
   int selectIndex = 0;
+  List meatDetailCollection = [];
+
+  Future <void> loadData()  async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString("cart");
+    String? jsonString2 = prefs.getString("cart2");
+    if (jsonString != null && jsonString2 != null){
+      setState(() {
+        meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
+      });
+    }
+  }
   @override
+  void initState() {
+    loadData();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +11,7 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/models/addressModel.dart';
 import 'package:meat_shop_app/models/userModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../homePage/screens/meatList.dart';
@@ -71,9 +74,23 @@ class _checkoutpageState extends State<checkoutpage> {
   }
   String? _d1;
    String? _t1;
+  List meatDetailCollection = [];
+
+  Future <void> loadData()  async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString("cart");
+    String? jsonString2 = prefs.getString("cart2");
+    if (jsonString != null && jsonString2 != null){
+      setState(() {
+        meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
+      });
+    }
+  }
    @override
   void initState() {
      autoFill();
+     loadData();
     // TODO: implement initState
     super.initState();
   }

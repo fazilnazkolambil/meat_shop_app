@@ -32,7 +32,7 @@ class _splashScreenState extends State<splashScreen> {
     Future.delayed(
         Duration(
       seconds: 5
-    )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) =>gotIn?NavigationPage():onBoardingPage(),)));
+    )).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>gotIn?NavigationPage():onBoardingPage(),)));
   }
   @override
   Widget build(BuildContext context) {

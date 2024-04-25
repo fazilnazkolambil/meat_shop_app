@@ -13,6 +13,7 @@ import 'package:meat_shop_app/feature/onboardPage/screens/splashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
+import '../../../models/userModel.dart';
 import '../../authPage/screens/info_page.dart';
 import '../../authPage/screens/signin_page.dart';
 import '../../homePage/screens/meatList.dart';
@@ -27,29 +28,28 @@ class morePage extends StatefulWidget {
 }
 
 class _morePageState extends State<morePage> {
-  String username = "User";
-  String email = "";
-  String phonenumber = "";
-  String id = "";
+  String username = "Meat Shop";
+  String userEmail = "";
+  String userPhoneNumber = "";
   String? userImage;
+  getUserData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginId = prefs.getString("loginUserId") ?? "";
+    var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
+      UserModel users = UserModel.fromMap(value.data()!);
+      userImage = users.image;
+      username = users.name;
+      userEmail = users.email;
+      userPhoneNumber = users.number;
+    });
+    setState(() {
 
-  getUser() async {
-    var data = await FirebaseFirestore.instance
-        .collection('users')
-        .where("id", isEqualTo: loginId)
-        .get();
-    print(data.docs[0]["image"]);
-    username = data.docs[0]['name'];
-    email = data.docs[0]['email'];
-    phonenumber = data.docs[0]['number'];
-    id = data.docs[0]['id'];
-    userImage = data.docs[0]['image'] ?? "";
-    setState(() {});
+    });
   }
 
   @override
   void initState() {
-    getUser();
+    getUserData();
     // TODO: implement initState
     super.initState();
   }
@@ -60,9 +60,14 @@ class _morePageState extends State<morePage> {
       appBar: AppBar(
         backgroundColor: colorConst.white,
         elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.all(scrWidth * 0.03),
-          child: SvgPicture.asset(iconConst.profile),
+        leading: loginId!= null && userImage != null?
+        CircleAvatar(
+          radius: scrWidth*0.05,
+          backgroundImage: NetworkImage(userImage!),
+        ):
+        CircleAvatar(
+          radius: scrWidth*0.05,
+          backgroundImage: AssetImage(imageConst.logo),
         ),
         title: Text(
           username,
@@ -126,7 +131,75 @@ class _morePageState extends State<morePage> {
           )
         ],
       ),
-      body: SizedBox(
+      body:loginId == ""?
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            height: scrHeight*0.2,
+              child: Lottie.asset(gifs.login)),
+          Text("You Haven't login yet!",textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: scrWidth*0.04
+              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
+                },
+                child: Container(
+                  height: scrHeight*0.05,
+                  width: scrWidth*0.4,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                      border: Border.all(color: colorConst.meroon)
+                  ),
+                  child: Center(child: Text("Sign Up"),),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
+                },
+                child: Container(
+                  height: scrHeight*0.05,
+                  width: scrWidth*0.4,
+                  decoration: BoxDecoration(
+                      color: colorConst.meroon,
+                      borderRadius: BorderRadius.circular(scrWidth*0.03),
+                      border: Border.all(color: colorConst.meroon)
+                  ),
+                  child: Center(child: Text("Log In",style: TextStyle(
+                      color: colorConst.white
+                  ),),),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: scrHeight*0.4,
+            width: scrWidth*1,
+            padding: EdgeInsets.all(scrWidth*0.03),
+            color: colorConst.grey1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Help & Support"),
+                Text("About Us"),
+                Text("Terms & Conditions"),
+                Text("Privacy Policy"),
+                Text("FAQs"),
+                SizedBox(height: scrHeight*0.01,)
+              ],
+            ),
+          )
+        ],
+      ):
+      SizedBox(
         height: scrHeight * 0.8,
         width: scrWidth,
         child: Padding(
@@ -276,13 +349,13 @@ class _morePageState extends State<morePage> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              phonenumber,
+                                              userPhoneNumber,
                                               style: TextStyle(
                                                   fontSize: scrWidth * 0.044,
                                                   fontWeight: FontWeight.w500),
                                             ),
                                             Text(
-                                              email,
+                                              userEmail,
                                               style: TextStyle(
                                                   fontSize: scrWidth * 0.044,
                                                   fontWeight: FontWeight.w500),
@@ -297,11 +370,11 @@ class _morePageState extends State<morePage> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         EditProfile(
-                                                      id: id,
+                                                      id: loginId!,
                                                       image: userImage!,
                                                       username: username,
-                                                      email: email,
-                                                      phonenumber: phonenumber,
+                                                      email: userEmail,
+                                                      phonenumber: userPhoneNumber,
                                                     ),
                                                   ));
                                             },

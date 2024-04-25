@@ -24,7 +24,7 @@ class NavigationPage extends StatefulWidget {
   State<NavigationPage> createState() => _NavigationPageState();
 }
 String? loginId;
-String? userImage;
+
 class _NavigationPageState extends State<NavigationPage> {
   final _controller = NotchBottomBarController(index: 0);
   final _pageController = PageController(initialPage: 0);
@@ -50,6 +50,7 @@ class _NavigationPageState extends State<NavigationPage> {
   }
   bool login = false;
   UserModel? users;
+  String? userImage;
   getData () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     login = prefs.getBool("LoggedIn") ?? false;

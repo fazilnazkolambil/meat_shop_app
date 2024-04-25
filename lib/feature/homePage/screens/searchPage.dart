@@ -4,8 +4,6 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 
 import '../../../main.dart';
-import '../../ordersPage/screens/cart_page.dart';
-import 'meatList.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

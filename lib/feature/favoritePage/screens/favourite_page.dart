@@ -91,7 +91,7 @@ class _favouritePageState extends State<favouritePage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'MeatPage',),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
                   },
                   child: Container(
                     height: scrHeight*0.05,
@@ -105,7 +105,7 @@ class _favouritePageState extends State<favouritePage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'MeatPage',),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
                   },
                   child: Container(
                     height: scrHeight*0.05,

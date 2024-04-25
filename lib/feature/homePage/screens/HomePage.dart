@@ -30,11 +30,12 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  String? userImage;
   getData () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginId = prefs.getString("loginUserId") ?? "";
     var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
-   UserModel   users = UserModel.fromMap(value.data()!);
+   UserModel users = UserModel.fromMap(value.data()!);
       userImage = users.image;
     });
     setState(() {
@@ -50,7 +51,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 bool loading  = false;
 @override
   void initState() {
-  addCart;
   getData();
 
   // TODO: implement initState
@@ -63,8 +63,7 @@ bool loading  = false;
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        toolbarHeight: scrHeight * 0.055,
-        leading: loginId!= null?
+        leading: loginId != null && userImage != null?
         CircleAvatar(
           radius: scrWidth*0.05,
           backgroundImage: NetworkImage(userImage!),

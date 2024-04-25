@@ -202,7 +202,8 @@ class _favouritePageState extends State<favouritePage> {
                                                       width: scrWidth * 0.0003,
                                                       color: colorConst.black.withOpacity(0.38)),
                                                   image: DecorationImage(
-                                                      image: NetworkImage(data[index]["Image"]), fit: BoxFit.fill))),
+                                                      image: NetworkImage(data[index]["Image"]), fit: BoxFit.fill)
+                                              )),
                                           Column(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             crossAxisAlignment: CrossAxisAlignment.start,

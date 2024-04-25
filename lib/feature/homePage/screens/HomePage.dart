@@ -13,20 +13,34 @@ import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart
 import 'package:meat_shop_app/feature/homePage/screens/camel_list.dart';
 import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
+import 'package:meat_shop_app/feature/homePage/screens/searchPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../main.dart';
+import '../../../models/userModel.dart';
 import '../../ordersPage/screens/cart_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key,});
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  getData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginId = prefs.getString("loginUserId") ?? "";
+    var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
+   UserModel   users = UserModel.fromMap(value.data()!);
+      userImage = users.image;
+    });
+    setState(() {
+
+    });
+  }
   List images=[
     "assets/images/carosal1.png",
     "assets/images/carosal1.png",
@@ -34,36 +48,44 @@ class _HomePageState extends ConsumerState<HomePage> {
     "assets/images/carosal1.png",
   ];
 bool loading  = false;
+@override
+  void initState() {
+  addCart;
+  getData();
+
+  // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    final select = ref.watch(carouselaProvider)??0;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         toolbarHeight: scrHeight * 0.055,
-        leadingWidth: scrWidth*0.7,
-        leading: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        leading: loginId!= null?
+        CircleAvatar(
+          radius: scrWidth*0.05,
+          backgroundImage: NetworkImage(userImage!),
+        ):
+        CircleAvatar(
+          radius: scrWidth*0.05,
+          backgroundImage: AssetImage(imageConst.logo),
+        ),
+        title:  Row(
           children: [
-            CircleAvatar(
-              radius: scrWidth*0.05,
-              backgroundImage: AssetImage(imageConst.logo),
+            SvgPicture.asset(iconConst.location),
+            SizedBox(
+              width: scrWidth * 0.02,
             ),
-             Row(
-               children: [
-                 SvgPicture.asset(iconConst.location),
-                 Text("Kuwait City, Kuwait",style: TextStyle(
-                     color: Colors.black87,
-                     fontWeight: FontWeight.w600,
-                     fontSize: scrWidth*0.04
-                 ),),
-               ],
-             ),
+            Text(
+              "Kuwait City, Kuwait",
+              style: TextStyle(
+                  fontSize: scrWidth * 0.04, color: colorConst.black),
+            )
           ],
         ),
-
         actions: [
           InkWell(
               onTap: () {
@@ -109,45 +131,34 @@ bool loading  = false;
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(
-                  height: scrHeight*0.067,
-                  width: scrWidth*1,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.done,
-                    style: TextStyle(
-                      fontSize: scrWidth * 0.04,
-                      fontWeight: FontWeight.w400,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(),));
+                  },
+                  child: Container(
+                    height: scrHeight*0.07,
+                    width: scrWidth*1,
+                    padding: EdgeInsets.all(scrWidth*0.03),
+                    margin: EdgeInsets.only(bottom: scrHeight*0.02),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(scrWidth*0.1),
+                      color: colorConst.grey1
                     ),
-                    decoration: InputDecoration(
-                      fillColor: colorConst.grey1,
-                      filled: true,
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(scrWidth*0.029),
-                        child: SvgPicture.asset(iconConst.search,
-                        ),
-                      ),prefixIconConstraints: BoxConstraints(
-                      maxHeight: scrWidth*0.1,
-                      maxWidth: scrWidth*0.1
-                    ),
-                      hintText: "Search here for anything you want...",
-                      hintStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: scrWidth * 0.04,
-                          color: colorConst.grey),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(scrWidth * 0.09),
-                          borderSide: BorderSide(color: colorConst.grey1)
-                        ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(scrWidth * 0.09),
-                          borderSide: BorderSide(color: colorConst.grey1)),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(iconConst.search),
+                        SizedBox(width: scrWidth*0.02,),
+                        Text("Search here for anything you want...",style: TextStyle(
+                          color: colorConst.grey
+                        ),)
+                      ],
                     ),
                   ),
                 ),
                 CarouselSlider.builder(
                   itemCount: images.length,
                   options: CarouselOptions(
+                    enlargeCenterPage: true,
                       autoPlay: true,
                       viewportFraction: 1,
                       onPageChanged: (index, reason) {

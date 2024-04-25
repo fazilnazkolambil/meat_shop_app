@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:meat_shop_app/Image_Page.dart';
 // import 'package:meat_shop_app/constant/Color_Page.dart';
@@ -22,6 +24,7 @@ class NavigationPage extends StatefulWidget {
   State<NavigationPage> createState() => _NavigationPageState();
 }
 String? loginId;
+String? userImage;
 class _NavigationPageState extends State<NavigationPage> {
   final _controller = NotchBottomBarController(index: 0);
   final _pageController = PageController(initialPage: 0);
@@ -46,11 +49,18 @@ class _NavigationPageState extends State<NavigationPage> {
     });
   }
   bool login = false;
-
+  UserModel? users;
   getData () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     login = prefs.getBool("LoggedIn") ?? false;
     loginId = prefs.getString("loginUserId") ?? "";
+    var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
+      users = UserModel.fromMap(value.data()!);
+      userImage = users!.image;
+    });
+    setState(() {
+
+    });
   }
   @override
   void initState() {

@@ -13,6 +13,7 @@ import 'package:meat_shop_app/feature/homePage/screens/Mutton_List.dart';
 import 'package:meat_shop_app/feature/homePage/screens/camel_list.dart';
 import 'package:meat_shop_app/feature/homePage/screens/lamb_page.dart';
 import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
+import 'package:meat_shop_app/feature/homePage/screens/searchPage.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';

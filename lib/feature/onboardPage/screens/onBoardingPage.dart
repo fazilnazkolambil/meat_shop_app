@@ -126,7 +126,7 @@ class _onBoardingPageState extends State<onBoardingPage> {
             child: selectedIndex == welcome.length-1?
             InkWell(
               onTap: () async{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setBool("gotIn", true);
               },

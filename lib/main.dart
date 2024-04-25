@@ -27,7 +27,7 @@ import 'feature/onboardPage/screens/splashScreen.dart';
 import 'firebase_options.dart';
 var scrWidth;
 var scrHeight;
-
+List addCart = [];
  main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

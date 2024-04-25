@@ -16,7 +16,6 @@ import '../../homePage/screens/meatList.dart';
 import '../../onboardPage/screens/NavigationPage.dart';
 import '../../ordersPage/screens/cart_page.dart';
 
-
 class favouritePage extends StatefulWidget {
   const favouritePage({super.key});
 
@@ -26,12 +25,12 @@ class favouritePage extends StatefulWidget {
 
 class _favouritePageState extends State<favouritePage> {
   List meatDetailCollection = [];
-  Future <void> saveData () async {
+  Future <void> saveData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonString = json.encode(meatDetailCollection);
-    String jsonString2 = json.encode(meatDetailCollection);
-    prefs.setString('cart', jsonString);
-    prefs.setString('cart2', jsonString2);
+    String jsonString2 = json.encode(addCart);
+    prefs.setString("cart", jsonString);
+    prefs.setString("cart2", jsonString2);
   }
   Future <void> loadData()  async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -274,7 +273,7 @@ class _favouritePageState extends State<favouritePage> {
                                       addCart.contains(data[index]["id"])?
                                       InkWell(
                                         onTap: () {
-                                          //Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(id: '',),));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
                                         },
                                         child: Container(
                                           height: scrWidth*0.15,
@@ -306,6 +305,8 @@ class _favouritePageState extends State<favouritePage> {
                                               if(addCart.contains(data[index]["id"])){
                                                 addCart.remove(data[index]["id"]);
                                                 meatDetailCollection.remove(meatDetailCollection[index]);
+                                                saveData();
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
                                               }else{
                                                 addCart.add(data[index]["id"]);
                                                 meatDetailCollection.add({
@@ -315,6 +316,8 @@ class _favouritePageState extends State<favouritePage> {
                                                   "rate" : data[index]["rate"],
                                                   "quantity" : 1
                                                 });
+                                                saveData();
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
                                               }
                                               Navigator.pop(context);
                                               setState(() {
@@ -487,6 +490,8 @@ class _favouritePageState extends State<favouritePage> {
                                           if(addCart.contains(data[index]["id"])){
                                             addCart.remove(data[index]["id"]);
                                             meatDetailCollection.remove(meatDetailCollection[index]);
+                                            saveData();
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
                                           }else{
                                             addCart.add(data[index]["id"]);
                                             meatDetailCollection.add({
@@ -496,6 +501,8 @@ class _favouritePageState extends State<favouritePage> {
                                               "rate" : data[index]["rate"],
                                               "quantity" : 1
                                             });
+                                            saveData();
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
                                           }
                                           setState(() {
 

@@ -16,7 +16,9 @@ import '../../../main.dart';
 
 class signinPage extends StatefulWidget {
   final String path;
-  const signinPage({Key? key, required this.path}) : super(key: key);
+  const signinPage({Key? key,
+    required this.path
+  }) : super(key: key);
 
   @override
   State<signinPage> createState() => _signinPageState();
@@ -361,11 +363,12 @@ class _signinPageState extends State<signinPage> {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.setBool("LoggedIn", true);
                             prefs.setString("loginUserId", data.docs[0]["id"]);
+                            prefs.setBool("gotIn", true);
                             // loginUserId = data.docs[0]["id"];
-                            if(widget.path == "MeatPage"){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
-                            }else{
+                            if(widget.path == "cartPage"){
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                            }else{
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                             }
                           }
                         }).catchError((onError){
@@ -407,7 +410,7 @@ class _signinPageState extends State<signinPage> {
                         ),),
                       InkWell(
                         onTap: (){
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'SigninPage',),));
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
                         },
                         child: Text("Sign up",
                           style: TextStyle(

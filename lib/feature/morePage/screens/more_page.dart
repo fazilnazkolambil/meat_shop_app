@@ -298,14 +298,7 @@ class _morePageState extends State<morePage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          signinPage(
-                                                        path: 'MeatPage',
-                                                      ),
-                                                    ));
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
                                               },
                                               child: Container(
                                                 height: scrHeight * 0.05,
@@ -573,6 +566,7 @@ class _morePageState extends State<morePage> {
                                   prefs.remove("loginUserId");
                                   prefs.remove("cart");
                                   prefs.remove("cart2");
+                                  addCart.clear();
                                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage()),(route) => false);
                                 },
                                 child: Container(

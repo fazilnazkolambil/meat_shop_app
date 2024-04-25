@@ -41,10 +41,10 @@ class AuthRepository{
 
           SharedPreferences prefs =await  SharedPreferences.getInstance();
            prefs.setBool("LoggedIn", true);
+          prefs.setBool("gotIn", true);
            prefs.setString("loginUserId", user.uid);
 
-
-        _users.doc(user.uid).set(createUserModel.toMap()).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage())));
+        _users.doc(user.uid).set(createUserModel.toMap());
           
     }).catchError((onError) {
       ScaffoldMessenger.of(context).showSnackBar(

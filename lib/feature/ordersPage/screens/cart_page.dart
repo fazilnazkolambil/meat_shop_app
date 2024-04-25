@@ -30,13 +30,13 @@ class _CartPageState extends ConsumerState<cartPage> {
   int totalPrice = 0;
   int discount = 0;
   int shippingCharge = 50;
-addingTotal() {
-  total = 0;
-  for (int i = 0; i < meatDetailCollection.length; i++){
-    total = meatDetailCollection[i]["quantity"] * meatDetailCollection[i]["rate"] + total;
-    totalPrice = total - discount + shippingCharge;
+  addingTotal() {
+    total = 0;
+    for (int i = 0; i < meatDetailCollection.length; i++){
+      total = meatDetailCollection[i]["quantity"] * meatDetailCollection[i]["rate"] + total;
+      totalPrice = total - discount + shippingCharge;
+    }
   }
-}
   List meatDetailCollection = [];
   Future <void> loadData()  async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,8 +58,8 @@ addingTotal() {
   }
   @override
   void initState() {
-  addingTotal();
-  loadData();
+    addingTotal();
+    loadData();
     // TODO: implement initState
     super.initState();
   }
@@ -74,17 +74,17 @@ addingTotal() {
             },
             child: Container(
                 decoration: BoxDecoration(
-                  color: colorConst.grey1,
-                  borderRadius: BorderRadius.circular(scrWidth*0.08)
+                    color: colorConst.grey1,
+                    borderRadius: BorderRadius.circular(scrWidth*0.08)
                 ),
                 child: Center(child: SvgPicture.asset(iconConst.backarrow))
             ),
           ),
         ),
         title: Text("My Cart",
-        style: TextStyle(
-          fontWeight: FontWeight.w800
-        ),),
+          style: TextStyle(
+              fontWeight: FontWeight.w800
+          ),),
         actions: [
           InkWell(
               onTap: () async {
@@ -129,8 +129,8 @@ addingTotal() {
       Container(
         height: scrWidth*0.37,
         decoration: BoxDecoration(
-          color: colorConst.white,
-          borderRadius: BorderRadius.circular(scrWidth*0.07),
+            color: colorConst.white,
+            borderRadius: BorderRadius.circular(scrWidth*0.07),
             boxShadow: [
               BoxShadow(
                   color: colorConst.black.withOpacity(0.2),
@@ -194,7 +194,7 @@ addingTotal() {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'CartPage',),));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'cartPage',),));
                                         },
                                         child: Container(
                                           height: scrHeight*0.05,
@@ -208,7 +208,7 @@ addingTotal() {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'CartPage',),));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'cartPage',),));
                                         },
                                         child: Container(
                                           height: scrHeight*0.05,
@@ -244,9 +244,9 @@ addingTotal() {
                     borderRadius: BorderRadius.circular(scrWidth*0.05),
                   ),
                   child: Center(child: Text("Proceed  To checkout",
-                  style: TextStyle(
-                    color: colorConst.white
-                  ),)),
+                    style: TextStyle(
+                        color: colorConst.white
+                    ),)),
                 ),
               )
             ],
@@ -261,8 +261,8 @@ addingTotal() {
           children: [
             Lottie.asset(gifs.emptyCart),
             Text("There's nothing yet in you Cart!",style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: scrWidth*0.04
+                fontWeight: FontWeight.w700,
+                fontSize: scrWidth*0.04
             )),
             InkWell(
               onTap: () {
@@ -290,15 +290,15 @@ addingTotal() {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: meatDetailCollection.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: scrWidth*0.33,
-                      decoration: BoxDecoration(
-                          color: colorConst.white,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemCount: meatDetailCollection.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: scrWidth*0.33,
+                    decoration: BoxDecoration(
+                        color: colorConst.white,
                         borderRadius: BorderRadius.circular(scrWidth*0.04),
                         border: Border.all(
                             width: scrWidth*0.0003,
@@ -312,243 +312,243 @@ addingTotal() {
                               spreadRadius:0
                           )
                         ]
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(width: scrWidth*0.02,),
-                          Container(
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(width: scrWidth*0.02,),
+                        Container(
                             height: scrWidth*0.27,
                             width: scrWidth*0.27,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(scrWidth*0.04),
-                              border: Border.all(
-                                  width: scrWidth*0.0003,
-                                  color: colorConst.black.withOpacity(0.38)
-                              ),
-                              image: DecorationImage(image: NetworkImage(meatDetailCollection[index]["Image"]),fit: BoxFit.fill))
-                            ),
-                          SizedBox(width: scrWidth*0.02,),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: scrWidth*0.4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(meatDetailCollection[index]["name"],
-                                      style: TextStyle(
-                                          fontSize: scrWidth*0.035,
-                                          fontWeight: FontWeight.w700,
-                                          color: colorConst.black
-                                      ),),
-                                    Text(meatDetailCollection[index]["ingredients"],style: TextStyle(
-                                      fontSize: scrWidth*0.03
-                                    ),),
-                                  ],
+                                borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                border: Border.all(
+                                    width: scrWidth*0.0003,
+                                    color: colorConst.black.withOpacity(0.38)
                                 ),
-                              ),
-                              Row(
+                                image: DecorationImage(image: NetworkImage(meatDetailCollection[index]["Image"]),fit: BoxFit.fill))
+                        ),
+                        SizedBox(width: scrWidth*0.02,),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: scrWidth*0.4,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("${meatDetailCollection[index]["quantity"]} KG - ",
+                                  Text(meatDetailCollection[index]["name"],
                                     style: TextStyle(
                                         fontSize: scrWidth*0.035,
                                         fontWeight: FontWeight.w700,
                                         color: colorConst.black
                                     ),),
-                                  Text("₹ ${(meatDetailCollection[index]["rate"])*(meatDetailCollection[index]["quantity"])}",
-                                    style: TextStyle(
-                                        fontSize: scrWidth*0.035,
-                                        fontWeight: FontWeight.w700,
-                                        color: colorConst.meroon
-                                    ),),
+                                  Text(meatDetailCollection[index]["ingredients"],style: TextStyle(
+                                      fontSize: scrWidth*0.03
+                                  ),),
                                 ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text("Are you sure you want to remove this item from the Cart ?",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                          fontSize: scrWidth*0.04,
-                                          fontWeight: FontWeight.w600
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Text("${meatDetailCollection[index]["quantity"]} KG - ",
+                                  style: TextStyle(
+                                      fontSize: scrWidth*0.035,
+                                      fontWeight: FontWeight.w700,
+                                      color: colorConst.black
+                                  ),),
+                                Text("₹ ${(meatDetailCollection[index]["rate"])*(meatDetailCollection[index]["quantity"])}",
+                                  style: TextStyle(
+                                      fontSize: scrWidth*0.035,
+                                      fontWeight: FontWeight.w700,
+                                      color: colorConst.meroon
+                                  ),),
+                              ],
+                            )
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text("Are you sure you want to remove this item from the Cart ?",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: scrWidth*0.04,
+                                            fontWeight: FontWeight.w600
                                         ),),
-                                        content: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Container(
-                                                height: scrWidth*0.08,
-                                                width: scrWidth*0.2,
-                                                decoration: BoxDecoration(
-                                                  color: colorConst.textgrey,
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                ),
-                                                child: Center(child: Text("No",
-                                                  style: TextStyle(
-                                                      color: Colors.white
-                                                  ),)),
+                                      content: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              height: scrWidth*0.08,
+                                              width: scrWidth*0.2,
+                                              decoration: BoxDecoration(
+                                                color: colorConst.textgrey,
+                                                borderRadius: BorderRadius.circular(scrWidth*0.03),
                                               ),
+                                              child: Center(child: Text("No",
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                ),)),
                                             ),
-                                            InkWell(
-                                              onTap : () {
-                                                meatDetailCollection.removeAt(index);
-                                                addCart.removeAt(index);
-                                                saveData();
-                                                addingTotal();
-                                                Navigator.pop(context);
-                                                setState(() {
+                                          ),
+                                          InkWell(
+                                            onTap : () {
+                                              meatDetailCollection.removeAt(index);
+                                              addCart.removeAt(index);
+                                              saveData();
+                                              addingTotal();
+                                              Navigator.pop(context);
+                                              setState(() {
 
-                                                });
-                                              },
-                                              child: Container(
-                                                height: scrWidth*0.08,
-                                                width: scrWidth*0.2,
-                                                decoration: BoxDecoration(
-                                                  color: colorConst.meroon,
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                ),
-                                                child: Center(child: Text("Yes",
-                                                  style: TextStyle(
-                                                      color: Colors.white
-                                                  ),)),
+                                              });
+                                            },
+                                            child: Container(
+                                              height: scrWidth*0.08,
+                                              width: scrWidth*0.2,
+                                              decoration: BoxDecoration(
+                                                color: colorConst.meroon,
+                                                borderRadius: BorderRadius.circular(scrWidth*0.03),
                                               ),
+                                              child: Center(child: Text("Yes",
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                ),)),
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
                                   height: scrWidth*0.1,
                                   width: scrWidth*0.1,
-                                     decoration: BoxDecoration(
-                                       color: colorConst.white,
-                                       borderRadius: BorderRadius.circular(scrWidth*0.05),
-                                       boxShadow: [
-                                         BoxShadow(
-                                             color: colorConst.black.withOpacity(0.1),
-                                             blurRadius: 14,
-                                           offset: Offset(0, 4),
-                                           spreadRadius: 0
-                                         )
-                                       ]
-                                     ),
-                                     child: Center(child: SvgPicture.asset(iconConst.delete))
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      meatDetailCollection[index]["quantity"]<=1? 1
-                                          :meatDetailCollection[index]["quantity"]--;
-                                      meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
-                                      addingTotal();
-                                      setState(() {
-
-                                      });
-                                    },
-                                    child: Container(
-                                      height:scrWidth*0.065,
-                                      width:scrWidth*0.065,
-                                      decoration: BoxDecoration(
-                                          color:colorConst.grey1,
-                                          borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                          border: Border.all(
-                                              width: scrWidth*0.0003,
-                                              color: colorConst.black.withOpacity(0.38)
-                                          )
-                                      ),
-                                      child:Icon(Icons.remove,
-                                          size:scrWidth*0.04),
-                                    ),
+                                  decoration: BoxDecoration(
+                                      color: colorConst.white,
+                                      borderRadius: BorderRadius.circular(scrWidth*0.05),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: colorConst.black.withOpacity(0.1),
+                                            blurRadius: 14,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0
+                                        )
+                                      ]
                                   ),
-                                  SizedBox(width: scrWidth*0.015,),
-                                  Text(meatDetailCollection[index]["quantity"].toString(),
-                                    style: TextStyle(
+                                  child: Center(child: SvgPicture.asset(iconConst.delete))
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    meatDetailCollection[index]["quantity"]<=1? 1
+                                        :meatDetailCollection[index]["quantity"]--;
+                                    meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
+                                    addingTotal();
+                                    setState(() {
+
+                                    });
+                                  },
+                                  child: Container(
+                                    height:scrWidth*0.065,
+                                    width:scrWidth*0.065,
+                                    decoration: BoxDecoration(
+                                        color:colorConst.grey1,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                        border: Border.all(
+                                            width: scrWidth*0.0003,
+                                            color: colorConst.black.withOpacity(0.38)
+                                        )
+                                    ),
+                                    child:Icon(Icons.remove,
+                                        size:scrWidth*0.04),
+                                  ),
+                                ),
+                                SizedBox(width: scrWidth*0.015,),
+                                Text(meatDetailCollection[index]["quantity"].toString(),
+                                  style: TextStyle(
                                       fontSize: scrWidth*0.04,
                                       fontWeight: FontWeight.w600
-                                    ),),
-                                  SizedBox(width: scrWidth*0.015,),
-                                  InkWell(
-                                    onTap: () {
-                                      meatDetailCollection[index]["quantity"]++;
-                                      meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
-                                      addingTotal();
-                                      setState(() {
+                                  ),),
+                                SizedBox(width: scrWidth*0.015,),
+                                InkWell(
+                                  onTap: () {
+                                    meatDetailCollection[index]["quantity"]++;
+                                    meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
+                                    addingTotal();
+                                    setState(() {
 
-                                      });
-                                    },
-                                    child: Container(
-                                        height:scrWidth*0.065,
-                                        width:scrWidth*0.065,
-                                        decoration: BoxDecoration(
-                                          color:colorConst.grey1,
-                                          borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                          border: Border.all(
-                                              width: scrWidth*0.0003,
-                                              color: colorConst.black.withOpacity(0.38)
-                                          )
-                                        ),
-                                      child:Center(child: Icon(Icons.add,
-                                          size:scrWidth*0.04)),
-                                        ),
-                                  )
-                                ],
+                                    });
+                                  },
+                                  child: Container(
+                                    height:scrWidth*0.065,
+                                    width:scrWidth*0.065,
+                                    decoration: BoxDecoration(
+                                        color:colorConst.grey1,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                        border: Border.all(
+                                            width: scrWidth*0.0003,
+                                            color: colorConst.black.withOpacity(0.38)
+                                        )
+                                    ),
+                                    child:Center(child: Icon(Icons.add,
+                                        size:scrWidth*0.04)),
+                                  ),
+                                )
+                              ],
 
-                              ),
-                            ],
-                          ),
-                          SizedBox(width: scrWidth*0.02,),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(height: scrWidth*0.03,);
-                  },
-                  ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: scrWidth*0.02,),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: scrWidth*0.03,);
+                },
+              ),
               SizedBox(height: scrWidth*0.04,),
               Text("Order Summary",
                 style:TextStyle(
-                  fontSize:scrWidth*0.05,
-                  fontWeight:FontWeight.w700,
-                  color: colorConst.meroon
+                    fontSize:scrWidth*0.05,
+                    fontWeight:FontWeight.w700,
+                    color: colorConst.meroon
                 ),),
               SizedBox(height: scrWidth*0.02,),
               Text("Additional Note",
                 style:TextStyle(
-                  fontSize:scrWidth*0.04,
-                  fontWeight:FontWeight.w700,
-                  color: colorConst.black
+                    fontSize:scrWidth*0.04,
+                    fontWeight:FontWeight.w700,
+                    color: colorConst.black
                 ),),
               SizedBox(height: scrWidth*0.02,),
               Container(
                 height: scrWidth*0.3,
                 decoration: BoxDecoration(
-                  color: colorConst.white,
-                  borderRadius: BorderRadius.circular(scrWidth*0.04),
-                  border: Border.all(
-                      width: scrWidth*0.0003,
-                      color: colorConst.black.withOpacity(0.38)
-                  ),
+                    color: colorConst.white,
+                    borderRadius: BorderRadius.circular(scrWidth*0.04),
+                    border: Border.all(
+                        width: scrWidth*0.0003,
+                        color: colorConst.black.withOpacity(0.38)
+                    ),
                     boxShadow: [
                       BoxShadow(
                           color: colorConst.black.withOpacity(0.1),
@@ -565,12 +565,12 @@ addingTotal() {
                   maxLines: null,
                   cursorColor: colorConst.grey,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: scrWidth*0.05,right: scrWidth*0.05),
-                    border:InputBorder.none,
-                    hintText: "Any instruction regarding cuts",
-                    hintStyle: TextStyle(
-                      fontSize: scrWidth*0.04
-                    )
+                      contentPadding: EdgeInsets.only(left: scrWidth*0.05,right: scrWidth*0.05),
+                      border:InputBorder.none,
+                      hintText: "Any instruction regarding cuts",
+                      hintStyle: TextStyle(
+                          fontSize: scrWidth*0.04
+                      )
                   ),
                 ),
               ),
@@ -581,17 +581,17 @@ addingTotal() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Item Price",
-                      style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w500
-                      ),),
+                        style: TextStyle(
+                            color: colorConst.black,
+                            fontSize: scrWidth*0.04,
+                            fontWeight: FontWeight.w500
+                        ),),
                       Text("₹ $total.00",
-                      style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w600
-                      ),)
+                        style: TextStyle(
+                            color: colorConst.black,
+                            fontSize: scrWidth*0.04,
+                            fontWeight: FontWeight.w600
+                        ),)
                     ],
                   ),
                   Divider(),
@@ -599,17 +599,17 @@ addingTotal() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Discount",
-                      style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w500
-                      ),),
+                        style: TextStyle(
+                            color: colorConst.black,
+                            fontSize: scrWidth*0.04,
+                            fontWeight: FontWeight.w500
+                        ),),
                       Text("₹ $discount.00",
-                      style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w500
-                      ),)
+                        style: TextStyle(
+                            color: colorConst.black,
+                            fontSize: scrWidth*0.04,
+                            fontWeight: FontWeight.w500
+                        ),)
                     ],
                   ),
                   Divider(),
@@ -617,17 +617,17 @@ addingTotal() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Shipping Charge",
-                      style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w500
-                      ),),
+                        style: TextStyle(
+                            color: colorConst.black,
+                            fontSize: scrWidth*0.04,
+                            fontWeight: FontWeight.w500
+                        ),),
                       Text("₹ $shippingCharge.00",
-                      style: TextStyle(
-                        color: colorConst.black,
-                        fontSize: scrWidth*0.04,
-                        fontWeight: FontWeight.w500
-                      ),)
+                        style: TextStyle(
+                            color: colorConst.black,
+                            fontSize: scrWidth*0.04,
+                            fontWeight: FontWeight.w500
+                        ),)
                     ],
                   ),
                   SizedBox(height: scrWidth*0.08,),

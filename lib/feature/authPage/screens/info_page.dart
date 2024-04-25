@@ -24,7 +24,9 @@ import '../controller/AuthController.dart';
 
 class infoPage extends ConsumerStatefulWidget {
   final String path;
-  const infoPage({Key? key, required this.path}) : super(key: key);
+  const infoPage({Key? key,
+     required this.path
+  }) : super(key: key);
 
   @override
   ConsumerState<infoPage> createState() => _infoPageState();
@@ -759,12 +761,11 @@ class _infoPageState extends ConsumerState<infoPage> {
                               //         password: passwordController.text)
                               //     .then((value) async {
                                  addUser();
-                                //
-                                // if (widget.path == "MeatPage") {
-                                //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
-                                // } else {
-                                //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
-                                // }
+                                if (widget.path == "cartPage") {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                                } else {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
+                                }
 
                               //   FirebaseFirestore.instance.collection('users')
                               //       .add(
@@ -870,7 +871,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => signinPage(
-                                      path: 'InfoPage',
+                                      path: '',
                                     ),
                                   ));
                             },

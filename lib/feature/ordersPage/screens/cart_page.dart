@@ -32,27 +32,43 @@ class _CartPageState extends ConsumerState<cartPage> {
   int shippingCharge = 50;
   addingTotal() {
     total = 0;
-    for (int i = 0; i < meatDetailCollection.length; i++){
-      total = meatDetailCollection[i]["quantity"] * meatDetailCollection[i]["rate"] + total;
+    for (int i = 0; i < cartMeats.length; i++){
+      total = cartMeats[i]["quantity"] * cartMeats[i]["rate"] + total;
       totalPrice = total - discount + shippingCharge;
     }
   }
   List meatDetailCollection = [];
+  List cartMeats = [];
   bool loading = false;
   Future <void> loadData()  async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString("cart");
     String? jsonString2 = prefs.getString("cart2");
-    if (jsonString != null) {
+    if (jsonString != null  && jsonString2 != null) {
       setState(() {
         meatDetailCollection = json.decode(jsonString);
+        addCart = json.decode(jsonString2);
       });
     }
-      if (jsonString2 != null) {
-        setState(() {
-          addCart = json.decode(jsonString2);
+      for(int i = 0; i < meatDetailCollection.length; i++){
+        String meatCategory = meatDetailCollection[i]["category"];
+        String meatType = meatDetailCollection[i]["type"];
+        String meatId = meatDetailCollection[i]["id"];
+        var data = await FirebaseFirestore.instance.collection("meatTypes").doc(meatType)
+            .collection(meatType).doc(meatCategory)
+            .collection(meatType).doc(meatId).get();
+        cartMeats.add({
+          "Image" : data["Image"],
+          "name" : data["name"],
+          "rate" : data["rate"],
+          "ingredients" : data["ingredients"],
+          "quantity" : 1,
         });
-     }
+        setState(() {
+
+        });
+      }
+
    }
   Future <void> saveData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -93,8 +109,7 @@ class _CartPageState extends ConsumerState<cartPage> {
         actions: [
           InkWell(
               onTap: () async {
-                print(meatDetailCollection);
-                print(addCart);
+                print(cartMeats);
                 //print(totalPrice.last);
               },
               child: meatDetailCollection.isEmpty?
@@ -301,7 +316,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
-                itemCount: meatDetailCollection.length,
+                itemCount: cartMeats.length,
                 itemBuilder: (context, index) {
                   return Container(
                     height: scrWidth*0.33,
@@ -334,7 +349,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                     width: scrWidth*0.0003,
                                     color: colorConst.black.withOpacity(0.38)
                                 ),
-                                image: DecorationImage(image: NetworkImage(meatDetailCollection[index]["Image"]),fit: BoxFit.fill))
+                                image: DecorationImage(image: NetworkImage(cartMeats[index]["Image"]),fit: BoxFit.fill))
                         ),
                         SizedBox(width: scrWidth*0.02,),
                         Column(
@@ -346,13 +361,13 @@ class _CartPageState extends ConsumerState<cartPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(meatDetailCollection[index]["name"],
+                                  Text(cartMeats[index]["name"],
                                     style: TextStyle(
                                         fontSize: scrWidth*0.035,
                                         fontWeight: FontWeight.w700,
                                         color: colorConst.black
                                     ),),
-                                  Text(meatDetailCollection[index]["ingredients"],style: TextStyle(
+                                  Text(cartMeats[index]["ingredients"],style: TextStyle(
                                       fontSize: scrWidth*0.03
                                   ),),
                                 ],
@@ -360,13 +375,13 @@ class _CartPageState extends ConsumerState<cartPage> {
                             ),
                             Row(
                               children: [
-                                Text("${meatDetailCollection[index]["quantity"]} KG - ",
+                                Text("${cartMeats[index]["quantity"]} KG - ",
                                   style: TextStyle(
                                       fontSize: scrWidth*0.035,
                                       fontWeight: FontWeight.w700,
                                       color: colorConst.black
                                   ),),
-                                Text("₹ ${(meatDetailCollection[index]["rate"])*(meatDetailCollection[index]["quantity"])}",
+                                Text("₹ ${(cartMeats[index]["rate"])*(cartMeats[index]["quantity"])}",
                                   style: TextStyle(
                                       fontSize: scrWidth*0.035,
                                       fontWeight: FontWeight.w700,
@@ -415,6 +430,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                           ),
                                           InkWell(
                                             onTap : () {
+                                              cartMeats.removeAt(index);
                                               meatDetailCollection.removeAt(index);
                                               addCart.removeAt(index);
                                               saveData();
@@ -465,9 +481,9 @@ class _CartPageState extends ConsumerState<cartPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    meatDetailCollection[index]["quantity"]<=1? 1
-                                        :meatDetailCollection[index]["quantity"]--;
-                                    meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
+                                    cartMeats[index]["quantity"]<=1? 1
+                                        :cartMeats[index]["quantity"]--;
+                                    cartMeats[index]["rate"] * cartMeats[index]["quantity"];
                                     addingTotal();
                                     setState(() {
 
@@ -489,7 +505,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                   ),
                                 ),
                                 SizedBox(width: scrWidth*0.015,),
-                                Text(meatDetailCollection[index]["quantity"].toString(),
+                                Text(cartMeats[index]["quantity"].toString(),
                                   style: TextStyle(
                                       fontSize: scrWidth*0.04,
                                       fontWeight: FontWeight.w600
@@ -497,8 +513,8 @@ class _CartPageState extends ConsumerState<cartPage> {
                                 SizedBox(width: scrWidth*0.015,),
                                 InkWell(
                                   onTap: () {
-                                    meatDetailCollection[index]["quantity"]++;
-                                    meatDetailCollection[index]["rate"] * meatDetailCollection[index]["quantity"];
+                                    cartMeats[index]["quantity"]++;
+                                    cartMeats[index]["rate"] * cartMeats[index]["quantity"];
                                     addingTotal();
                                     setState(() {
 

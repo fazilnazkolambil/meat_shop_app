@@ -310,11 +310,9 @@ class _favouritePageState extends State<favouritePage> {
                                               }else{
                                                 addCart.add(data[index]["id"]);
                                                 meatDetailCollection.add({
-                                                  "Image" : data[index]["Image"],
-                                                  "name" : data[index]["name"],
-                                                  "ingredients" : data[index]["ingredients"],
-                                                  "rate" : data[index]["rate"],
-                                                  "quantity" : 1
+                                                  "category" : data[index]["category"],
+                                                  "type" : data[index]["type"],
+                                                  "id" : data[index]["id"],
                                                 });
                                                 saveData();
                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
@@ -495,11 +493,9 @@ class _favouritePageState extends State<favouritePage> {
                                           }else{
                                             addCart.add(data[index]["id"]);
                                             meatDetailCollection.add({
-                                              "Image" : data[index]["Image"],
-                                              "name" : data[index]["name"],
-                                              "ingredients" : data[index]["ingredients"],
-                                              "rate" : data[index]["rate"],
-                                              "quantity" : 1
+                                              "category" : data[index]["category"],
+                                              "type" : data[index]["type"],
+                                              "id" : data[index]["id"],
                                             });
                                             saveData();
                                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));

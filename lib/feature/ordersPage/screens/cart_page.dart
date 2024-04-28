@@ -64,6 +64,7 @@ class _CartPageState extends ConsumerState<cartPage> {
           "ingredients" : data["ingredients"],
           "quantity" : 1,
         });
+
         setState(() {
 
         });
@@ -84,6 +85,7 @@ class _CartPageState extends ConsumerState<cartPage> {
     // TODO: implement initState
     super.initState();
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -275,7 +277,7 @@ class _CartPageState extends ConsumerState<cartPage> {
         ),
       ),
       body:loading?
-          Center(child: CircularProgressIndicator())
+          Center(child: Lottie.asset(gifs.loadingGif))
       :Padding(
         padding:  EdgeInsets.all(scrWidth*0.028),
         child: meatDetailCollection.isEmpty?

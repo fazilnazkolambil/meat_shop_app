@@ -55,6 +55,8 @@ dependencies:
   flutter_riverpod: ^2.5.1
   firebase_storage: ^11.6.0
   shimmer: ^2.0.0
+  geolocator: ^11.0.0
+  geocoding: ^3.0.0
 
 
 

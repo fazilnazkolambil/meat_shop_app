@@ -193,7 +193,7 @@ class _favouritePageState extends State<favouritePage> {
                         ],
                       ),
                     )
-                        :ListView.separated(
+                        : ListView.separated(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),

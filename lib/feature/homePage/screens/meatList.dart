@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
@@ -109,11 +111,26 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
       });
     }
   }
+  String? address;
+  getAddress () async {
+    try{
+      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+      List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
+      Placemark first = result.first;
+      setState(() {
+        address = "${first.locality}, ${first.administrativeArea}";
+      });
+    }
+    catch (e) {
+      print(e);
+    }
+  }
   @override
   void initState() {
     getMeats();
     getData();
     loadData();
+    getAddress();
     // TODO: implement initState
     super.initState();
   }
@@ -169,8 +186,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
               SizedBox(
                 width: scrWidth * 0.02,
               ),
-              Text(
-                "Kuwait City, Kuwait",
+              Text(address == null? "Loading your location...":
+              "$address",
                 style: TextStyle(
                     fontSize: scrWidth * 0.04, color: colorConst.black),
               )
@@ -471,7 +488,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                   },
                                   child: Container(
                                     height: scrWidth * 0.35,
-                                    padding: EdgeInsets.all(scrWidth*0.03),
+                                    //padding: EdgeInsets.all(scrWidth*0.03),
                                     decoration: BoxDecoration(
                                       color: colorConst.white,
                                       borderRadius: BorderRadius.circular(scrWidth * 0.04),
@@ -539,7 +556,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                         ),
                                         Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             InkWell(
                                                 onTap:(){
@@ -676,7 +693,27 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 },
                                                 child:
                                                 addCart.contains(data[index]["id"])?
-                                                Icon(Icons.done,color: colorConst.green)
+                                                 Icon(Icons.done,color: colorConst.green)
+                                                // Container(
+                                                //   padding: EdgeInsets.only(left: scrWidth*0.01,right: scrWidth*0.01),
+                                                //   decoration:BoxDecoration(
+                                                //     borderRadius: BorderRadius.circular(scrWidth*0.01),
+                                                //     border: Border.all(color: colorConst.meroon)
+                                                //   ),
+                                                //   child: Row(children: [
+                                                //     Icon(Icons.remove,
+                                                //       color: colorConst.meroon,
+                                                //       size: scrWidth*0.05,
+                                                //     ),
+                                                //     Text("${data[index]["quantity"]}",style: TextStyle(
+                                                //       fontWeight: FontWeight.w600
+                                                //     ),),
+                                                //     Icon(Icons.add,
+                                                //       color: colorConst.meroon,
+                                                //       size: scrWidth*0.05,
+                                                //     ),
+                                                //   ],),
+                                                // )
                                                     :CircleAvatar(
                                                   radius: scrWidth*0.04,
                                                   backgroundColor: colorConst.meroon,

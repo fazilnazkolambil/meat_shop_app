@@ -567,6 +567,7 @@ class _morePageState extends State<morePage> {
                                   prefs.remove("cart");
                                   prefs.remove("cart2");
                                   addCart.clear();
+                                  meatDetailCollection.clear();
                                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage()),(route) => false);
                                 },
                                 child: Container(

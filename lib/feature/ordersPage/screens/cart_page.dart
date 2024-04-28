@@ -38,17 +38,22 @@ class _CartPageState extends ConsumerState<cartPage> {
     }
   }
   List meatDetailCollection = [];
-  Future <void> loadData()  async{
+  bool loading = false;
+  Future <void> loadData()  async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString("cart");
     String? jsonString2 = prefs.getString("cart2");
-    if (jsonString != null && jsonString2 != null){
+    if (jsonString != null) {
       setState(() {
         meatDetailCollection = json.decode(jsonString);
-        addCart = json.decode(jsonString2);
       });
     }
-  }
+      if (jsonString2 != null) {
+        setState(() {
+          addCart = json.decode(jsonString2);
+        });
+     }
+   }
   Future <void> saveData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonString = json.encode(meatDetailCollection);
@@ -88,7 +93,8 @@ class _CartPageState extends ConsumerState<cartPage> {
         actions: [
           InkWell(
               onTap: () async {
-                //print(meatDetailCollection);
+                print(meatDetailCollection);
+                print(addCart);
                 //print(totalPrice.last);
               },
               child: meatDetailCollection.isEmpty?
@@ -253,7 +259,9 @@ class _CartPageState extends ConsumerState<cartPage> {
           ),
         ),
       ),
-      body: Padding(
+      body:loading?
+          Center(child: CircularProgressIndicator())
+      :Padding(
         padding:  EdgeInsets.all(scrWidth*0.028),
         child: meatDetailCollection.isEmpty?
         Column(

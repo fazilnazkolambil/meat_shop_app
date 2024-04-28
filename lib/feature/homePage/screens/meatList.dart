@@ -156,7 +156,9 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
             padding:EdgeInsets.all(scrWidth*0.03),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
+               // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
+                print(meatDetailCollection);
+                print(addCart);
               },
               child: CircleAvatar(
                   backgroundColor: colorConst.grey1,
@@ -179,8 +181,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
           actions: [
             InkWell(
                 onTap: () {
-                  print(addCart);
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
                 },
                 child: addCart.isEmpty?
                 SvgPicture.asset(iconConst.cart):
@@ -431,17 +432,21 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                     onTap: () {
                                                       if(addCart.contains(data[index]["id"])){
                                                         addCart.remove(data[index]["id"]);
-                                                        meatDetailCollection.remove(meatDetailCollection[index]);
+                                                        meatDetailCollection.removeWhere((element) => element["id"]==data[index]["id"]);
                                                         saveData();
                                                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
                                                       }else{
                                                         addCart.add(data[index]["id"]);
                                                         meatDetailCollection.add({
+                                                          "id" : data[index]["id"],
                                                           "Image" : data[index]["Image"],
                                                           "name" : data[index]["name"],
                                                           "ingredients" : data[index]["ingredients"],
                                                           "rate" : data[index]["rate"],
                                                           "quantity" : 1
+                                                          // "category" : selectedCategory == ""?categoryCollection[0]["category"]:selectedCategory,
+                                                          // "type" : widget.type,
+                                                          // "id" : data[index]["id"],
                                                         });
                                                         saveData();
                                                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
@@ -658,12 +663,13 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 onTap: () {
                                                   if(addCart.contains(data[index]["id"])){
                                                     addCart.remove(data[index]["id"]);
-                                                    meatDetailCollection.remove(meatDetailCollection[index]);
+                                                    meatDetailCollection.removeWhere((list) => list["id"]==data[index]["id"]);
                                                     saveData();
                                                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
                                                   }else{
                                                     addCart.add(data[index]["id"]);
                                                     meatDetailCollection.add({
+                                                      "id" : data[index]["id"],
                                                       "Image" : data[index]["Image"],
                                                       "name" : data[index]["name"],
                                                       "ingredients" : data[index]["ingredients"],

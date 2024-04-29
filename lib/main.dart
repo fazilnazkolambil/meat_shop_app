@@ -10,7 +10,6 @@ import 'package:meat_shop_app/feature/forgotpassword/forgotpassword1.dart';
 import 'package:meat_shop_app/feature/homePage/repository/bottomSheet.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
-import 'package:meat_shop_app/feature/homePage/screens/searchPage.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
@@ -24,7 +23,7 @@ import 'feature/onboardPage/screens/splashScreen.dart';
 import 'firebase_options.dart';
 var scrWidth;
 var scrHeight;
-List addCart = [];
+
  main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
             textTheme:GoogleFonts.manropeTextTheme()
         ),
         debugShowCheckedModeBanner: false,
-        home:splashScreen()
+        home:cartPage()
       ),
     );
   }

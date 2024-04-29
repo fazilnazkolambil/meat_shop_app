@@ -10,6 +10,7 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/morePage/screens/EditProfile.dart';
+import 'package:meat_shop_app/feature/morePage/screens/myaddress.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/splashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -413,13 +414,18 @@ class _morePageState extends State<morePage> {
                           indent: scrWidth * 0.04,
                           endIndent: scrWidth * 0.04,
                         ),
-                        ListTile(
-                          leading: SvgPicture.asset(iconConst.address),
-                          title: Text(
-                            "My Address",
-                            style: TextStyle(
-                                fontSize: scrWidth * 0.04,
-                                fontWeight: FontWeight.w400),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => myaddress(),));
+                          },
+                          child: ListTile(
+                            leading: SvgPicture.asset(iconConst.address),
+                            title: Text(
+                              "My Address",
+                              style: TextStyle(
+                                  fontSize: scrWidth * 0.04,
+                                  fontWeight: FontWeight.w400),
+                            ),
                           ),
                         ),
                         Divider(

@@ -26,7 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../authPage/screens/signin_page.dart';
-
+List addCart=[];
 
 class MeatListPage extends ConsumerStatefulWidget {
   final String type;

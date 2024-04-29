@@ -51,25 +51,25 @@ class _CartPageState extends ConsumerState<cartPage> {
       });
     }
       for(int i = 0; i < meatDetailCollection.length; i++){
-        String meatCategory = meatDetailCollection[i]["category"];
-        String meatType = meatDetailCollection[i]["type"];
-        String meatId = meatDetailCollection[i]["id"];
-        var data = await FirebaseFirestore.instance.collection("meatTypes").doc(meatType)
-            .collection(meatType).doc(meatCategory)
-            .collection(meatType).doc(meatId).get();
-        cartMeats.add({
-          "Image" : data["Image"],
-          "name" : data["name"],
-          "rate" : data["rate"],
-          "ingredients" : data["ingredients"],
-          "quantity" : 1,
-        });
-
+          String meatCategory = meatDetailCollection[i]["category"];
+          String meatType = meatDetailCollection[i]["type"];
+          String meatId = meatDetailCollection[i]["id"];
+          var data = await FirebaseFirestore.instance.collection("meatTypes").doc(meatType)
+              .collection(meatType).doc(meatCategory)
+              .collection(meatType).doc(meatId).get();
+            cartMeats.add({
+              "Image" : data["Image"],
+              "id" : data["id"],
+              "name" : data["name"],
+              "rate" : data["rate"],
+              "ingredients" : data["ingredients"],
+              "quantity" : 1,
+            });
         setState(() {
 
         });
       }
-
+    addingTotal();
    }
   Future <void> saveData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -80,7 +80,6 @@ class _CartPageState extends ConsumerState<cartPage> {
   }
   @override
   void initState() {
-    addingTotal();
     loadData();
     // TODO: implement initState
     super.initState();
@@ -111,7 +110,9 @@ class _CartPageState extends ConsumerState<cartPage> {
         actions: [
           InkWell(
               onTap: () async {
+                print(meatDetailCollection);
                 print(cartMeats);
+                print(addCart);
                 //print(totalPrice.last);
               },
               child: meatDetailCollection.isEmpty?

@@ -37,10 +37,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   List meatDetailCollection = [];
   bool loading  = false;
   Future <void> loadData()  async{
-    loading = true;
-    setState(() {
-
-    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginId = prefs.getString("loginUserId") ?? "";
     String? jsonString = prefs.getString("cart");
@@ -55,7 +51,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       UserModel users = UserModel.fromMap(value.data()!);
       userImage = users.image;
     });
-    loading = false;
+    
     setState(() {
 
     });

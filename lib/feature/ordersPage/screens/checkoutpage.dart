@@ -138,19 +138,20 @@ class _checkoutpageState extends State<checkoutpage> {
               ),
               InkWell(
                 onTap: () {
-                  if(check == true){
+                  if(check == true && pymnt != ""){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => orderconfirm(),));
                   }else{
-
-                   }
-
+                    pymnt == ""?
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a payment method!")))
+                        :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please agree to our terms  and conditions!")));
+                  }
                 },
                 child: Container(
                   height: scrWidth*0.13,
                   width: scrWidth*0.9,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(scrWidth*0.04),
-                      color: check?colorConst.meroon:colorConst.grey
+                      color: check == true && pymnt != ""?colorConst.meroon:colorConst.grey
                   ),
                   child: Center(child: Text("Confirm Order",style: TextStyle(color: colorConst.white,fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),)),
                 ),
@@ -161,13 +162,14 @@ class _checkoutpageState extends State<checkoutpage> {
       ),
       appBar: AppBar(
         leading: Padding(
-          padding:  EdgeInsets.all(scrWidth*0.03),
-          child: Container(
-              decoration: BoxDecoration(
-                  color: colorConst.grey1,
-                  borderRadius: BorderRadius.circular(scrWidth*0.08)
-              ),
-              child: Center(child: SvgPicture.asset(iconConst.backarrow))
+          padding:EdgeInsets.all(scrWidth*0.03),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: CircleAvatar(
+                backgroundColor: colorConst.grey1,
+                child: Center(child: SvgPicture.asset(iconConst.backarrow))),
           ),
         ),
         title: Text("Checkout",
@@ -175,43 +177,43 @@ class _checkoutpageState extends State<checkoutpage> {
               fontWeight: FontWeight.w600
           ),),
         actions: [
-          InkWell(
-              onTap: () {
-                //print(meatDetailCollection);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
-              },
-              child: addCart.isEmpty?
-              SvgPicture.asset(iconConst.cart):
-              SizedBox(
-                height: scrWidth*0.08,
-                width: scrWidth*0.08,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      bottom: scrWidth*0.03,
-                      left: scrWidth*0.03,
-                      child: CircleAvatar(
-                        backgroundColor: colorConst.meroon,
-                        radius: scrWidth*0.025,
-                        child: Center(
-                          child: Text(addCart.length.toString(),style: TextStyle(
-                              color: colorConst.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: scrWidth*0.03
-                          ),),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                        left: 0,
-                        bottom: 0,
-                        child: SvgPicture.asset(iconConst.cart,)),
-                  ],
-                ),
-              )),
-          SizedBox(width: scrWidth*0.04,),
+          // InkWell(
+          //     onTap: () {
+          //       //print(meatDetailCollection);
+          //       Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
+          //     },
+          //     child: addCart.isEmpty?
+          //     SvgPicture.asset(iconConst.cart):
+          //     SizedBox(
+          //       height: scrWidth*0.08,
+          //       width: scrWidth*0.08,
+          //       child: Stack(
+          //         children: [
+          //           Positioned(
+          //             bottom: scrWidth*0.03,
+          //             left: scrWidth*0.03,
+          //             child: CircleAvatar(
+          //               backgroundColor: colorConst.meroon,
+          //               radius: scrWidth*0.025,
+          //               child: Center(
+          //                 child: Text(addCart.length.toString(),style: TextStyle(
+          //                     color: colorConst.white,
+          //                     fontWeight: FontWeight.w600,
+          //                     fontSize: scrWidth*0.03
+          //                 ),),
+          //               ),
+          //             ),
+          //           ),
+          //           Positioned(
+          //               left: 0,
+          //               bottom: 0,
+          //               child: SvgPicture.asset(iconConst.cart,)),
+          //         ],
+          //       ),
+          //     )),
+          //SizedBox(width: scrWidth*0.04,),
           SvgPicture.asset(iconConst.notification),
-          SizedBox(width: scrWidth*0.03,),
+          SizedBox(width: scrWidth*0.05,),
         ],
       ),
       body: Center(
@@ -259,20 +261,20 @@ class _checkoutpageState extends State<checkoutpage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Add  New Address",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035)
+                                      Text("Add New Address",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035)
                                       ),
                                       InkWell(
                                         onTap: () {
                                           Navigator.pop(context);
                                         },
-                                          child: Container(
+                                          child: SizedBox(
                                             height: scrWidth*0.04,
                                             width: scrWidth*0.04,
                                               child: SvgPicture.asset(iconConst.cross))
                                       )
                                     ],
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: scrWidth*1.75,
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -550,28 +552,28 @@ class _checkoutpageState extends State<checkoutpage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  DateTimePicker(
-                                    initialSelectedDate: DateTime.now(),
-                                    startDate: DateTime.now(),
-                                    // endDate: date!.add(Duration(days: 60)),
-                                    startTime: DateTime.now(),
-                                    // endTime: DateTime(date!.year, date!.month, date!.day, 18),
-                                    timeInterval: Duration(minutes: 15),
-                                    // datePickerTitle: 'Pick your preferred date',
-                                    // timePickerTitle: 'Pick your preferred time',
-                                    // timeOutOfRangeError: 'Sorry shop is closed now',
-                                    // is24h: false,
-                                    onDateChanged: (date) {
-                                      setState(() {
-                                        _d1 = DateFormat('dd MMM, yyyy').format(date);
-                                      });
-                                    },
-                                    onTimeChanged: (time) {
-                                      setState(() {
-                                        _t1 = DateFormat('hh:mm:ss aa').format(time);
-                                      });
-                                    },
-                                  )
+                                  // DateTimePicker(
+                                  //   initialSelectedDate: DateTime.now(),
+                                  //   startDate: DateTime.now(),
+                                  //   // endDate: date!.add(Duration(days: 60)),
+                                  //   startTime: DateTime.now(),
+                                  //   // endTime: DateTime(date!.year, date!.month, date!.day, 18),
+                                  //   timeInterval: Duration(minutes: 15),
+                                  //   // datePickerTitle: 'Pick your preferred date',
+                                  //   // timePickerTitle: 'Pick your preferred time',
+                                  //   // timeOutOfRangeError: 'Sorry shop is closed now',
+                                  //   // is24h: false,
+                                  //   onDateChanged: (date) {
+                                  //     setState(() {
+                                  //       _d1 = DateFormat('dd MMM, yyyy').format(date);
+                                  //     });
+                                  //   },
+                                  //   onTimeChanged: (time) {
+                                  //     setState(() {
+                                  //       _t1 = DateFormat('hh:mm:ss aa').format(time);
+                                  //     });
+                                  //   },
+                                  // )
                                 ],
                               ),
                             ),
@@ -643,7 +645,7 @@ class _checkoutpageState extends State<checkoutpage> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: scrWidth*0.35,
               width: scrWidth*0.9,
               child: Column(

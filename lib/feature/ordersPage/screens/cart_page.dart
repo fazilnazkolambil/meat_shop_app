@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -45,29 +46,40 @@ class _CartPageState extends ConsumerState<cartPage> {
     String? jsonString = prefs.getString("cart");
     String? jsonString2 = prefs.getString("cart2");
     if (jsonString != null  && jsonString2 != null) {
-      setState(() {
         meatDetailCollection = json.decode(jsonString);
         addCart = json.decode(jsonString2);
-      });
-    }
-      for(int i = 0; i < meatDetailCollection.length; i++){
-          String meatCategory = meatDetailCollection[i]["category"];
-          String meatType = meatDetailCollection[i]["type"];
-          String meatId = meatDetailCollection[i]["id"];
-          var data = await FirebaseFirestore.instance.collection("meatTypes").doc(meatType)
-              .collection(meatType).doc(meatCategory)
-              .collection(meatType).doc(meatId).get();
-            cartMeats.add({
-              "Image" : data["Image"],
-              "id" : data["id"],
-              "name" : data["name"],
-              "rate" : data["rate"],
-              "ingredients" : data["ingredients"],
-              "quantity" : 1,
-            });
+        loading = true;
         setState(() {
 
         });
+       for(int i = 0; i < meatDetailCollection.length; i++) {
+         String meatCategory = meatDetailCollection[i]["category"];
+         String meatType = meatDetailCollection[i]["type"];
+         String meatId = meatDetailCollection[i]["id"];
+         var data = await FirebaseFirestore.instance.collection("meatTypes")
+             .doc(meatType)
+             .collection(meatType).doc(meatCategory)
+             .collection(meatType).doc(meatId)
+             .get();
+         if (data.exists) {
+           cartMeats.add({
+             "Image": data["Image"],
+             "id": data["id"],
+             "name": data["name"],
+             "rate": data["rate"],
+             "ingredients": data["ingredients"],
+             "quantity": 1,
+           });
+         } else {
+           meatDetailCollection.removeAt(i);
+           addCart.removeAt(i);
+           saveData();
+         }
+         loading = false;
+         setState(() {
+
+         });
+       }
       }
     addingTotal();
    }
@@ -78,6 +90,7 @@ class _CartPageState extends ConsumerState<cartPage> {
     prefs.setString("cart", jsonString);
     prefs.setString("cart2", jsonString2);
   }
+
   @override
   void initState() {
     loadData();
@@ -86,21 +99,26 @@ class _CartPageState extends ConsumerState<cartPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading?
+        Scaffold(
+          backgroundColor: colorConst.black.withOpacity(0.3),
+          body: Center(child: SizedBox(
+            height: scrHeight*0.5,
+              width: scrWidth*0.8,
+              child: Lottie.asset(gifs.loadingGif))),
+        )
+      :Scaffold(
+      backgroundColor: colorConst.white,
       appBar: AppBar(
         leading: Padding(
-          padding:  EdgeInsets.all(scrWidth*0.03),
-          child: InkWell(
+          padding:EdgeInsets.all(scrWidth*0.03),
+          child: GestureDetector(
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
             },
-            child: Container(
-                decoration: BoxDecoration(
-                    color: colorConst.grey1,
-                    borderRadius: BorderRadius.circular(scrWidth*0.08)
-                ),
-                child: Center(child: SvgPicture.asset(iconConst.backarrow))
-            ),
+            child: CircleAvatar(
+                backgroundColor: colorConst.grey1,
+                child: Center(child: SvgPicture.asset(iconConst.backarrow))),
           ),
         ),
         title: Text("My Cart",
@@ -108,7 +126,7 @@ class _CartPageState extends ConsumerState<cartPage> {
               fontWeight: FontWeight.w800
           ),),
         actions: [
-          InkWell(
+          GestureDetector(
               onTap: () async {
                 print(meatDetailCollection);
                 print(cartMeats);
@@ -189,7 +207,8 @@ class _CartPageState extends ConsumerState<cartPage> {
               InkWell(
                 onTap: () {
                   if(loginId!.isNotEmpty){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
                   }else{
                     showModalBottomSheet(
                       context: context,
@@ -277,9 +296,7 @@ class _CartPageState extends ConsumerState<cartPage> {
           ),
         ),
       ),
-      body:loading?
-          Center(child: Lottie.asset(gifs.loadingGif))
-      :Padding(
+      body:Padding(
         padding:  EdgeInsets.all(scrWidth*0.028),
         child: meatDetailCollection.isEmpty?
         Column(

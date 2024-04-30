@@ -81,7 +81,7 @@ class _HomePageState extends ConsumerState<HomePage> {
        });
      }
      catch (e) {
-       print(e);
+       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location")));
      }
    }
 
@@ -127,7 +127,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 getAddress();
               },
               child: Text(address == null?
-              "Loading your location...": "$address",
+              "Fetching your location...": "$address",
                 style: TextStyle(
                     fontSize: scrWidth * 0.04, color: colorConst.black),
               ),

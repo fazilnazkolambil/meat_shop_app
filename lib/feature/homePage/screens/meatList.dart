@@ -122,8 +122,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
       });
     }
     catch (e) {
-      print(e);
-    }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location")));    }
   }
   @override
   void initState() {
@@ -186,7 +185,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
               SizedBox(
                 width: scrWidth * 0.02,
               ),
-              Text(address == null? "Loading your location...":
+              Text(address == null? "Fetching your location...":
               "$address",
                 style: TextStyle(
                     fontSize: scrWidth * 0.04, color: colorConst.black),

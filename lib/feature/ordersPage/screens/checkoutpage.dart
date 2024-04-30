@@ -20,7 +20,11 @@ import 'cart_page.dart';
 import 'orderconfirm_page.dart';
 
 class checkoutpage extends StatefulWidget {
-  const checkoutpage({super.key});
+  final String price;
+  final String discount;
+  final String shippingCharge;
+  final String subtotal;
+  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal});
 
   @override
   State<checkoutpage> createState() => _checkoutpageState();
@@ -34,6 +38,7 @@ class _checkoutpageState extends State<checkoutpage> {
   TextEditingController landmarkController=TextEditingController();
   TextEditingController housenoController=TextEditingController();
   TextEditingController pincodeController=TextEditingController();
+
   String pymnt="";
   String labelas="";
   bool check=false;
@@ -127,7 +132,7 @@ class _checkoutpageState extends State<checkoutpage> {
                         Text("Total Amount",style: TextStyle(
                             fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
                         ),
-                        Text("KWD 12.000",style: TextStyle(
+                        Text("₹ ${widget.subtotal}.00",style: TextStyle(
                             color: colorConst.meroon,
                             fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                         )
@@ -665,7 +670,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       Text("Item Price",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                       ),
-                      Text("KWD 11.000",style: TextStyle(
+                      Text("₹ ${widget.price}.00",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                       )
                     ],
@@ -677,7 +682,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       Text("Discount",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                       ),
-                      Text("KWD 0.000",style: TextStyle(
+                      Text("₹ ${widget.discount}.00",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                       )
                     ],
@@ -689,7 +694,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       Text("Shipping Charge",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                       ),
-                      Text("KWD 1.000",style: TextStyle(
+                      Text("₹ ${widget.shippingCharge}.00",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                       )
                     ],

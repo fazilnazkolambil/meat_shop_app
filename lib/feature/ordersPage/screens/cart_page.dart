@@ -26,7 +26,7 @@ class cartPage extends ConsumerStatefulWidget {
 }
 
 class _CartPageState extends ConsumerState<cartPage> {
-
+  var a=[];
   int total = 0;
   int totalPrice = 0;
   int discount = 0;
@@ -207,8 +207,7 @@ class _CartPageState extends ConsumerState<cartPage> {
               InkWell(
                 onTap: () {
                   if(loginId!.isNotEmpty){
-
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(price: "$total",discount: '$discount',shippingCharge: '$shippingCharge',subtotal: '$totalPrice',),));
                   }else{
                     showModalBottomSheet(
                       context: context,
@@ -237,7 +236,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: 'cartPage',),));
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => infoPage(path: 'cartPage',),));
                                         },
                                         child: Container(
                                           height: scrHeight*0.05,
@@ -251,7 +250,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: 'cartPage',),));
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signinPage(path: 'cartPage',),));
                                         },
                                         child: Container(
                                           height: scrHeight*0.05,

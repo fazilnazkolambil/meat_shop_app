@@ -519,7 +519,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (!passwordValidation.hasMatch(value!)) {
-                              return "Password must contain at least 8 characters with \n one lowercae(a-z),one uppercase(A-Z) \n & one special character";
+                              return "Password must contain at least 8 characters with \n one number,one lowercae(a-z),one uppercase(A-Z) \n , one special character";
                             } else {
                               return null;
                             }
@@ -762,7 +762,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                               //     .then((value) async {
                                  addUser();
                                 if (widget.path == "cartPage") {
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(price: '', discount: '', shippingCharge: '', subtotal: '',),));
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
                                 }

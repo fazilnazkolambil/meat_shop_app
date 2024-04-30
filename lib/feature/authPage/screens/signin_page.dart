@@ -306,16 +306,16 @@ class _signinPageState extends State<signinPage> {
                       SizedBox(width: scrWidth*0.04,),
                       InkWell(
                         onTap: () async {
-                          // if(emailController.text!='') {
-                          //   // var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
-                          //   // print("ii ${data.docs.first.data()}");
-                          //   // print(data);
-                          //     Navigator.push(context, MaterialPageRoute(
-                          //       builder: (context) => (forgotpasswordpage1(number: '',)),));
-                          //
-                          // }else{
-                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
-                          // }
+                          if(emailController.text!='') {
+                            // var data = await FirebaseFirestore.instance.collection("users").where("number",isEqualTo: phoneController.text).get();
+                            // print("ii ${data.docs.first.data()}");
+                            // print(data);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => (forgotpasswordpage1(number: '',)),));
+
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
+                          }
                         },
                         child: Text("Forgot password",
                           style: TextStyle(
@@ -366,7 +366,7 @@ class _signinPageState extends State<signinPage> {
                             prefs.setBool("gotIn", true);
                             // loginUserId = data.docs[0]["id"];
                             if(widget.path == "cartPage"){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(),));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(price: '', discount: '', shippingCharge: '', subtotal: '',),));
                             }else{
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                             }

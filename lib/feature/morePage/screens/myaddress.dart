@@ -45,8 +45,9 @@ class _myaddressState extends State<myaddress> {
       ),
       body: Padding(
         padding:  EdgeInsets.all(scrWidth*0.03),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
           children: [
             InkWell(
               onTap: () {
@@ -98,7 +99,7 @@ class _myaddressState extends State<myaddress> {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       return Container(
-                        height: scrWidth*0.5,
+                        height: scrWidth*0.53,
                         width: scrWidth*0.9,
                         decoration: BoxDecoration(
                           color: colorConst.white,
@@ -139,6 +140,12 @@ class _myaddressState extends State<myaddress> {
                               ),
                               Row(
                                 children: [
+                                  Text("Landmark : "),
+                                  Text(data[index]["landmark"]),
+                                ],
+                              ),
+                              Row(
+                                children: [
                                   Text("Phone Number : "),
                                   Text(data[index]["number"]),
                                 ],
@@ -154,7 +161,8 @@ class _myaddressState extends State<myaddress> {
                                         pincode: data[index]["pincode"],
                                         houseno: data[index]["houseno"],
                                         phonenumber: data[index]["number"],
-                                        name: data[index]["name"],),));
+                                        name: data[index]["name"],
+                                        landmark: data[index]["landmark"],),));
                                     },
                                     child: Container(
                                       height: scrWidth*0.1,

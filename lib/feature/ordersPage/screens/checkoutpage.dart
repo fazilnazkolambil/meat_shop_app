@@ -240,7 +240,7 @@ class _checkoutpageState extends State<checkoutpage> {
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        enableDrag: false,
+                        enableDrag: true,
                         elevation: 20,
                         scrollControlDisabledMaxHeightRatio: Checkbox.width,
                         isScrollControlled: true,
@@ -253,7 +253,7 @@ class _checkoutpageState extends State<checkoutpage> {
                         ),
                         builder: (context) {
                           return Column(
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                               height: scrWidth*1.8,

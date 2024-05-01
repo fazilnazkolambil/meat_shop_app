@@ -14,6 +14,7 @@ import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 
 import '../../../main.dart';
+import '../../../models/addressModel.dart';
 
 class editaddress extends StatefulWidget {
   final String id;
@@ -21,6 +22,7 @@ class editaddress extends StatefulWidget {
   final String address;
   final String pincode;
   final String houseno;
+  final String landmark;
   final String phonenumber;
   const editaddress(
       {super.key,
@@ -29,7 +31,8 @@ class editaddress extends StatefulWidget {
         required this.pincode,
         required this.houseno,
         required this.phonenumber,
-        required this.name});
+        required this.name,
+        required this.landmark});
 
   @override
   State<editaddress> createState() => _editaddressState();
@@ -40,6 +43,7 @@ class _editaddressState extends State<editaddress> {
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController housenoController = TextEditingController();
+  TextEditingController landmarkController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   final emailValidation = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
@@ -49,23 +53,28 @@ class _editaddressState extends State<editaddress> {
   File? file;
   bool loading = false;
   String newImage = '';
-  UserModel? usermodel;
-  getUserModel() async {
-    await FirebaseFirestore.instance.collection('users').doc(widget.id).get().then((value) {
-      usermodel = UserModel.fromMap(value.data()!);
-    });
-    UserModel tempUserModel = usermodel!.copyWith(
-        image : newImage,
-        name : nameController.text,
-        number : countryCode.toString()+phoneController.text
+  List addre=[];
+  UserModel? userModel;
+  editAddress()async{
+    addressModel address=addressModel(
+      name: nameController.text,
+      number:phoneController.text,
+      landmark: landmarkController.text,
+      houseno: housenoController.text,
+      pincode: pincodeController.text,
+      address: addressController.text,
     );
-    await FirebaseFirestore.instance.collection('users').doc(widget.id).update(tempUserModel.toMap()).then((value){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+
+    await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
+      userModel = UserModel.fromMap(value.data()!);
     });
-
+    addre=userModel!.address;
+    addre.add(address.toMap());
+    UserModel tempuserModel=userModel!.copyWith(
+        address: addre
+    );
+    await FirebaseFirestore.instance.collection("users").doc(loginId).update(tempuserModel.toMap());
   }
-
-
   @override
   void initState() {
     nameController.text = widget.name;
@@ -73,6 +82,7 @@ class _editaddressState extends State<editaddress> {
     pincodeController.text = widget.pincode;
     housenoController.text = widget.houseno;
     phoneController.text = widget.phonenumber;
+    landmarkController.text = widget.landmark;
     if(widget.phonenumber.length == 13){
       phoneController.text=widget.phonenumber.substring(3,13);
       newImage = widget.address;
@@ -319,6 +329,56 @@ class _editaddressState extends State<editaddress> {
                             spreadRadius: 0)
                       ]),
                   child: TextFormField(
+                    controller: landmarkController,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.next,
+                    style: TextStyle(
+                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                    cursorColor: colorConst.grey,
+                    decoration: InputDecoration(
+                        labelText: "Enter your landmark",
+                        labelStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w600,
+                            color: colorConst.grey),
+                        filled: true,
+                        fillColor: colorConst.white,
+                        hintText: "Enter your landmark",
+                        hintStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w700,
+                            color: colorConst.grey),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: colorConst.red)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1))),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1)))),
+                  ),
+                ),
+                SizedBox(
+                  height: scrWidth * 0.04,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: colorConst.white,
+                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
+                      border: Border.all(
+                          width: scrWidth * 0.0003,
+                          color: colorConst.black.withOpacity(0.38)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: colorConst.black.withOpacity(0.1),
+                            blurRadius: 14,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0)
+                      ]),
+                  child: TextFormField(
                     controller: phoneController,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
@@ -382,19 +442,33 @@ class _editaddressState extends State<editaddress> {
                     if(
                     nameController.text != "" &&
                         phoneController.text != "" &&
-                        formKey.currentState!.validate()
+                        housenoController.text != "" &&
+                        pincodeController.text != "" &&
+                        landmarkController.text != "" &&
+                        addressController.text != ""
                     ){
-                      getUserModel();
-
+                      editAddress();
+                      Navigator.pop(context);
 
                     }else{
                       nameController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Name!")))
                           :phoneController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Phonenumber")))
+                          :housenoController.text == "" ?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your house no")))
+                          :pincodeController.text == "" ?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your pincode")))
+                          :addressController.text == "" ?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address")))
+                          :landmarkController.text == "" ?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark")))
                           :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
 
                     }
+                    setState(() {
+
+                    });
                   }
                   ,
                   child: Container(

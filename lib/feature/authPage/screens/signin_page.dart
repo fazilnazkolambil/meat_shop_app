@@ -13,6 +13,7 @@ import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
+import '../../../models/orderDetailsModel.dart';
 
 class signinPage extends StatefulWidget {
   final String path;
@@ -366,7 +367,14 @@ class _signinPageState extends State<signinPage> {
                             prefs.setBool("gotIn", true);
                             // loginUserId = data.docs[0]["id"];
                             if(widget.path == "cartPage"){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(price: '', discount: '', shippingCharge: '', subtotal: '',),));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(
+                                price: '',
+                                discount: '',
+                                shippingCharge: '',
+                                subtotal: '',
+                                orderdetailsdata: OrderDetailsModel(userId: '', paymentStatus: '', items: [], address: [], orderHistory: [], orderStatus: ''),
+                                // cartMeat: [],
+                              )));
                             }else{
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
                             }

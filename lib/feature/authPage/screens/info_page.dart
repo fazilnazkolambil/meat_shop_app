@@ -16,6 +16,7 @@ import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
+import 'package:meat_shop_app/models/orderDetailsModel.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -762,7 +763,14 @@ class _infoPageState extends ConsumerState<infoPage> {
                               //     .then((value) async {
                                  addUser();
                                 if (widget.path == "cartPage") {
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(price: '', discount: '', shippingCharge: '', subtotal: '',),));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(
+                                    price: '',
+                                    discount: '',
+                                    shippingCharge: '',
+                                    subtotal: '',
+                                    orderdetailsdata:OrderDetailsModel(userId: '', paymentStatus: '', items: [], address: [], orderHistory: [], orderStatus: ''),
+                                    // cartMeat: [],
+                                  )));
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
                                 }

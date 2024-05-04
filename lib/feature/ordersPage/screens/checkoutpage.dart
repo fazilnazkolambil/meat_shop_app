@@ -9,7 +9,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/orderdetails_page.dart';
 import 'package:meat_shop_app/models/addressModel.dart';
+import 'package:meat_shop_app/models/orderDetailsModel.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +26,8 @@ class checkoutpage extends StatefulWidget {
   final String discount;
   final String shippingCharge;
   final String subtotal;
-  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal});
+  final OrderDetailsModel orderdetailsdata;
+  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.orderdetailsdata});
 
   @override
   State<checkoutpage> createState() => _checkoutpageState();
@@ -144,6 +147,12 @@ class _checkoutpageState extends State<checkoutpage> {
               InkWell(
                 onTap: () {
                   if(check == true && pymnt != ""){
+                    OrderDetailsModel orderdetailsModel=widget.orderdetailsdata.copyWith(
+                      paymentStatus: pymnt,
+                      address: addre
+                    );
+
+                    FirebaseFirestore.instance.collection("orderDetails").add(orderdetailsModel.toMap());
                     Navigator.push(context, MaterialPageRoute(builder: (context) => orderconfirm(),));
                   }else{
                     pymnt == ""?
@@ -240,7 +249,7 @@ class _checkoutpageState extends State<checkoutpage> {
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        enableDrag: true,
+                        enableDrag: false,
                         elevation: 20,
                         scrollControlDisabledMaxHeightRatio: Checkbox.width,
                         isScrollControlled: true,
@@ -253,7 +262,7 @@ class _checkoutpageState extends State<checkoutpage> {
                         ),
                         builder: (context) {
                           return Column(
-                            mainAxisSize: MainAxisSize.min,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Container(
                               height: scrWidth*1.8,

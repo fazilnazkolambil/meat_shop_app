@@ -12,6 +12,8 @@ import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/repository/providers.dart';
+import 'package:meat_shop_app/models/orderDetailsModel.dart';
+import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
@@ -26,6 +28,7 @@ class cartPage extends ConsumerStatefulWidget {
 }
 
 class _CartPageState extends ConsumerState<cartPage> {
+
   var a=[];
   int total = 0;
   int totalPrice = 0;
@@ -70,6 +73,10 @@ class _CartPageState extends ConsumerState<cartPage> {
              "ingredients": data["ingredients"],
              "quantity": 1,
            });
+           print(cartMeats);
+           // print("00000000000000000000000000000000000000yyyyyyyyyy");
+
+
          } else {
            meatDetailCollection.removeAt(i);
            addCart.removeAt(i);
@@ -206,8 +213,26 @@ class _CartPageState extends ConsumerState<cartPage> {
               ),
               InkWell(
                 onTap: () {
+                  OrderDetailsModel OrderDetailsData=
+                  OrderDetailsModel(
+                      userId:loginId.toString(),
+                      paymentStatus: "",
+                      orderStatus: "",
+                      items: [],
+                      address: [],
+                      orderHistory: [],
+                      // totalPrice: totalPrice.toString(),
+                  );
+
                   if(loginId!.isNotEmpty){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(price: "$total",discount: '$discount',shippingCharge: '$shippingCharge',subtotal: '$totalPrice',),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(
+                      orderdetailsdata:OrderDetailsData,
+                      price: "$total",
+                      discount: '$discount',
+                      shippingCharge: '$shippingCharge',
+                      subtotal: '$totalPrice',
+                      // cartMeat: cartMeats,
+                    ),));
                   }else{
                     showModalBottomSheet(
                       context: context,

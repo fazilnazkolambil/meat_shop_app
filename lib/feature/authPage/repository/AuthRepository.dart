@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
+import 'package:meat_shop_app/main.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,13 +34,19 @@ class AuthRepository{
           User? user= value.user;
 
           UserModel createUserModel =
-          UserModel(name: userModel.name,
+          UserModel(
+              name: userModel.name,
               email: user!.email.toString(),
               password: userModel.password,
               number: userModel.number,
-              address: userModel.address, favourites: userModel.favourites, image: userModel.image, id: user.uid);
-
-
+              address: userModel.address,
+              favourites: userModel.favourites,
+              image: userModel.image,
+              id: user.uid
+          );
+          // var data=await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+          // currentUserModel=UserModel.fromMap(data.data()!);
+          
           SharedPreferences prefs =await  SharedPreferences.getInstance();
            prefs.setBool("LoggedIn", true);
           prefs.setBool("gotIn", true);

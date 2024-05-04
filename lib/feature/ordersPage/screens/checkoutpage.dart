@@ -101,13 +101,12 @@ class _checkoutpageState extends State<checkoutpage> {
     orderHistory.add({
       "order Date":"",
       "total Price":widget.subtotal,
-      "items Ordered":widget.cartMeat.length,
+      "items Ordered":widget.cartMeat,
       "orderStatus":"",
     });
     setState(() {
 
     });
-    print("xxxxxxxxxxxxxxxxxxxxxxxxx");
     print(orderHistory);
   }
    @override
@@ -166,7 +165,8 @@ class _checkoutpageState extends State<checkoutpage> {
                     OrderDetailsModel orderdetailsModel=widget.orderdetailsdata.copyWith(
                       paymentStatus: pymnt,
                       address: addre,
-                      orderHistory: orderHistory
+                      orderHistory: orderHistory,
+                      items: widget.cartMeat
                     );
 
                     FirebaseFirestore.instance.collection("orderDetails").add(orderdetailsModel.toMap());

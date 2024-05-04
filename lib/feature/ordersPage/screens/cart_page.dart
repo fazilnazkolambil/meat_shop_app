@@ -75,9 +75,7 @@ class _CartPageState extends ConsumerState<cartPage> {
              "quantity": 1,
            });
 
-           // print(cartMeats);
-           print("00000000000000000000000000000000000000yyyyyyyyyy");
-           print(meatDetailCollection);
+           print(cartMeats);
 
 
          } else {

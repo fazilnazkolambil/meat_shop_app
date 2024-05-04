@@ -26,8 +26,9 @@ class checkoutpage extends StatefulWidget {
   final String discount;
   final String shippingCharge;
   final String subtotal;
+  final List cartMeat;
   final OrderDetailsModel orderdetailsdata;
-  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.orderdetailsdata});
+  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.orderdetailsdata, required this.cartMeat});
 
   @override
   State<checkoutpage> createState() => _checkoutpageState();
@@ -67,6 +68,7 @@ class _checkoutpageState extends State<checkoutpage> {
     );
     await FirebaseFirestore.instance.collection("users").doc("$loginId").update(tempuserModel.toMap());
   }
+  List orderHistory=[];
   List address=  [];
   autoFill() async {
     var data= await FirebaseFirestore.instance.collection("users").doc("$loginId").get();
@@ -95,10 +97,24 @@ class _checkoutpageState extends State<checkoutpage> {
       });
     }
   }
+  orderhisAdd(){
+    orderHistory.add({
+      "order Date":"",
+      "total Price":widget.subtotal,
+      "items Ordered":widget.cartMeat.length,
+      "orderStatus":"",
+    });
+    setState(() {
+
+    });
+    print("xxxxxxxxxxxxxxxxxxxxxxxxx");
+    print(orderHistory);
+  }
    @override
   void initState() {
      autoFill();
      loadData();
+     orderhisAdd();
     // TODO: implement initState
     super.initState();
   }
@@ -149,7 +165,8 @@ class _checkoutpageState extends State<checkoutpage> {
                   if(check == true && pymnt != ""){
                     OrderDetailsModel orderdetailsModel=widget.orderdetailsdata.copyWith(
                       paymentStatus: pymnt,
-                      address: addre
+                      address: addre,
+                      orderHistory: orderHistory
                     );
 
                     FirebaseFirestore.instance.collection("orderDetails").add(orderdetailsModel.toMap());

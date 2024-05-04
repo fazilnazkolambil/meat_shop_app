@@ -768,6 +768,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                                     discount: '',
                                     shippingCharge: '',
                                     subtotal: '',
+                                    cartMeat: [],
                                     orderdetailsdata:OrderDetailsModel(userId: '', paymentStatus: '', items: [], address: [], orderHistory: [], orderStatus: ''),
                                     // cartMeat: [],
                                   )));

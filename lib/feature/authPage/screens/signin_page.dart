@@ -372,6 +372,7 @@ class _signinPageState extends State<signinPage> {
                                 discount: '',
                                 shippingCharge: '',
                                 subtotal: '',
+                                cartMeat: [],
                                 orderdetailsdata: OrderDetailsModel(userId: '', paymentStatus: '', items: [], address: [], orderHistory: [], orderStatus: ''),
                                 // cartMeat: [],
                               )));

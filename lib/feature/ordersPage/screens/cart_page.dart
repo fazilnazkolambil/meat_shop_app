@@ -43,6 +43,7 @@ class _CartPageState extends ConsumerState<cartPage> {
   }
   List meatDetailCollection = [];
   List cartMeats = [];
+  // List orderHistory=[];
   bool loading = false;
   Future <void> loadData()  async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -73,8 +74,10 @@ class _CartPageState extends ConsumerState<cartPage> {
              "ingredients": data["ingredients"],
              "quantity": 1,
            });
-           print(cartMeats);
-           // print("00000000000000000000000000000000000000yyyyyyyyyy");
+
+           // print(cartMeats);
+           print("00000000000000000000000000000000000000yyyyyyyyyy");
+           print(meatDetailCollection);
 
 
          } else {
@@ -231,7 +234,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                       discount: '$discount',
                       shippingCharge: '$shippingCharge',
                       subtotal: '$totalPrice',
-                      // cartMeat: cartMeats,
+                      cartMeat: cartMeats,
                     ),));
                   }else{
                     showModalBottomSheet(

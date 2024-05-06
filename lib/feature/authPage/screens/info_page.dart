@@ -87,7 +87,7 @@ class _infoPageState extends ConsumerState<infoPage> {
         address: [],
         favourites: [],
         image: imageUrl,
-        id: ''), context: context);
+        id: '', orderDetails: []), context: context);
    // SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setBool("LoggedIn", true);
     // prefs.setString("loginUserId", loginUserId!);
@@ -769,8 +769,6 @@ class _infoPageState extends ConsumerState<infoPage> {
                                     shippingCharge: '',
                                     subtotal: '',
                                     cartMeat: [],
-                                    orderdetailsdata:OrderDetailsModel(userId: '', paymentStatus: '', items: [], address: [], orderHistory: [], orderStatus: ''),
-                                    // cartMeat: [],
                                   )));
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));

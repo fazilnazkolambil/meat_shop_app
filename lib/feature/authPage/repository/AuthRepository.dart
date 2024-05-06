@@ -41,6 +41,7 @@ class AuthRepository{
               number: userModel.number,
               address: userModel.address,
               favourites: userModel.favourites,
+              orderDetails: userModel.orderDetails,
               image: userModel.image,
               id: user.uid
           );

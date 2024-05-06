@@ -27,8 +27,8 @@ class checkoutpage extends StatefulWidget {
   final String shippingCharge;
   final String subtotal;
   final List cartMeat;
-  final OrderDetailsModel orderdetailsdata;
-  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.orderdetailsdata, required this.cartMeat});
+  // final OrderDetailsModel orderdetailsdata;
+  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.cartMeat});
 
   @override
   State<checkoutpage> createState() => _checkoutpageState();
@@ -48,6 +48,7 @@ class _checkoutpageState extends State<checkoutpage> {
   bool check=false;
   List <DateTime?> date=[];
   List addre=[];
+  List order=[];
   int date1=0;
   UserModel? userModel;
   addAddress()async{
@@ -97,23 +98,37 @@ class _checkoutpageState extends State<checkoutpage> {
       });
     }
   }
-  orderhisAdd(){
+  addOrderHistory(){
     orderHistory.add({
       "order Date":"",
       "total Price":widget.subtotal,
       "items Ordered":widget.cartMeat,
       "orderStatus":"",
     });
-    setState(() {
-
-    });
     print(orderHistory);
   }
+
+  addOrderDetails()async{
+    OrderDetailsModel OrderDetailsData=
+    OrderDetailsModel(
+      userId:loginId.toString(),
+      paymentStatus:pymnt,
+      orderStatus: "",
+      items: widget.cartMeat,
+      address: addre,
+      orderHistory: orderHistory,
+    );
+    await FirebaseFirestore.instance.collection("orderDetails").add(OrderDetailsData.toMap());
+    // await FirebaseFirestore.instance.collection("users").doc("$loginId").update(OrderDetailsData.toMap());
+
+  }
+
+
    @override
   void initState() {
      autoFill();
      loadData();
-     orderhisAdd();
+     addOrderHistory();
     // TODO: implement initState
     super.initState();
   }
@@ -162,14 +177,7 @@ class _checkoutpageState extends State<checkoutpage> {
               InkWell(
                 onTap: () {
                   if(check == true && pymnt != ""){
-                    OrderDetailsModel orderdetailsModel=widget.orderdetailsdata.copyWith(
-                      paymentStatus: pymnt,
-                      address: addre,
-                      orderHistory: orderHistory,
-                      items: widget.cartMeat
-                    );
-
-                    FirebaseFirestore.instance.collection("orderDetails").add(orderdetailsModel.toMap());
+                    addOrderDetails();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => orderconfirm(),));
                   }else{
                     pymnt == ""?

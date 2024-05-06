@@ -373,8 +373,6 @@ class _signinPageState extends State<signinPage> {
                                 shippingCharge: '',
                                 subtotal: '',
                                 cartMeat: [],
-                                orderdetailsdata: OrderDetailsModel(userId: '', paymentStatus: '', items: [], address: [], orderHistory: [], orderStatus: ''),
-                                // cartMeat: [],
                               )));
                             }else{
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));

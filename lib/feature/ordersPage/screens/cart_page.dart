@@ -214,20 +214,8 @@ class _CartPageState extends ConsumerState<cartPage> {
               ),
               InkWell(
                 onTap: () {
-                  OrderDetailsModel OrderDetailsData=
-                  OrderDetailsModel(
-                      userId:loginId.toString(),
-                      paymentStatus: "",
-                      orderStatus: "",
-                      items: [],
-                      address: [],
-                      orderHistory: [],
-                      // totalPrice: totalPrice.toString(),
-                  );
-
                   if(loginId!.isNotEmpty){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(
-                      orderdetailsdata:OrderDetailsData,
                       price: "$total",
                       discount: '$discount',
                       shippingCharge: '$shippingCharge',

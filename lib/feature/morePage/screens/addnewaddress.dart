@@ -39,28 +39,7 @@ class _addnewaddressState extends State<addnewaddress> {
   File? file;
   bool loading = false;
   String newImage = '';
-  List addre=[];
-  UserModel? userModel;
-  addAddress()async{
-    addressModel address=addressModel(
-      name: nameController.text,
-      number:phoneController.text,
-      landmark: landmarkController.text,
-      houseno: housenoController.text,
-      pincode: pincodeController.text,
-      address: addressController.text,
-    );
-
-    await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
-      userModel = UserModel.fromMap(value.data()!);
-    });
-    addre=userModel!.address;
-    addre.add(address.toMap());
-    UserModel tempuserModel=userModel!.copyWith(
-      address: addre
-    );
-    await FirebaseFirestore.instance.collection("users").doc(loginId).update(tempuserModel.toMap());
-  }
+  UserModel? usermodel;
   @override
   void initState() {
     // TODO: implement initState
@@ -305,56 +284,6 @@ class _addnewaddressState extends State<addnewaddress> {
                             spreadRadius: 0)
                       ]),
                   child: TextFormField(
-                    controller: landmarkController,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    decoration: InputDecoration(
-                        labelText: "Enter your landmark",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        hintText: "Enter your landmark",
-                        hintStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
-                ),
-                SizedBox(
-                  height: scrWidth * 0.04,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
-                  child: TextFormField(
                     controller: phoneController,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
@@ -418,33 +347,18 @@ class _addnewaddressState extends State<addnewaddress> {
                     if(
                     nameController.text != "" &&
                         phoneController.text != "" &&
-                        housenoController.text != "" &&
-                        pincodeController.text != "" &&
-                        landmarkController.text != "" &&
-                        addressController.text != ""
+                        formKey.currentState!.validate()
                     ){
-                      addAddress();
-                      Navigator.pop(context);
+
 
                     }else{
                       nameController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Name!")))
                           :phoneController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Phonenumber")))
-                          :housenoController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your house no")))
-                          :pincodeController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your pincode")))
-                          :addressController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address")))
-                          :landmarkController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark")))
                           :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
 
                     }
-                    setState(() {
-
-                    });
                   }
                   ,
                   child: Container(

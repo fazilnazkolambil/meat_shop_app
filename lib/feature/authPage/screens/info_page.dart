@@ -712,32 +712,28 @@ class _infoPageState extends ConsumerState<infoPage> {
                               SizedBox(
                                 width: scrWidth * 0.04,
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: scrWidth * 0.05),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "* By login I Agree with all the",
+                              Row(
+                                children: [
+                                  Text(
+                                    "* By login I Agree with all the",
+                                    style: TextStyle(
+                                        fontSize: scrWidth * 0.034,
+                                        fontWeight: FontWeight.w500,
+                                        color: colorConst.grey),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                                    },
+                                    child: Text(
+                                      " Terms & Conditions",
                                       style: TextStyle(
                                           fontSize: scrWidth * 0.034,
-                                          fontWeight: FontWeight.w500,
-                                          color: colorConst.grey),
+                                          fontWeight: FontWeight.w700,
+                                          color: colorConst.meroon),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
-                                      },
-                                      child: Text(
-                                        " Terms & Conditions",
-                                        style: TextStyle(
-                                            fontSize: scrWidth * 0.034,
-                                            fontWeight: FontWeight.w700,
-                                            color: colorConst.meroon),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               )
                             ],
                           ),

@@ -290,7 +290,7 @@ class _checkoutpageState extends State<checkoutpage> {
                         ),
                         builder: (context) {
                           return Column(
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                               height: scrWidth*1.8,
@@ -400,16 +400,39 @@ class _checkoutpageState extends State<checkoutpage> {
                                         Container(
                                           height: scrWidth*0.12,
                                           width: scrWidth*1,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                              border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                          ),
+                                          // decoration: BoxDecoration(
+                                          //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                          //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                          // ),
                                           child: TextField(
                                             controller: addressController,
+                                            // decoration: InputDecoration(
+                                            //     border: InputBorder.none,
+                                            //     labelText: " Address",
+                                            //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                            // ),
                                             decoration: InputDecoration(
+                                                labelText: "Address",
+                                                labelStyle: TextStyle(
+                                                    fontSize: scrWidth * 0.04,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: colorConst.grey),
+                                                filled: true,
+                                                // fillColor: colorConst.white,
+                                                hintText: "Address",
+                                                hintStyle: TextStyle(
+                                                    fontSize: scrWidth * 0.04,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: colorConst.grey),
                                                 border: InputBorder.none,
-                                                labelText: " Address",
-                                                labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                    borderSide: BorderSide(
+                                                        color: colorConst.black.withOpacity(0.1))),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                    borderSide: BorderSide(
+                                                        color: colorConst.black.withOpacity(0.1)))
                                             ),
                                           ),
                                         ),
@@ -419,52 +442,123 @@ class _checkoutpageState extends State<checkoutpage> {
                                             Container(
                                               height: scrWidth*0.12,
                                               width: scrWidth*0.4,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                  border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                              ),
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                              //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              // ),
                                               child: TextField(
                                                 controller: nameController,
+                                                // decoration: InputDecoration(
+                                                //     border: InputBorder.none,
+                                                //     labelText: " Name",
+                                                //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                //
+                                                // ),
                                                 decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    labelText: " Name",
-                                                    labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                    labelText: "Name",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: colorConst.grey),
+                                                    filled: true,
+                                                    // fillColor: colorConst.white,
+                                                    hintText: "Name",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: colorConst.grey),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(color: colorConst.red)),
+                                                    enabledBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1))),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1)))),
 
-                                                ),
                                               ),
                                             ),
                                             Container(
                                               height: scrWidth*0.12,
                                               width: scrWidth*0.5,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                  border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                              ),
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                              //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              // ),
                                               child: TextField(
                                                 controller: numberController,
+                                                // decoration: InputDecoration(
+                                                //     border: InputBorder.none,
+                                                //     labelText: " Mob no",
+                                                //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                // ),
                                                 decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    labelText: " Mob no",
-                                                    labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                                ),
+                                                    labelText: "Mob no",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: colorConst.grey),
+                                                    filled: true,
+                                                    // fillColor: colorConst.white,
+                                                    hintText: "Mob no",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: colorConst.grey),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(color: colorConst.red)),
+                                                    enabledBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1))),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1)))),
+
                                               ),
                                             ),
                                           ],),
                                         Container(
                                           height: scrWidth*0.12,
                                           width: scrWidth*1,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                              border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                          ),
+                                          // decoration: BoxDecoration(
+                                          //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                          //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                          // ),
                                           child: TextField(
                                             controller: landmarkController,
+                                            // decoration: InputDecoration(
+                                            //     border: InputBorder.none,
+                                            //     labelText: " Land mark",
+                                            //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                            //
+                                            // ),
                                             decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                labelText: " Land mark",
-                                                labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-
-                                            ),
+                                                labelText: "Land mark",
+                                                labelStyle: TextStyle(
+                                                    fontSize: scrWidth * 0.04,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: colorConst.grey),
+                                                filled: true,
+                                                // fillColor: colorConst.white,
+                                                hintText: "Land mark",
+                                                hintStyle: TextStyle(
+                                                    fontSize: scrWidth * 0.04,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: colorConst.grey),
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(color: colorConst.red)),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                    borderSide: BorderSide(
+                                                        color: colorConst.black.withOpacity(0.1))),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                    borderSide: BorderSide(
+                                                        color: colorConst.black.withOpacity(0.1)))),
                                           ),
                                         ),
                                         Row(
@@ -473,33 +567,79 @@ class _checkoutpageState extends State<checkoutpage> {
                                             Container(
                                               height: scrWidth*0.12,
                                               width: scrWidth*0.4,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                  border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                              ),
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                              //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              // ),
                                               child: TextField(
                                                 controller: housenoController,
+                                                // decoration: InputDecoration(
+                                                //     border: InputBorder.none,
+                                                //     labelText: " House no",
+                                                //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                // ),
                                                 decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    labelText: " House no",
-                                                    labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                                ),
+                                                    labelText: "House no",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: colorConst.grey),
+                                                    filled: true,
+                                                    // fillColor: colorConst.white,
+                                                    hintText: "House no",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: colorConst.grey),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(color: colorConst.red)),
+                                                    enabledBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1))),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1)))),
                                               ),
                                             ),
                                             Container(
                                               height: scrWidth*0.12,
                                               width: scrWidth*0.5,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                  border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
-                                              ),
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                              //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              // ),
                                               child: TextField(
                                                 controller: pincodeController,
+                                                // decoration: InputDecoration(
+                                                //     border: InputBorder.none,
+                                                //     labelText: " Pincode",
+                                                //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                // ),
                                                 decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    labelText: " Pincode",
-                                                    labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
-                                                ),
+                                                    labelText: "Pincode",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: colorConst.grey),
+                                                    filled: true,
+                                                    // fillColor: colorConst.white,
+                                                    hintText: "Pincode",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: scrWidth * 0.04,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: colorConst.grey),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(color: colorConst.red)),
+                                                    enabledBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1))),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                        borderSide: BorderSide(
+                                                            color: colorConst.black.withOpacity(0.1)))),
                                               ),
                                             ),
                                           ],),

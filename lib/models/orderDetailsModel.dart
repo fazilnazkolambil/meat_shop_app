@@ -1,10 +1,11 @@
 class OrderDetailsModel{
-  String userId,paymentStatus,orderStatus;
+  String userId,orderId,paymentStatus,orderStatus;
   List items,address,orderHistory;
 
 
   OrderDetailsModel({
     required this.userId,
+    required this.orderId,
     required this.paymentStatus,
     required this.orderStatus,
     required this.items,
@@ -16,6 +17,7 @@ class OrderDetailsModel{
   Map <String, dynamic> toMap(){
     return{
       "userId" : this.userId,
+      "orderId" : this.orderId,
       "paymentStatus" : this.paymentStatus,
       "orderStatus" : this.orderStatus,
       "items" : this.items,
@@ -26,6 +28,7 @@ class OrderDetailsModel{
   factory OrderDetailsModel.fromMap (Map <String, dynamic> map){
     return OrderDetailsModel (
       userId: map["userId"]??"",
+      orderId: map["orderId"]??"",
       paymentStatus: map["paymentStatus"]??"",
       orderStatus: map["orderStatus"]??"",
       items: map["items"]??[],
@@ -34,11 +37,12 @@ class OrderDetailsModel{
     );
   }
   OrderDetailsModel copyWith({
-    String?  userId, paymentStatus,orderStatus,
+    String?  userId,orderId, paymentStatus,orderStatus,
     List? items,address,orderHistory,
   }){
     return OrderDetailsModel(
       userId: userId ?? this.userId,
+      orderId: userId ?? this.orderId,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       orderStatus: orderStatus ?? this.orderStatus,
       items: items ?? this.items,

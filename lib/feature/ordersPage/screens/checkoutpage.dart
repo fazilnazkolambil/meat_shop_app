@@ -48,7 +48,7 @@ class _checkoutpageState extends State<checkoutpage> {
   bool check=false;
   List <DateTime?> date=[];
   List addre=[];
-  List order=[];
+  // List order=[];
   int date1=0;
   UserModel? userModel;
   addAddress()async{
@@ -117,9 +117,12 @@ class _checkoutpageState extends State<checkoutpage> {
       items: widget.cartMeat,
       address: addre,
       orderHistory: orderHistory,
+      orderId: ""
     );
-    await FirebaseFirestore.instance.collection("orderDetails").add(OrderDetailsData.toMap());
-    // await FirebaseFirestore.instance.collection("users").doc("$loginId").update(OrderDetailsData.toMap());
+    await FirebaseFirestore.instance.collection("orderDetails").add(OrderDetailsData.toMap())
+        .then((value) => value.update({
+      "orderId":value.id
+    }));
 
   }
 

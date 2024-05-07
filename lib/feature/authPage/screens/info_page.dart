@@ -87,7 +87,7 @@ class _infoPageState extends ConsumerState<infoPage> {
         address: [],
         favourites: [],
         image: imageUrl,
-        id: '', orderDetails: []), context: context);
+        id: '',), context: context);
    // SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setBool("LoggedIn", true);
     // prefs.setString("loginUserId", loginUserId!);

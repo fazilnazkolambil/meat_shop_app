@@ -74,6 +74,8 @@ class _HomePageState extends ConsumerState<HomePage> {
    getAddress () async {
      try{
        Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+       // print(currentPosition.latitude);
+       // print(currentPosition.longitude);
        List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
        Placemark first = result.first;
        setState(() {

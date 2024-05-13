@@ -29,7 +29,6 @@ class cartPage extends ConsumerStatefulWidget {
 
 class _CartPageState extends ConsumerState<cartPage> {
 
-  var a=[];
   int total = 0;
   int totalPrice = 0;
   int discount = 0;
@@ -74,10 +73,6 @@ class _CartPageState extends ConsumerState<cartPage> {
              "ingredients": data["ingredients"],
              "quantity": 1,
            });
-
-           print(cartMeats);
-
-
          } else {
            meatDetailCollection.removeAt(i);
            addCart.removeAt(i);
@@ -135,12 +130,7 @@ class _CartPageState extends ConsumerState<cartPage> {
           ),),
         actions: [
           GestureDetector(
-              onTap: () async {
-                print(meatDetailCollection);
-                print(cartMeats);
-                print(addCart);
-                //print(totalPrice.last);
-              },
+              onTap: () async {},
               child: meatDetailCollection.isEmpty?
               SvgPicture.asset(iconConst.cart):
               SizedBox(

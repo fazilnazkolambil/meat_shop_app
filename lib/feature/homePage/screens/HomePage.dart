@@ -102,6 +102,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       backgroundColor: colorConst.white,
       appBar: AppBar(
         backgroundColor: colorConst.white,
+        surfaceTintColor: colorConst.white,
         elevation: 0,
         leading: loginId != null && userImage != null && userImage != ""?
         Padding(

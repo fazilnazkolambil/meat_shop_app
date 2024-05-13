@@ -24,6 +24,7 @@ class editaddress extends StatefulWidget {
   final String houseno;
   final String landmark;
   final String phonenumber;
+  final int index;
   const editaddress(
       {super.key,
         required this.id,
@@ -32,7 +33,9 @@ class editaddress extends StatefulWidget {
         required this.houseno,
         required this.phonenumber,
         required this.name,
-        required this.landmark});
+        required this.landmark,
+        required this.index
+      });
 
   @override
   State<editaddress> createState() => _editaddressState();
@@ -69,7 +72,7 @@ class _editaddressState extends State<editaddress> {
       userModel = UserModel.fromMap(value.data()!);
     });
     addre=userModel!.address;
-    addre.add(address.toMap());
+    addre.replaceRange(widget.index, widget.index+1, [address.toMap()]);
     UserModel tempuserModel=userModel!.copyWith(
         address: addre
     );

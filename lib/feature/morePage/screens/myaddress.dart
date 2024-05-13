@@ -162,7 +162,9 @@ class _myaddressState extends State<myaddress> {
                                         houseno: data[index]["houseno"],
                                         phonenumber: data[index]["number"],
                                         name: data[index]["name"],
-                                        landmark: data[index]["landmark"],),));
+                                        landmark: data[index]["landmark"],
+                                        index: index,
+                                      ),));
                                     },
                                     child: Container(
                                       height: scrWidth*0.1,

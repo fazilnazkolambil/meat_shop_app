@@ -47,11 +47,12 @@ class _HomePageState extends ConsumerState<HomePage> {
         addCart = json.decode(jsonString2);
       });
     }
-    await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
-      UserModel users = UserModel.fromMap(value.data()!);
-      userImage = users.image;
-    });
-    
+    if(loginId.isNotEmpty){
+      await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
+        UserModel users = UserModel.fromMap(value.data()!);
+        userImage = users.image;
+      });
+    }
     setState(() {
 
     });
@@ -87,7 +88,6 @@ class _HomePageState extends ConsumerState<HomePage> {
      }
    }
 
-
 @override
   void initState() {
   loadData();
@@ -104,7 +104,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         backgroundColor: colorConst.white,
         surfaceTintColor: colorConst.white,
         elevation: 0,
-        leading: loginId != null && userImage != null && userImage != ""?
+        leading: userImage != null && userImage != ""?
         Padding(
           padding: EdgeInsets.all(scrWidth*0.02),
           child: CircleAvatar(
@@ -310,25 +310,34 @@ class _HomePageState extends ConsumerState<HomePage> {
                         }
                       ),
                     ),
-                    Text("Recent Orders",style: TextStyle(
-                        fontWeight: FontWeight.w600),),
+                    loginId.isNotEmpty?
                     SizedBox(
-                      height: scrHeight*0.15,
-                      width: scrWidth*1,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                          itemCount: 5,
-                          itemBuilder: (context, index) => Container(
-                              height: scrHeight*0.15,
-                              width: scrWidth*0.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(scrWidth*0.04),
-                                color: Colors.green
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Recent Orders",style: TextStyle(
+                              fontWeight: FontWeight.w600)),
+                          SizedBox(
+                            height: scrHeight*0.15,
+                            width: scrWidth*1,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 3,
+                              itemBuilder: (context, index) => Container(
+                                height: scrHeight*0.15,
+                                width: scrWidth*0.5,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(scrWidth*0.04),
+                                    color: Colors.green
+                                ),
                               ),
+                              separatorBuilder: (context, index) => SizedBox(width: scrWidth*0.03,),
                             ),
-                          separatorBuilder: (context, index) => SizedBox(width: scrWidth*0.03,),
+                          )
+                        ],
                       ),
-                    )
+                    ):
+                        SizedBox()
                   ],
                 ),
             ),

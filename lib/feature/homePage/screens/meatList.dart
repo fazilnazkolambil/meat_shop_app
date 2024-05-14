@@ -498,7 +498,6 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
-
                                         Container(
                                             height: scrWidth * 0.27,
                                             width: scrWidth * 0.27,
@@ -562,7 +561,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                   if(loginId!.isNotEmpty){
                                                     if(fav.contains(data[index]["id"])){
                                                       fav.remove(data[index]["id"]);
-                                                      favoriteList.removeWhere((element) => element["id"]==data[index]["id"]);
+                                                      favoriteList.removeWhere((element) => element["id"] == data[index]["id"]);
                                                       FirebaseFirestore.instance.collection("users").doc(loginId).update({
                                                         "favourites" : favoriteList
                                                       });

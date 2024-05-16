@@ -62,19 +62,19 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
     setState(() {});
   }
 
-  getMeatDetails() async {
-    var meatDetails = await FirebaseFirestore.instance
-        .collection("meatTypes")
-        .doc(widget.type)
-        .collection(widget.type)
-        .doc(selectedCategory)
-        .collection(widget.type)
-        .get();
-    meatDetailCollection = meatDetails.docs;
-    setState(() {
-
-    });
-  }
+  // getMeatDetails() async {
+  //   var meatDetails = await FirebaseFirestore.instance
+  //       .collection("meatTypes")
+  //       .doc(widget.type)
+  //       .collection(widget.type)
+  //       .doc(selectedCategory)
+  //       .collection(widget.type)
+  //       .get();
+  //   meatDetailCollection = meatDetails.docs;
+  //   setState(() {
+  //
+  //   });
+  // }
   bool login = false;
   String? loginId;
   UserModel? usermodel;
@@ -122,7 +122,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
       });
     }
     catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location")));    }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location")));
+    }
   }
   @override
   void initState() {

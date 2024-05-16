@@ -24,7 +24,7 @@ import 'feature/onboardPage/screens/splashScreen.dart';
 import 'firebase_options.dart';
 var scrWidth;
 var scrHeight;
-// UserModel ?currentUserModel;
+UserModel ?currentUserModel;
 
  main()async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -44,8 +44,8 @@ class AuthRepository{
               image: userModel.image,
               id: user.uid
           );
-          // var data=await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
-          // currentUserModel=UserModel.fromMap(data.data()!);
+          var data=await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+          currentUserModel=UserModel.fromMap(data.data()!);
           
           SharedPreferences prefs =await  SharedPreferences.getInstance();
            prefs.setBool("LoggedIn", true);

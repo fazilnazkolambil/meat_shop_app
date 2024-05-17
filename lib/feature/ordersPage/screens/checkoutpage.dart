@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +47,15 @@ class _checkoutpageState extends State<checkoutpage> {
   String pymnt="";
   String labelas="";
   bool check=false;
+  bool elevan=false;
+  bool one=false;
+  bool three=false;
+  bool six=false;
   List <DateTime?> date=[];
   List addre=[];
   // List order=[];
   int date1=0;
+  DateTime? _selectedValue;
   UserModel? userModel;
   addAddress()async{
     addre.add(addressModel(
@@ -100,7 +106,8 @@ class _checkoutpageState extends State<checkoutpage> {
   }
   addOrderHistory(){
     orderHistory.add({
-      "order Date":"",
+      "order Date":selectedDate.isEmpty?DateTime.now():DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString(),
+      "order time": selectedTime.isEmpty?"":selectedTime.last,
       "total Price":widget.subtotal,
       "items Ordered":widget.cartMeat,
       "orderStatus":"",
@@ -125,7 +132,8 @@ class _checkoutpageState extends State<checkoutpage> {
     }));
 
   }
-
+ List selectedDate = [];
+ List selectedTime = [];
 
    @override
   void initState() {
@@ -706,59 +714,183 @@ class _checkoutpageState extends State<checkoutpage> {
                         context: context,
                         barrierDismissible: false,
                         builder: (context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(scrWidth*0.05)),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Select Delivery Date & Time",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
+                          return StatefulBuilder(
+                            builder: (BuildContext context, void Function(void Function()) setState) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(scrWidth*0.05)),
+                                title: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Select Delivery Date & Time",style: TextStyle(fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
+                                        ),
+
+                                        // SizedBox(width: scrWidth*0.3,),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: SizedBox(
+                                              height: scrWidth*0.06,
+                                              width: scrWidth*0.06,
+                                              child: SvgPicture.asset(iconConst.cross)),
+                                        )
+                                      ],
+                                    ),
+
+                                  ],
                                 ),
-                                // SizedBox(width: scrWidth*0.3,),
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: SvgPicture.asset(iconConst.cross),
-                                )
-                              ],
-                            ),
+                                content: Container(
+                                  height: scrWidth*1,
+                                  width: scrWidth*1,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("MAY 2024",style: TextStyle(
+                                          color: colorConst.meroon,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: scrWidth*0.035),),
+                                      Container(
+                                        height: scrWidth*0.25,
+                                        width: scrWidth*1,
+                                        // color: colorConst.grey,
+                                        child: DatePicker(
+                                          DateTime.now(),
+                                          initialSelectedDate: selectedDate.isEmpty?DateTime.now():selectedDate.last,
+                                          selectionColor: colorConst.meroon,
+                                          selectedTextColor: Colors.white,
+                                          onDateChange: (date) {
+                                            selectedDate.add(date);
+                                            setState(() {
+                                              // _selectedValue = date;
+                                            });
+                                            print(DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString());
+                                          },
+                                        ),
+                                      ),
+                                      Text(selectedDate.isEmpty?DateTime.now().toString():"${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()}",style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: scrWidth*0.035)),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                elevan=true;
+                                                one=false;
+                                                three=false;
+                                                six=false;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: scrWidth*0.1,
+                                              width: scrWidth*0.31,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  // color: colorConst.grey,
+                                                  border:elevan? Border.all(width: scrWidth*0.005,color: colorConst.meroon):Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              ),
+                                              child: Center(child: Text("11.00 AM")),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                              elevan=false;
+                                              one=true;
+                                              three=false;
+                                              six=false;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: scrWidth*0.1,
+                                              width: scrWidth*0.31,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  // color: colorConst.grey,
+                                                  border:one? Border.all(width: scrWidth*0.005,color: colorConst.meroon):Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              ),
+                                              child: Center(child: Text("1.00 PM")),
 
-                            content: Container(
-                              height: scrWidth*1,
-                              width: scrWidth*0.7,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                elevan=false;
+                                              one=false;
+                                              three=true;
+                                              six=false;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: scrWidth*0.1,
+                                              width: scrWidth*0.31,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  // color: colorConst.grey,
+                                                  border:three? Border.all(width: scrWidth*0.005,color: colorConst.meroon):Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              ),
+                                              child: Center(child: Text("3.00 PM")),
 
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // DateTimePicker(
-                                  //   initialSelectedDate: DateTime.now(),
-                                  //   startDate: DateTime.now(),
-                                  //   // endDate: date!.add(Duration(days: 60)),
-                                  //   startTime: DateTime.now(),
-                                  //   // endTime: DateTime(date!.year, date!.month, date!.day, 18),
-                                  //   timeInterval: Duration(minutes: 15),
-                                  //   // datePickerTitle: 'Pick your preferred date',
-                                  //   // timePickerTitle: 'Pick your preferred time',
-                                  //   // timeOutOfRangeError: 'Sorry shop is closed now',
-                                  //   // is24h: false,
-                                  //   onDateChanged: (date) {
-                                  //     setState(() {
-                                  //       _d1 = DateFormat('dd MMM, yyyy').format(date);
-                                  //     });
-                                  //   },
-                                  //   onTimeChanged: (time) {
-                                  //     setState(() {
-                                  //       _t1 = DateFormat('hh:mm:ss aa').format(time);
-                                  //     });
-                                  //   },
-                                  // )
-                                ],
-                              ),
-                            ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                              elevan=false;
+                                              one=false;
+                                              three=false;
+                                              six=true;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: scrWidth*0.1,
+                                              width: scrWidth*0.31,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                  // color: colorConst.grey,
+                                                  border:six? Border.all(width: scrWidth*0.005,color: colorConst.meroon):Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                              ),
+                                              child: Center(child: Text("6.00 PM")),
+
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          if(elevan=true){selectedTime=="11.00 AM";
+                                          }else if(one=true){selectedTime=="1.00 PM";
+                                          }else if(three=true){selectedTime=="3.00 PM";
+                                          }else if(six=true){selectedTime=="6.00 PM";}
+                                          addOrderHistory();
+                                          Navigator.pop(context);
+                                          print(selectedTime);
+                                        },
+                                        child: Container(
+                                          height: scrWidth*0.11,
+                                          width: scrWidth*0.6,
+                                          decoration: BoxDecoration(
+                                              color: colorConst.meroon,
+                                              borderRadius: BorderRadius.circular(scrWidth*0.04)
+                                          ),
+                                          child: Center(child: Text("OK",style: TextStyle(color: Colors.white),)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },);
                     },

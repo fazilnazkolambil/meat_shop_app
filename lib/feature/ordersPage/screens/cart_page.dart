@@ -103,14 +103,14 @@ class _CartPageState extends ConsumerState<cartPage> {
   @override
   Widget build(BuildContext context) {
     return
-      // loading?
-      //   Scaffold(
-      //     backgroundColor: colorConst.black.withOpacity(0.3),
-      //     body: Center(child: SizedBox(
-      //       height: scrHeight*0.5,
-      //         width: scrWidth*0.8,
-      //         child: Lottie.asset(gifs.loadingGif))),
-      //   ):
+      loading?
+        Scaffold(
+          backgroundColor: colorConst.black.withOpacity(0.3),
+          body: Center(child: SizedBox(
+            height: scrHeight*0.5,
+              width: scrWidth*0.8,
+              child: Lottie.asset(gifs.loadingGif))),
+        ):
       Scaffold(
       backgroundColor: colorConst.white,
       appBar: AppBar(

@@ -55,6 +55,7 @@ class _NavigationPageState extends State<NavigationPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     login = prefs.getBool("LoggedIn") ?? false;
     loginId = prefs.getString("loginUserId") ?? "";
+    print(loginId);
     if(loginId.isNotEmpty){
       await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
         users = UserModel.fromMap(value.data()!);

@@ -73,7 +73,7 @@ class _morePageState extends State<morePage> {
       appBar: AppBar(
         backgroundColor: colorConst.white,
         elevation: 0,
-        leading: loginId!= null && userImage != null && userImage != ""?
+        leading: userImage != null && userImage != ""?
         CircleAvatar(
           radius: scrWidth*0.05,
           backgroundImage: NetworkImage(userImage!),
@@ -144,7 +144,7 @@ class _morePageState extends State<morePage> {
           )
         ],
       ),
-      body:loginId == ""?
+      body:loginId.isEmpty?
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -567,8 +567,8 @@ class _morePageState extends State<morePage> {
                                 onTap: () async {
                                   SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                                  prefs.remove("LoggedIn");
-                                  prefs.remove("gotIn");
+                                  prefs.setBool("LoggedIn",false);
+                                  prefs.setBool("gotIn",false);
                                   prefs.remove("loginUserId");
                                   prefs.remove("cart");
                                   prefs.remove("cart2");

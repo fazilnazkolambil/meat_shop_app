@@ -307,7 +307,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   )
                                       :Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       InkWell(
                                         onTap: () {

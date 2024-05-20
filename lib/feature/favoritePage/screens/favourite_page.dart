@@ -43,11 +43,19 @@ class _favouritePageState extends State<favouritePage> {
       });
     }
   }
+
 @override
   void initState() {
     loadData();
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    loginId;
+    super.didChangeDependencies();
   }
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +109,7 @@ class _favouritePageState extends State<favouritePage> {
       ),
       body: Padding(
         padding:  EdgeInsets.all(scrWidth*0.04),
-        child:loginId == ""?
+        child:loginId.isEmpty?
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

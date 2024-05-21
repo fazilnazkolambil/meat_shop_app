@@ -7,6 +7,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -557,120 +558,121 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            InkWell(
-                                                onTap:(){
-                                                  if(loginId!.isNotEmpty){
-                                                    if(fav.contains(data[index]["id"])){
-                                                      fav.remove(data[index]["id"]);
-                                                      favoriteList.removeWhere((element) => element["id"] == data[index]["id"]);
-                                                      FirebaseFirestore.instance.collection("users").doc(loginId).update({
-                                                        "favourites" : favoriteList
-                                                      });
-                                                      setState(() {
+                                            GestureDetector(
+                                              onTap:(){
+                                                HapticFeedback.lightImpact();
+                                                if(loginId!.isNotEmpty){
+                                                  if(fav.contains(data[index]["id"])){
+                                                    fav.remove(data[index]["id"]);
+                                                    favoriteList.removeWhere((element) => element["id"] == data[index]["id"]);
+                                                    FirebaseFirestore.instance.collection("users").doc(loginId).update({
+                                                      "favourites" : favoriteList
+                                                    });
+                                                    setState(() {
 
-                                                      });
-                                                    }else{
-                                                      fav.add(data[index]["id"]);
-                                                      favoriteList.add({
-                                                        "Image" : data[index]["Image"],
-                                                        "name" : data[index]["name"],
-                                                        "ingredients" : data[index]["ingredients"],
-                                                        "rate" : data[index]["rate"],
-                                                        "id" : data[index]["id"],
-                                                        "description" : data[index]["description"],
-                                                        "category" : selectedCategory == ""?categoryCollection[0]["category"]:selectedCategory,
-                                                        "type" : widget.type,
-                                                      });
-                                                      FirebaseFirestore.instance.collection("users").doc(loginId).update({
-                                                        "favourites" : FieldValue.arrayUnion(favoriteList)
-                                                      });
-                                                      setState(() {
-
-                                                      });
-                                                    }
+                                                    });
                                                   }else{
-                                                    showModalBottomSheet(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return BottomSheet(
-                                                          onClosing: () {
+                                                    fav.add(data[index]["id"]);
+                                                    favoriteList.add({
+                                                      "Image" : data[index]["Image"],
+                                                      "name" : data[index]["name"],
+                                                      "ingredients" : data[index]["ingredients"],
+                                                      "rate" : data[index]["rate"],
+                                                      "id" : data[index]["id"],
+                                                      "description" : data[index]["description"],
+                                                      "category" : selectedCategory == ""?categoryCollection[0]["category"]:selectedCategory,
+                                                      "type" : widget.type,
+                                                    });
+                                                    FirebaseFirestore.instance.collection("users").doc(loginId).update({
+                                                      "favourites" : FieldValue.arrayUnion(favoriteList)
+                                                    });
+                                                    setState(() {
 
-                                                          },
-                                                          builder: (context) {
-                                                            return Container(
-                                                              height: scrHeight*0.2,
-                                                              width: scrWidth*1,
-                                                              margin: EdgeInsets.all(scrWidth*0.05),
-                                                              child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  Text("Let's get you in!",style: TextStyle(
-                                                                      fontWeight: FontWeight.w700,
-                                                                      fontSize: scrWidth*0.05
-                                                                  ),),
-                                                                  Text("In just a minute, you can access all our offers, services and more.",
-                                                                    textAlign: TextAlign.center,),
-                                                                  Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                    children: [
-                                                                      InkWell(
-                                                                        onTap: () {
-                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
-                                                                        },
-                                                                        child: Container(
-                                                                          height: scrHeight*0.05,
-                                                                          width: scrWidth*0.4,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                                              border: Border.all(color: colorConst.meroon)
-                                                                          ),
-                                                                          child: Center(child: Text("Sign Up"),),
-                                                                        ),
-                                                                      ),
-                                                                      InkWell(
-                                                                        onTap: () {
-                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
-                                                                        },
-                                                                        child: Container(
-                                                                          height: scrHeight*0.05,
-                                                                          width: scrWidth*0.4,
-                                                                          decoration: BoxDecoration(
-                                                                              color: colorConst.meroon,
-                                                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                                              border: Border.all(color: colorConst.meroon)
-                                                                          ),
-                                                                          child: Center(child: Text("Log In",style: TextStyle(
-                                                                              color: colorConst.white
-                                                                          ),),),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-
+                                                    });
                                                   }
-                                                  setState(() {
+                                                }else{
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return BottomSheet(
+                                                        onClosing: () {
 
-                                                  });
+                                                        },
+                                                        builder: (context) {
+                                                          return Container(
+                                                            height: scrHeight*0.2,
+                                                            width: scrWidth*1,
+                                                            margin: EdgeInsets.all(scrWidth*0.05),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Let's get you in!",style: TextStyle(
+                                                                    fontWeight: FontWeight.w700,
+                                                                    fontSize: scrWidth*0.05
+                                                                ),),
+                                                                Text("In just a minute, you can access all our offers, services and more.",
+                                                                  textAlign: TextAlign.center,),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap: () {
+                                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
+                                                                      },
+                                                                      child: Container(
+                                                                        height: scrHeight*0.05,
+                                                                        width: scrWidth*0.4,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                                            border: Border.all(color: colorConst.meroon)
+                                                                        ),
+                                                                        child: Center(child: Text("Sign Up"),),
+                                                                      ),
+                                                                    ),
+                                                                    InkWell(
+                                                                      onTap: () {
+                                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
+                                                                      },
+                                                                      child: Container(
+                                                                        height: scrHeight*0.05,
+                                                                        width: scrWidth*0.4,
+                                                                        decoration: BoxDecoration(
+                                                                            color: colorConst.meroon,
+                                                                            borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                                            border: Border.all(color: colorConst.meroon)
+                                                                        ),
+                                                                        child: Center(child: Text("Log In",style: TextStyle(
+                                                                            color: colorConst.white
+                                                                        ),),),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  );
 
-                                                },
-                                                child:
-                                                Icon(
-                                                  Icons.favorite,
-                                                  color:fav.contains(data[index]["id"])?
-                                                  colorConst.meroon:colorConst.grey,
-                                                  size: scrWidth*0.08,
-                                                )
+                                                }
+                                                setState(() {
+
+                                                });
+
+                                              },
+                                              child: Icon(
+                                                Icons.favorite,
+                                                color:fav.contains(data[index]["id"])?
+                                                colorConst.meroon:colorConst.grey,
+                                                size: scrWidth*0.08,
+                                              ),
                                             ),
                                             InkWell(
                                                 onTap: () {
+                                                  HapticFeedback.lightImpact();
                                                   if(addCart.contains(data[index]["id"])){
                                                     addCart.remove(data[index]["id"]);
                                                     meatDetailCollection.removeWhere((list) => list["id"]==data[index]["id"]);

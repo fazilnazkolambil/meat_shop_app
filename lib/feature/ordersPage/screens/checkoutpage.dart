@@ -113,7 +113,7 @@ class _checkoutpageState extends State<checkoutpage> {
   }
   addOrderHistory(){
     orderHistory.add({
-      "order Date":selectedDate.isEmpty?DateTime.now():DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString(),
+      "order Date":DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString(),
       "order time": SelectedTime,
       "total Price":widget.subtotal,
       "items Ordered":widget.cartMeat,

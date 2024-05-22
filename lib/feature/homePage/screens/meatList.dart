@@ -435,14 +435,19 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                   :Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: [
-                                                  Container(
-                                                    height: scrHeight*0.05,
-                                                    width: scrWidth*0.4,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                                        border: Border.all(color: colorConst.meroon)
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>checkoutpage(price: '', discount: '', shippingCharge: '', subtotal: 0, cartMeat: [], data: data) ,));
+                                                    },
+                                                    child: Container(
+                                                      height: scrHeight*0.05,
+                                                      width: scrWidth*0.4,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                          border: Border.all(color: colorConst.meroon)
+                                                      ),
+                                                      child: Center(child: Text("Buy Now"),),
                                                     ),
-                                                    child: Center(child: Text("Buy Now"),),
                                                   ),
                                                   InkWell(
                                                     onTap: () {

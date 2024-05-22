@@ -87,11 +87,14 @@ class _infoPageState extends ConsumerState<infoPage> {
         address: [],
         favourites: [],
         image: imageUrl,
-        id: '',), context: context);
+        id: '',
+    ), context: context);
+
    // SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setBool("LoggedIn", true);
     // prefs.setString("loginUserId", loginUserId!);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -763,8 +766,9 @@ class _infoPageState extends ConsumerState<infoPage> {
                                     price: '',
                                     discount: '',
                                     shippingCharge: '',
-                                    subtotal: '',
+                                    subtotal: 0,
                                     cartMeat: [],
+                                    data: [],
                                   )));
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));

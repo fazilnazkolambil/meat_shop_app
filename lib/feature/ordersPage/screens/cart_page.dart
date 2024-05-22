@@ -210,8 +210,9 @@ class _CartPageState extends ConsumerState<cartPage> {
                       price: "$total",
                       discount: '$discount',
                       shippingCharge: '$shippingCharge',
-                      subtotal: '$totalPrice',
+                      subtotal: totalPrice,
                       cartMeat: cartMeats,
+                       data:[] ,
                     ),));
                   }else{
                     showModalBottomSheet(

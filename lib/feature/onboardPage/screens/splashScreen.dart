@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +9,7 @@ import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
+import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
@@ -25,13 +27,18 @@ class _splashScreenState extends State<splashScreen> {
   getData ()async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     gotIn = prefs.getBool("gotIn") ?? false;
+    loginId=prefs.getString("loginUserId")??"";
+
+    var data=await FirebaseFirestore.instance.collection("users").doc(loginId).get();
+    currentUserModel=UserModel.fromMap(data.data()!);
+    print(loginId);
   }
   @override
   void initState(){
     getData();
     Future.delayed(
         Duration(
-      seconds: 5
+      seconds: 3
     )).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>gotIn?NavigationPage():onBoardingPage(),)));
   }
   @override

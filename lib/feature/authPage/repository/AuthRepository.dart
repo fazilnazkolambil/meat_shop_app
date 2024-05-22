@@ -70,7 +70,6 @@ class AuthRepository{
            prefs.setString("loginUserId",user.uid);
 
 
-
           
     }).catchError((onError) {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -371,8 +371,9 @@ class _signinPageState extends State<signinPage> {
                                 price: '',
                                 discount: '',
                                 shippingCharge: '',
-                                subtotal: '',
+                                subtotal: 0,
                                 cartMeat: [],
+                                data: [],
                               )));
                             }else{
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));

@@ -1,6 +1,7 @@
 class OrderDetailsModel{
-  String userId,orderId,paymentStatus,orderStatus;
-  List items,address,orderHistory;
+  String userId,orderId,paymentStatus,orderStatus,orderDate,orderTime;
+  int totalPrice;
+  List items,address;
 
 
   OrderDetailsModel({
@@ -8,9 +9,11 @@ class OrderDetailsModel{
     required this.orderId,
     required this.paymentStatus,
     required this.orderStatus,
+    required this.orderDate,
+    required this.orderTime,
+    required this.totalPrice,
     required this.items,
     required this.address,
-    required this.orderHistory,
 
   });
 
@@ -20,9 +23,11 @@ class OrderDetailsModel{
       "orderId" : this.orderId,
       "paymentStatus" : this.paymentStatus,
       "orderStatus" : this.orderStatus,
+      "orderDate" : this.orderDate,
+      "orderTime" : this.orderTime,
+      "totalPrice" : this.totalPrice,
       "items" : this.items,
       "address" : this.address,
-      "orderHistory":this.orderHistory
     };
   }
   factory OrderDetailsModel.fromMap (Map <String, dynamic> map){
@@ -31,23 +36,28 @@ class OrderDetailsModel{
       orderId: map["orderId"]??"",
       paymentStatus: map["paymentStatus"]??"",
       orderStatus: map["orderStatus"]??"",
+      orderDate: map["orderDate"]??"",
+      orderTime: map["orderTime"]??"",
+      totalPrice: map["totalPrice"]??"",
       items: map["items"]??[],
       address: map["address"]??[],
-      orderHistory: map["orderHistory"]??[],
     );
   }
   OrderDetailsModel copyWith({
-    String?  userId,orderId, paymentStatus,orderStatus,
-    List? items,address,orderHistory,
+    String?  userId,orderId, paymentStatus,orderStatus,orderDate,orderTime,
+    int? totalPrice,
+    List? items,address,
   }){
     return OrderDetailsModel(
       userId: userId ?? this.userId,
       orderId: userId ?? this.orderId,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       orderStatus: orderStatus ?? this.orderStatus,
+      orderDate: orderDate ?? this.orderDate,
+      orderTime: orderTime ?? this.orderTime,
+      totalPrice: totalPrice ?? this.totalPrice,
       items: items ?? this.items,
       address: address ?? this.address,
-      orderHistory: orderHistory ?? this.orderHistory,
     );
   }
 

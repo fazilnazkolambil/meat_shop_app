@@ -449,7 +449,7 @@ class _EditProfileState extends State<EditProfile> {
                             borderSide: BorderSide(
                                 color: colorConst.black.withOpacity(0.1)))),
                   ),
-                ),
+              ),
                 SizedBox(
                   height: scrHeight * 0.03,
                 ),

@@ -199,8 +199,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       pymnt != "" &&
                   selectedDate.isNotEmpty&&
                   SelectedTime.isNotEmpty&&
-                  addre.isNotEmpty &&
-                  address.isNotEmpty
+                  addressController.text.isNotEmpty
                   ){
                      addOrderDetails();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => orderconfirm(),));
@@ -209,9 +208,9 @@ class _checkoutpageState extends State<checkoutpage> {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a payment method!"))):
                         selectedDate.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a date!"))):
                         SelectedTime.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a time!"))):
-                        // addre.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
-                        // address.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please agree to our terms  and conditions!")));
+                        addressController.text.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
+                        check != true?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please agree to our terms  and conditions!"))):
+                            null;
                   }
                 },
                 child: Container(
@@ -673,13 +672,33 @@ class _checkoutpageState extends State<checkoutpage> {
                                                 ],),
                                               InkWell(
                                                 onTap: () {
-                                                  addAddress();
+                                                  if(
+                                                  addressController.text.isNotEmpty&&
+                                                  nameController.text.isNotEmpty&&
+                                                  numberController.text.isNotEmpty&&
+                                                  landmarkController.text.isNotEmpty&&
+                                                  housenoController.text.isNotEmpty&&
+                                                  pincodeController.text.isNotEmpty
+                                                  ){
+                                                    addAddress();
+                                                    Navigator.pop(context);
+                                                  }else{
+                                                    addressController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
+                                                    nameController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your name!"))):
+                                                    numberController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your number!"))):
+                                                    landmarkController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark!"))):
+                                                    housenoController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your house no!"))):
+                                                    pincodeController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your pincode!"))):
+                                                        null;
+
+                                                  }
+
 
                                                   print("lllllllll$addre");
                                                   setState(() {
 
                                                   });
-                                                  Navigator.pop(context);
+
                                                 },
                                                 child: Container(
                                                   height: scrWidth*0.13,

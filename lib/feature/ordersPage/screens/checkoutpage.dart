@@ -23,14 +23,14 @@ import 'cart_page.dart';
 import 'orderconfirm_page.dart';
 
 class checkoutpage extends StatefulWidget {
-  final String price;
-  final String discount;
-  final String shippingCharge;
-  final int subtotal;
+  final  double price;
+  final double discount;
+  final double shippingCharge;
+  final double subtotal;
   final List cartMeat;
-  final  List<QueryDocumentSnapshot<Map<String, dynamic>>> data;
+  // final  List<QueryDocumentSnapshot<Map<String, dynamic>>> data;
   // final OrderDetailsModel orderdetailsdata;
-  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.cartMeat, required this.data,});
+  const checkoutpage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.cartMeat,});
 
   @override
   State<checkoutpage> createState() => _checkoutpageState();
@@ -131,7 +131,7 @@ class _checkoutpageState extends State<checkoutpage> {
       orderDate:"${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()}",
       totalPrice:widget.subtotal,
       items: widget.cartMeat,
-      address: addre,
+      address: addre ,
       orderId: "",
       orderTime: SelectedTime);
     await FirebaseFirestore.instance.collection("orderDetails").add(OrderDetailsData.toMap())
@@ -183,6 +183,8 @@ class _checkoutpageState extends State<checkoutpage> {
                             fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
                         ),
                         Text("₹ ${widget.subtotal}.00",style: TextStyle(
+
+
                             color: colorConst.meroon,
                             fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                         )
@@ -207,8 +209,8 @@ class _checkoutpageState extends State<checkoutpage> {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a payment method!"))):
                         selectedDate.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a date!"))):
                         SelectedTime.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a time!"))):
-                        addre.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
-                        address.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
+                        // addre.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
+                        // address.isEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address!"))):
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please agree to our terms  and conditions!")));
                   }
                 },

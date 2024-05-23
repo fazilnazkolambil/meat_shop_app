@@ -29,10 +29,10 @@ class cartPage extends ConsumerStatefulWidget {
 
 class _CartPageState extends ConsumerState<cartPage> {
 
-  int total = 0;
-  int totalPrice = 0;
-  int discount = 0;
-  int shippingCharge = 50;
+  double total = 0;
+  double totalPrice = 0;
+  double discount = 0;
+  double shippingCharge = 50;
   addingTotal() {
     total = 0;
     for (int i = 0; i < cartMeats.length; i++){
@@ -207,12 +207,11 @@ class _CartPageState extends ConsumerState<cartPage> {
                   onTap: () {
                     if(loginId!.isNotEmpty){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(
-                        price: "$total",
-                        discount: '$discount',
-                        shippingCharge: '$shippingCharge',
+                        price: total,
+                        discount: discount,
+                        shippingCharge: shippingCharge,
                         subtotal: totalPrice,
                         cartMeat: cartMeats,
-                        data:[] ,
                       ),));
                     }else{
                       showModalBottomSheet(

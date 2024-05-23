@@ -1,6 +1,6 @@
 class OrderDetailsModel{
   String userId,orderId,paymentStatus,orderStatus,orderDate,orderTime;
-  int totalPrice;
+  double totalPrice;
   List items,address;
 
 
@@ -45,7 +45,7 @@ class OrderDetailsModel{
   }
   OrderDetailsModel copyWith({
     String?  userId,orderId, paymentStatus,orderStatus,orderDate,orderTime,
-    int? totalPrice,
+    double? totalPrice,
     List? items,address,
   }){
     return OrderDetailsModel(

@@ -763,12 +763,12 @@ class _infoPageState extends ConsumerState<infoPage> {
                                  addUser();
                                 if (widget.path == "cartPage") {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(
-                                    price: '',
-                                    discount: '',
-                                    shippingCharge: '',
+                                    price: 0,
+                                    discount: 0,
+                                    shippingCharge: 0,
                                     subtotal: 0,
                                     cartMeat: [],
-                                    data: [],
+
                                   )));
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));

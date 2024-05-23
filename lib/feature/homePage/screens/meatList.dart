@@ -437,7 +437,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>checkoutpage(price: '', discount: '', shippingCharge: '', subtotal: 0, cartMeat: [], data: data) ,));
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>checkoutpage(price: 0, discount: 0, shippingCharge: 0, subtotal: 0, cartMeat: [],) ,));
                                                     },
                                                     child: Container(
                                                       height: scrHeight*0.05,

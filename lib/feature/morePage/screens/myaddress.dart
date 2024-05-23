@@ -19,8 +19,7 @@ class myaddress extends StatefulWidget {
 }
 
 class _myaddressState extends State<myaddress> {
-  bool Default=false;
-  int Defaultt=0;
+  int Defaultt=-1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,11 +107,11 @@ class _myaddressState extends State<myaddress> {
                           borderRadius: BorderRadius.circular(scrWidth * 0.04),
                           border:Defaultt == index?
                           Border.all(
-                              width: scrWidth * 0.005,
+                              width: scrWidth * 0.008,
                               color: colorConst.meroon):
                           Border.all(
                               width: scrWidth * 0.002,
-                              color: colorConst.black.withOpacity(0.38)),
+                              color: colorConst.grey),
                         ),
 
                         child: Padding(
@@ -177,7 +176,14 @@ class _myaddressState extends State<myaddress> {
                                       width: scrWidth*0.33,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(scrWidth*0.02),
-                                          color: colorConst.grey1
+                                          // color: colorConst.grey1,
+                                          border:Defaultt == index?
+                                      Border.all(
+                                      width: scrWidth * 0.004,
+                                          color: colorConst.meroon):
+                                        Border.all(
+                                        width: scrWidth * 0.002,
+                                        color: colorConst.grey),
                                       ),
                                       child: Center(child: Text("Edit")),
                                     ),
@@ -254,10 +260,8 @@ class _myaddressState extends State<myaddress> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      // Default=!Default;
-                                      Defaultt=index;
                                       setState(() {
-
+                                        Defaultt=index;
                                       });
                                     },
                                     child: Container(
@@ -265,7 +269,14 @@ class _myaddressState extends State<myaddress> {
                                       width: scrWidth*0.33,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(scrWidth*0.02),
-                                          color: colorConst.grey1
+                                          // color: colorConst.grey1,
+                                        border:Defaultt == index?
+                                        Border.all(
+                                            width: scrWidth * 0.004,
+                                            color: colorConst.meroon):
+                                        Border.all(
+                                            width: scrWidth * 0.002,
+                                            color: colorConst.grey),
                                       ),
                                       child: Center(child:  Text(Defaultt == index?"Default":"Set as Default")),
                                     ),

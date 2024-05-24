@@ -44,6 +44,7 @@ class _checkoutpageState extends State<checkoutpage> {
   TextEditingController landmarkController=TextEditingController();
   TextEditingController housenoController=TextEditingController();
   TextEditingController pincodeController=TextEditingController();
+  TextEditingController deliveryinstrnController=TextEditingController();
 
   String pymnt="";
   String labelas="";
@@ -67,6 +68,7 @@ class _checkoutpageState extends State<checkoutpage> {
       houseno: housenoController.text,
       pincode: pincodeController.text,
       address: addressController.text,
+      deliveryinsruction: deliveryinstrnController.text,
 
     ).toMap());
     await FirebaseFirestore.instance.collection("users").doc("$loginId").get().then((value) {
@@ -90,6 +92,7 @@ class _checkoutpageState extends State<checkoutpage> {
     nameController.text=address[0]["name"];
     landmarkController.text=address[0]["landmark"];
     housenoController.text=address[0]["houseno"];
+    deliveryinstrnController.text=address[0]["deliveryinstruction"];
   }
   String? _d1;
    String? _t1;
@@ -670,7 +673,48 @@ class _checkoutpageState extends State<checkoutpage> {
                                                                   color: colorConst.black.withOpacity(0.1)))),
                                                     ),
                                                   ),
+
                                                 ],),
+                                              Container(
+                                                height: scrWidth*0.12,
+                                                width: scrWidth*1,
+                                                // decoration: BoxDecoration(
+                                                //     borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                //     border: Border.all(width: scrWidth*0.005,color: colorConst.grey)
+                                                // ),
+                                                child: TextField(
+                                                  controller: deliveryinstrnController,
+                                                  // decoration: InputDecoration(
+                                                  //     border: InputBorder.none,
+                                                  //     labelText: " Address",
+                                                  //     labelStyle:  TextStyle(color: colorConst.grey,fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                                                  // ),
+                                                  decoration: InputDecoration(
+                                                      labelText: "Enter your Delivery Instruction",
+                                                      labelStyle: TextStyle(
+                                                          fontSize: scrWidth * 0.04,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: colorConst.grey),
+                                                      filled: true,
+                                                      // fillColor: colorConst.white,
+                                                      hintText: "Enter your Delivery Instruction",
+                                                      hintStyle: TextStyle(
+                                                          fontSize: scrWidth * 0.04,
+                                                          fontWeight: FontWeight.w700,
+                                                          color: colorConst.grey),
+                                                      border: InputBorder.none,
+                                                      enabledBorder: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                          borderSide: BorderSide(
+                                                              color: colorConst.black.withOpacity(0.1))),
+                                                      focusedBorder: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                                          borderSide: BorderSide(
+                                                              color: colorConst.black.withOpacity(0.1)))
+                                                  ),
+                                                ),
+                                              ),
+
                                               InkWell(
                                                 onTap: () {
                                                   if(
@@ -679,7 +723,8 @@ class _checkoutpageState extends State<checkoutpage> {
                                                   numberController.text.isNotEmpty&&
                                                   landmarkController.text.isNotEmpty&&
                                                   housenoController.text.isNotEmpty&&
-                                                  pincodeController.text.isNotEmpty
+                                                  pincodeController.text.isNotEmpty&&
+                                                  deliveryinstrnController.text.isNotEmpty
                                                   ){
                                                     addAddress();
                                                     Navigator.pop(context);
@@ -690,6 +735,7 @@ class _checkoutpageState extends State<checkoutpage> {
                                                     landmarkController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark!"))):
                                                     housenoController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your house no!"))):
                                                     pincodeController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your pincode!"))):
+                                                    deliveryinstrnController.text.isNotEmpty?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Delivery Instruction!"))):
                                                         null;
 
                                                   }

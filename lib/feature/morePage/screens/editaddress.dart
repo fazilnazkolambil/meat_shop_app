@@ -24,6 +24,7 @@ class editaddress extends StatefulWidget {
   final String houseno;
   final String landmark;
   final String phonenumber;
+  final String deliveryinstruction;
   final int index;
   const editaddress(
       {super.key,
@@ -34,6 +35,7 @@ class editaddress extends StatefulWidget {
         required this.phonenumber,
         required this.name,
         required this.landmark,
+        required this.deliveryinstruction,
         required this.index
       });
 
@@ -48,6 +50,7 @@ class _editaddressState extends State<editaddress> {
   TextEditingController housenoController = TextEditingController();
   TextEditingController landmarkController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController deliveryinstrnController = TextEditingController();
   final emailValidation = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
@@ -66,6 +69,7 @@ class _editaddressState extends State<editaddress> {
       houseno: housenoController.text,
       pincode: pincodeController.text,
       address: addressController.text,
+      deliveryinsruction: deliveryinstrnController.text,
     );
 
     await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
@@ -86,6 +90,7 @@ class _editaddressState extends State<editaddress> {
     housenoController.text = widget.houseno;
     phoneController.text = widget.phonenumber;
     landmarkController.text = widget.landmark;
+    deliveryinstrnController.text = widget.deliveryinstruction;
     if(widget.phonenumber.length == 13){
       phoneController.text=widget.phonenumber.substring(3,13);
       newImage = widget.address;
@@ -365,8 +370,7 @@ class _editaddressState extends State<editaddress> {
                   ),
                 ),
                 SizedBox(
-                  height: scrWidth * 0.04,
-                ),
+                  height: scrWidth * 0.04,),
                 Container(
                   decoration: BoxDecoration(
                       color: colorConst.white,
@@ -440,6 +444,56 @@ class _editaddressState extends State<editaddress> {
                 SizedBox(
                   height: scrHeight * 0.03,
                 ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: colorConst.white,
+                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
+                      border: Border.all(
+                          width: scrWidth * 0.0003,
+                          color: colorConst.black.withOpacity(0.38)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: colorConst.black.withOpacity(0.1),
+                            blurRadius: 14,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0)
+                      ]),
+                  child: TextFormField(
+                    controller: deliveryinstrnController,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.next,
+                    style: TextStyle(
+                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                    cursorColor: colorConst.grey,
+                    decoration: InputDecoration(
+                        labelText: "Enter your Delivery Instruction",
+                        labelStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w600,
+                            color: colorConst.grey),
+                        filled: true,
+                        fillColor: colorConst.white,
+                        hintText: "Enter your Delivery Instruction",
+                        hintStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w700,
+                            color: colorConst.grey),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: colorConst.red)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1))),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1)))),
+                  ),
+                ),
+                SizedBox(
+                  height: scrWidth * 0.04,
+                ),
                 InkWell(
                   onTap: () {
                     if(
@@ -448,7 +502,8 @@ class _editaddressState extends State<editaddress> {
                         housenoController.text != "" &&
                         pincodeController.text != "" &&
                         landmarkController.text != "" &&
-                        addressController.text != ""
+                        addressController.text != ""&&
+                        deliveryinstrnController.text != ""
                     ){
                       editAddress();
                       Navigator.pop(context);
@@ -465,6 +520,8 @@ class _editaddressState extends State<editaddress> {
                           :addressController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address")))
                           :landmarkController.text == "" ?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Delivery Instruction")))
+                          :deliveryinstrnController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark")))
                           :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
 

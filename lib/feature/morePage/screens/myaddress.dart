@@ -20,6 +20,7 @@ class myaddress extends StatefulWidget {
 
 class _myaddressState extends State<myaddress> {
   int Defaultt=-1;
+  var userData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +53,11 @@ class _myaddressState extends State<myaddress> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => addnewaddress(),));
+                //print(userDetails);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => addnewaddress(
+                  userName: userData['name'],
+                  userNumber: userData['number'],
+                ),));
               },
               child: Container(
                 height: scrWidth*0.15,
@@ -78,6 +83,7 @@ class _myaddressState extends State<myaddress> {
                     return Lottie.asset(gifs.loadingGif);
                   }
                   var data = snapshot.data!['address'];
+                  userData = snapshot.data!.data();
                   return data.isEmpty?
                   SizedBox(
                     height: scrHeight*0.6,
@@ -169,6 +175,7 @@ class _myaddressState extends State<myaddress> {
                                         name: data[index]["name"],
                                         landmark: data[index]["landmark"],
                                         index: index,
+                                        deliveryinstruction: '',
                                       ),));
                                     },
                                     child: Container(

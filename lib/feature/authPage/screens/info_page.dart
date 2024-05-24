@@ -87,14 +87,11 @@ class _infoPageState extends ConsumerState<infoPage> {
         address: [],
         favourites: [],
         image: imageUrl,
-        id: '',
-    ), context: context);
-
+        id: '',), context: context);
    // SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setBool("LoggedIn", true);
     // prefs.setString("loginUserId", loginUserId!);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

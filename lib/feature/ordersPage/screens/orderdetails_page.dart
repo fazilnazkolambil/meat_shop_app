@@ -16,10 +16,10 @@ class orderdetails extends StatefulWidget {
 }
 
 class _orderdetailsState extends State<orderdetails> {
-  int total = 0;
-  int totalPrice = 0;
-  int discount = 0;
-  int shippingCharge = 50;
+  double total = 0;
+  double totalPrice = 0;
+  double discount = 0;
+  double shippingCharge = 50;
   addingTotal(){
     total=0;
     for(int i=0;i<items.length;i++){
@@ -99,24 +99,27 @@ class _orderdetailsState extends State<orderdetails> {
                           children: [
                             Text(
                                 "Order ID:${widget.data["orderId"]}",style: TextStyle(
-                                fontWeight: FontWeight.bold,fontSize: scrWidth*0.028),
+                                fontWeight: FontWeight.w700,fontSize: scrWidth*0.03),
                             ),
                             Text(
                               "Delivery Item:${items.length} ",style: TextStyle(
-                                fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
+                                fontWeight: FontWeight.w500,fontSize: scrWidth*0.035),
                             ),
                           ],),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Row(children: [
-                              Icon(Icons.calendar_month_outlined),
-                              Text("15 Mar 2024 - 11 PM  ",style: TextStyle(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                              SvgPicture.asset(iconConst.datetime,color: colorConst.meroon,),
+                              SizedBox(width: scrWidth*0.015,),
+                              Text("${widget.data["orderDate"]}\n ${widget.data["orderTime"]}",style: TextStyle(
                                   fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))
                             ],),
                             Container(
                               height: scrWidth*0.08,
-                              width: scrWidth*0.4,
+                              width: scrWidth*0.36,
                               decoration: BoxDecoration(
                                   color: colorConst.meroon,
                                   borderRadius: BorderRadius.circular(scrWidth*0.04)
@@ -204,7 +207,7 @@ class _orderdetailsState extends State<orderdetails> {
                                           color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.034),
                                       ),
                                       Text(
-                                        "₹ ${items[index]["rate"]}",style: TextStyle(
+                                        "₹ ${items[index]["rate"]}.00",style: TextStyle(
                                           color: colorConst.meroon,fontWeight: FontWeight.bold,fontSize: scrWidth*0.034),
                                       ),
                                     ],
@@ -240,14 +243,14 @@ class _orderdetailsState extends State<orderdetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(address[0]["name"],style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03)),
+                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
                         Text(address[0]["address"],style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03)),
+                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
                         Text("${address[0]["houseno"]}, ${address[0]["landmark"]} ",style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03)
+                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)
                             ,textAlign: TextAlign.left),
                         Text(address[0]["number"],style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03)),
+                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
                       ],
                     ),
                   ],
@@ -260,7 +263,7 @@ class _orderdetailsState extends State<orderdetails> {
                   Text("Item Price",style: TextStyle(
                       fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                   ),
-                  Text("₹ ${total}.00",style: TextStyle(
+                  Text("₹ ${total}",style: TextStyle(
                       fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                   )
                 ],
@@ -272,7 +275,7 @@ class _orderdetailsState extends State<orderdetails> {
                   Text("Discount",style: TextStyle(
                       fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                   ),
-                  Text("₹ ${discount}.00",style: TextStyle(
+                  Text("₹ ${discount}",style: TextStyle(
                       fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                   )
                 ],
@@ -284,7 +287,7 @@ class _orderdetailsState extends State<orderdetails> {
                   Text("Shipping Charge",style: TextStyle(
                       fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                   ),
-                  Text("₹ ${shippingCharge}.00",style: TextStyle(
+                  Text("₹ ${shippingCharge}",style: TextStyle(
                       fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                   )
                 ],
@@ -294,11 +297,11 @@ class _orderdetailsState extends State<orderdetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Sub Total",style: TextStyle(
-                      fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
+                      fontWeight: FontWeight.w700,fontSize: scrWidth*0.035),
                   ),
-                  Text("₹ ${totalPrice}.00",style: TextStyle(
+                  Text("₹ ${totalPrice}",style: TextStyle(
                       color: colorConst.meroon,
-                      fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
+                      fontWeight: FontWeight.w700,fontSize: scrWidth*0.035)
                   )
                 ],
               ),

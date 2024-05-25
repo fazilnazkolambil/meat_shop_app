@@ -1,22 +1,21 @@
 class addressModel{
-  String? address,name,number,location,pincode,deliveryinsruction;
+  String? address,name,number,landmark,houseno,pincode;
   addressModel({
     required this.name,
     required this.number,
     required this.address,
-    required this.location,
-    required this.pincode,
-    required this.deliveryinsruction
-  });
+    required this.landmark,
+    required this.houseno,
+    required this.pincode});
 
   Map <String, dynamic> toMap(){
     return{
       "address" : this.address,
       "name" : this.name,
       "number" : this.number,
-      "location" : this.location,
+      "landmark" : this.landmark,
+      "houseno" : this.houseno,
       "pincode" : this.pincode,
-      "deliveryinsruction":this.deliveryinsruction
     };
   }
   factory addressModel.fromMap (Map <String, dynamic> map){
@@ -24,21 +23,21 @@ class addressModel{
         address : map["address"] ?? "",
         name : map["name"] ?? "",
         number : map["number"]??"",
-        location : map["location"] ?? "",
-        pincode: map["pincode"]??"",
-        deliveryinsruction: map["deliveryinsruction"]??""
+        landmark : map["landmark"] ?? "",
+        houseno: map["houseno"] ?? "",
+        pincode: map["pincode"]??""
     );
   }
   addressModel copyWith({
-    String? address,name,number,landmark,houseno,pincode,deliveryinsruction
+    String? address,name,number,landmark,houseno,pincode
   }){
     return addressModel(
       address: address ?? this.address,
       name: name ?? this.name,
       number: number ?? this.number,
-      location: location ?? this.location,
+      landmark: landmark ?? this.landmark,
+      houseno: houseno ?? this.houseno,
       pincode: pincode ?? this.pincode,
-      deliveryinsruction:  deliveryinsruction ?? this.deliveryinsruction,
     );
   }
 

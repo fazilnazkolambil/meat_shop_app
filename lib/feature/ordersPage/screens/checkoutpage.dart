@@ -134,7 +134,7 @@ class _checkoutpageState extends State<checkoutpage> {
       orderDate:"${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()}",
       totalPrice:widget.subtotal,
       items: widget.cartMeat,
-      address: addre,
+      address: addre ,
       orderId: "",
       orderTime: SelectedTime);
     await FirebaseFirestore.instance.collection("orderDetails").add(OrderDetailsData.toMap())
@@ -202,8 +202,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       pymnt != "" &&
                   selectedDate.isNotEmpty&&
                   SelectedTime.isNotEmpty&&
-                  addre.isNotEmpty &&
-                  address.isNotEmpty
+                  addressController.text.isNotEmpty
                   ){
                      addOrderDetails();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => orderconfirm(),));

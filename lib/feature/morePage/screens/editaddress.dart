@@ -21,8 +21,7 @@ class editaddress extends StatefulWidget {
   final String name;
   final String address;
   final String pincode;
-  final String houseno;
-  final String landmark;
+  final String location;
   final String phonenumber;
   final String deliveryinstruction;
   final int index;
@@ -31,10 +30,9 @@ class editaddress extends StatefulWidget {
         required this.id,
         required this.address,
         required this.pincode,
-        required this.houseno,
+        required this.location,
         required this.phonenumber,
         required this.name,
-        required this.landmark,
         required this.deliveryinstruction,
         required this.index
       });
@@ -47,8 +45,6 @@ class _editaddressState extends State<editaddress> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
-  TextEditingController housenoController = TextEditingController();
-  TextEditingController landmarkController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController deliveryinstrnController = TextEditingController();
   final emailValidation = RegExp(
@@ -65,11 +61,11 @@ class _editaddressState extends State<editaddress> {
     addressModel address=addressModel(
       name: nameController.text,
       number:phoneController.text,
-      landmark: landmarkController.text,
-      houseno: housenoController.text,
+      location: "",
       pincode: pincodeController.text,
       address: addressController.text,
-      deliveryinsruction: deliveryinstrnController.text,
+      deliveryInstruction: deliveryinstrnController.text,
+      Default: true,
     );
 
     await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
@@ -87,9 +83,7 @@ class _editaddressState extends State<editaddress> {
     nameController.text = widget.name;
     addressController.text = widget.address;
     pincodeController.text = widget.pincode;
-    housenoController.text = widget.houseno;
     phoneController.text = widget.phonenumber;
-    landmarkController.text = widget.landmark;
     deliveryinstrnController.text = widget.deliveryinstruction;
     if(widget.phonenumber.length == 13){
       phoneController.text=widget.phonenumber.substring(3,13);
@@ -269,106 +263,7 @@ class _editaddressState extends State<editaddress> {
                                 color: colorConst.black.withOpacity(0.1)))),
                   ),
                 ),
-                SizedBox(
-                  height: scrWidth * 0.04,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
-                  child: TextFormField(
-                    controller: housenoController,
-                    keyboardType: TextInputType.number,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    decoration: InputDecoration(
-                        labelText: "Enter your house no",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        hintText: "Enter your house no",
-                        hintStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
-                ),
-                SizedBox(
-                  height: scrWidth * 0.04,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
-                  child: TextFormField(
-                    controller: landmarkController,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    decoration: InputDecoration(
-                        labelText: "Enter your landmark",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        hintText: "Enter your landmark",
-                        hintStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
-                ),
+
                 SizedBox(
                   height: scrWidth * 0.04,),
                 Container(
@@ -499,9 +394,7 @@ class _editaddressState extends State<editaddress> {
                     if(
                     nameController.text != "" &&
                         phoneController.text != "" &&
-                        housenoController.text != "" &&
                         pincodeController.text != "" &&
-                        landmarkController.text != "" &&
                         addressController.text != ""&&
                         deliveryinstrnController.text != ""
                     ){
@@ -513,14 +406,10 @@ class _editaddressState extends State<editaddress> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Name!")))
                           :phoneController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Phonenumber")))
-                          :housenoController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your house no")))
                           :pincodeController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your pincode")))
                           :addressController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address")))
-                          :landmarkController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Delivery Instruction")))
                           :deliveryinstrnController.text == "" ?
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark")))
                           :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));

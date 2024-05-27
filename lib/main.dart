@@ -21,6 +21,7 @@ import 'package:meat_shop_app/feature/ordersPage/screens/orderconfirm_page.dart'
 import 'package:meat_shop_app/feature/ordersPage/screens/orderdetails_page.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 
+import 'feature/morePage/screens/addnewaddress.dart';
 import 'feature/onboardPage/screens/splashScreen.dart';
 import 'firebase_options.dart';
 var scrWidth;

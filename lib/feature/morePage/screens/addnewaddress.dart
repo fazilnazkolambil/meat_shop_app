@@ -34,7 +34,6 @@ class _addnewaddressState extends State<addnewaddress> {
   TextEditingController pincodeController = TextEditingController();
   TextEditingController streetController = TextEditingController();
   TextEditingController townController = TextEditingController();
-  TextEditingController houseController = TextEditingController();
   TextEditingController apartmentController = TextEditingController();
   TextEditingController instructionsController = TextEditingController();
 
@@ -56,15 +55,16 @@ class _addnewaddressState extends State<addnewaddress> {
     userName = userModel!.name;
     userNumber = userModel!.number;
   }
+
   addaddress()async{
     addressModel address=addressModel(
       name: nameController.text,
       number:numberController.text,
-      landmark: '',
-      houseno: houseController.text,
+      location: '',
       pincode: pincodeController.text,
-      address: '',
-      deliveryinsruction: '',
+      address:"${apartmentController.text},${streetController.text},${townController.text}",
+      deliveryInstruction: instructionsController.text,
+      Default: true,
     );
 
     await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
@@ -138,7 +138,7 @@ class _addnewaddressState extends State<addnewaddress> {
                       }
                     },
                     decoration: InputDecoration(
-                      constraints: BoxConstraints(maxHeight: 80),
+                        constraints: BoxConstraints(maxHeight: 80),
                         labelText: "Full name *",
                         labelStyle: TextStyle(
                             fontSize: scrWidth * 0.04,
@@ -186,10 +186,10 @@ class _addnewaddressState extends State<addnewaddress> {
                     cursorColor: colorConst.grey,
                     decoration: InputDecoration(
                         constraints: BoxConstraints(maxHeight: 80),
-                      prefix: Padding(
-                        padding:EdgeInsets.only(right:scrWidth*0.03),
-                        child: SizedBox(child: Text("+91"),),
-                      ),
+                        prefix: Padding(
+                          padding:EdgeInsets.only(right:scrWidth*0.03),
+                          child: SizedBox(child: Text("+91"),),
+                        ),
                         counterText: "",
                         prefixStyle: TextStyle(color: colorConst.black,fontWeight: FontWeight.w500),
                         labelText: "Phone Number *",
@@ -308,9 +308,9 @@ class _addnewaddressState extends State<addnewaddress> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                            Icon(Icons.my_location_outlined,color: colorConst.meroon,),
-                            Text("My Location",style: TextStyle(color: colorConst.meroon),)
-                          ],),
+                              Icon(Icons.my_location_outlined,color: colorConst.meroon,),
+                              Text("My Location",style: TextStyle(color: colorConst.meroon),)
+                            ],),
                         ),
                       )
                     ],
@@ -320,135 +320,99 @@ class _addnewaddressState extends State<addnewaddress> {
                     padding: EdgeInsets.only(bottom: scrWidth*0.03),
                     child:Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      //height: scrHeight*0.06,
-                      width: scrWidth*0.4,
-                      child: TextFormField(
-                        controller: streetController,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        style: TextStyle(
-                            fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                        cursorColor: colorConst.grey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if(streetController.text.isEmpty){
-                            return "Street is required";
-                          }else{
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                            constraints: BoxConstraints(maxHeight: 80),
-                            labelText: "Street *",
-                            labelStyle: TextStyle(
-                                fontSize: scrWidth * 0.04,
-                                color: colorConst.grey
-                            ),
-                            filled: true,
-                            fillColor: colorConst.white,
-                            hintText: "Enter your Street name",
-                            hintStyle: TextStyle(
-                                fontSize: scrWidth * 0.04,
-                                fontWeight: FontWeight.w500,
-                                color: colorConst.grey),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorConst.red)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                                borderSide: BorderSide(
-                                    color: colorConst.black.withOpacity(0.1))),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                                borderSide: BorderSide(
-                                    color: colorConst.black.withOpacity(0.1)))),
-                      ),
-                    ),
-                    SizedBox(
-                      //height: scrHeight*0.06,
-                      width: scrWidth*0.4,
-                      child: TextFormField(
-                        controller: townController,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        style: TextStyle(
-                            fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                        cursorColor: colorConst.grey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if(townController.text.isEmpty){
-                            return "City/Town is required";
-                          }else{
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                            constraints: BoxConstraints(maxHeight: 80),
-                            labelText: "City/Town *",
-                            labelStyle: TextStyle(
-                                fontSize: scrWidth * 0.04,
-                                color: colorConst.grey
-                            ),
-                            filled: true,
-                            fillColor: colorConst.white,
-                            hintText: "Enter your City/Town name",
-                            hintStyle: TextStyle(
-                                fontSize: scrWidth * 0.04,
-                                fontWeight: FontWeight.w500,
-                                color: colorConst.grey),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorConst.red)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                                borderSide: BorderSide(
-                                    color: colorConst.black.withOpacity(0.1))),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                                borderSide: BorderSide(
-                                    color: colorConst.black.withOpacity(0.1)))),
-                      ),
-                    ),
-                  ],
-                )),
+                      children: [
+                        SizedBox(
+                          //height: scrHeight*0.06,
+                          width: scrWidth*0.4,
+                          child: TextFormField(
+                            controller: streetController,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                                fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                            cursorColor: colorConst.grey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if(streetController.text.isEmpty){
+                                return "Street is required";
+                              }else{
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                constraints: BoxConstraints(maxHeight: 80),
+                                labelText: "Street *",
+                                labelStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    color: colorConst.grey
+                                ),
+                                filled: true,
+                                fillColor: colorConst.white,
+                                hintText: "Enter your Street name",
+                                hintStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                    color: colorConst.grey),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: colorConst.red)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1)))),
+                          ),
+                        ),
+                        SizedBox(
+                          //height: scrHeight*0.06,
+                          width: scrWidth*0.4,
+                          child: TextFormField(
+                            controller: townController,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                                fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                            cursorColor: colorConst.grey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if(townController.text.isEmpty){
+                                return "City/Town is required";
+                              }else{
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                constraints: BoxConstraints(maxHeight: 80),
+                                labelText: "City/Town *",
+                                labelStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    color: colorConst.grey
+                                ),
+                                filled: true,
+                                fillColor: colorConst.white,
+                                hintText: "Enter your City/Town name",
+                                hintStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                    color: colorConst.grey),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: colorConst.red)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1)))),
+                          ),
+                        ),
+                      ],
+                    )),
                 SizedBox(
                   height: scrWidth * 0.04,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom:scrWidth*0.03),
-                  child: TextFormField(
-                    controller: houseController,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        constraints: BoxConstraints(maxHeight: 80),
-                        labelText: "House/Flat/Floor no.",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        // hintText: "Enter your full name",
-                        // hintStyle: TextStyle(
-                        //     fontSize: scrWidth * 0.04,
-                        //     fontWeight: FontWeight.w500,
-                        //     color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom:scrWidth*0.03),

@@ -197,7 +197,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                         fontSize: scrWidth*0.05,
                         fontWeight: FontWeight.w700
                     ),),
-                  Text("₹ $totalPrice",
+                  Text("₹ $totalPrice .00",
                     style: TextStyle(
                         color: colorConst.meroon,
                         fontSize: scrWidth*0.05,
@@ -638,7 +638,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                             fontSize: scrWidth*0.04,
                             fontWeight: FontWeight.w500
                         ),),
-                      Text("₹ $total",
+                      Text("₹ $total.00",
                         style: TextStyle(
                             color: colorConst.black,
                             fontSize: scrWidth*0.04,
@@ -656,7 +656,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                             fontSize: scrWidth*0.04,
                             fontWeight: FontWeight.w500
                         ),),
-                      Text("₹ $discount",
+                      Text("₹ $discount.00",
                         style: TextStyle(
                             color: colorConst.black,
                             fontSize: scrWidth*0.04,
@@ -674,7 +674,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                             fontSize: scrWidth*0.04,
                             fontWeight: FontWeight.w500
                         ),),
-                      Text("₹ ${shippingCharge}",
+                      Text("₹ $shippingCharge.00",
                         style: TextStyle(
                             color: colorConst.black,
                             fontSize: scrWidth*0.04,

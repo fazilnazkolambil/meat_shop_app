@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class _myaddressState extends State<myaddress> {
                 width: scrWidth*0.93,
                 decoration: BoxDecoration(
                     color: colorConst.meroon,
-                  borderRadius: BorderRadius.circular(scrWidth*0.03)
+                    borderRadius: BorderRadius.circular(scrWidth*0.03)
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -134,7 +135,7 @@ class _myaddressState extends State<myaddress> {
                               Row(
                                 children: [
                                   Text("Address : "),
-                                  Text(data[index]["address"]),
+                                  Text("${data[index]["address"].substring(0,20)}..."),
                                 ],
                               ),
                               Row(
@@ -143,22 +144,22 @@ class _myaddressState extends State<myaddress> {
                                   Text(data[index]["pincode"]),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Text("House Number : "),
-                                  Text(data[index]["houseno"]),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text("Landmark : "),
-                                  Text(data[index]["landmark"]),
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //     Text("Location : "),
+                              //     Text(data[index]["location"]),
+                              //   ],
+                              // ),
                               Row(
                                 children: [
                                   Text("Phone Number : "),
                                   Text(data[index]["number"]),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Delivery Instruction : "),
+                                  Text(data[index]["deliveryInstruction"]),
                                 ],
                               ),
                               Row(
@@ -168,29 +169,28 @@ class _myaddressState extends State<myaddress> {
                                     onTap: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => editaddress(
                                         id: loginId,
-                                        address: '${data[index]["address"]}',
+                                        address: data[index]["address"],
                                         pincode: data[index]["pincode"],
-                                        houseno: data[index]["houseno"],
                                         phonenumber: data[index]["number"],
                                         name: data[index]["name"],
-                                        landmark: data[index]["landmark"],
+                                        location: "",
                                         index: index,
-                                        deliveryinstruction: '',
+                                        deliveryinstruction:data[index]["deliveryInstruction"]
                                       ),));
                                     },
                                     child: Container(
                                       height: scrWidth*0.1,
                                       width: scrWidth*0.33,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(scrWidth*0.02),
-                                          // color: colorConst.grey1,
-                                          border:Defaultt == index?
-                                      Border.all(
-                                      width: scrWidth * 0.004,
-                                          color: colorConst.meroon):
+                                        borderRadius: BorderRadius.circular(scrWidth*0.02),
+                                        // color: colorConst.grey1,
+                                        border:Defaultt == index?
                                         Border.all(
-                                        width: scrWidth * 0.002,
-                                        color: colorConst.grey),
+                                            width: scrWidth * 0.004,
+                                            color: colorConst.meroon):
+                                        Border.all(
+                                            width: scrWidth * 0.002,
+                                            color: colorConst.grey),
                                       ),
                                       child: Center(child: Text("Edit")),
                                     ),
@@ -275,8 +275,8 @@ class _myaddressState extends State<myaddress> {
                                       height: scrWidth*0.1,
                                       width: scrWidth*0.33,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(scrWidth*0.02),
-                                          // color: colorConst.grey1,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.02),
+                                        // color: colorConst.grey1,
                                         border:Defaultt == index?
                                         Border.all(
                                             width: scrWidth * 0.004,

@@ -74,11 +74,11 @@ class _checkoutpageState extends State<checkoutpage> {
     addre.add(addressModel(
       name: nameController.text,
       number:numberController.text,
-      landmark: landmarkController.text,
-      houseno: housenoController.text,
       pincode: pincodeController.text,
       address: addressController.text,
-      deliveryinsruction: deliveryinstrnController.text,
+      deliveryInstruction: deliveryinstrnController.text,
+      location: '',
+      Default: true,
 
     ).toMap());
     await FirebaseFirestore.instance.collection("users").doc("$loginId").get().then((value) {

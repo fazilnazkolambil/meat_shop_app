@@ -1,9 +1,11 @@
 
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 // import 'package:meat_shop_app/Color_Page.dart';
@@ -15,17 +17,142 @@ import 'package:meat_shop_app/feature/ordersPage/screens/orderdetails_page.dart'
 import 'package:meat_shop_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../authPage/screens/info_page.dart';
+import '../../authPage/screens/signin_page.dart';
 import '../../homePage/screens/meatList.dart';
 import 'cart_page.dart';
 
-class MyOrders extends StatefulWidget {
+class OrderList extends StatelessWidget {
+  final List data;
+  final String status;
+  const OrderList({super.key, required this.data, required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemCount: data.length,
+      itemBuilder: (BuildContext context, int index) {
+        return data[index]["orderStatus"] == status?
+          InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => orderdetails(
+              data: data[index],
+              // id:data[index]["orderId"],
+            ),));
+          },
+          child: Container(
+            height: scrHeight * 0.12,
+            width: scrWidth * 1,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    scrWidth * 0.04),
+                border: Border.all(
+                    color: colorConst.lightgrey.withOpacity(
+                        0.38)
+                ),
+                color: colorConst.white,
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: 0,
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                      color: colorConst.black.withOpacity(0.15)
+                  )
+                ]
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  radius: scrWidth * 0.095,
+                  backgroundImage: AssetImage(
+                      imageConst.logo
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("orderId:#${data[index]["orderId"]}", style: TextStyle(
+                      //"Order ID: #23584"
+                        color: colorConst.black,
+                        fontWeight: FontWeight.w800,
+                        fontSize: scrWidth * 0.038
+                    ),),
+                    Text('orderDate:', style: TextStyle(
+                        color: colorConst.textgrey,
+                        fontWeight: FontWeight.w400,
+                        fontSize: scrWidth * 0.035
+                    ),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: scrHeight * 0.03,
+                          width: scrWidth * 0.27,
+                          decoration: BoxDecoration(
+                            color: colorConst.meroon,
+                            borderRadius: BorderRadius.circular(
+                                scrWidth * 0.045),
+                          ),
+                          child: Center(
+                            child: Text("Track Order",
+                              style: TextStyle(
+                                  color: colorConst.white,
+                                  fontSize: scrWidth * 0.03,
+                                  fontWeight: FontWeight.w900
+                              ),),
+                          ),
+                        ), SizedBox(
+                          width: scrWidth * 0.02,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment
+                              .spaceBetween,
+                          children: [
+                            CircleAvatar(
+                              radius: scrWidth * 0.02,
+                              backgroundColor: colorConst
+                                  .orange,
+                            ),
+
+                            Text(
+                              "  Processing", style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: scrWidth * 0.033,
+                                color: colorConst.orange
+                            ),),
+                          ],
+                        ),
+
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ):
+            SizedBox();
+      }, separatorBuilder: (BuildContext context, int index) {
+      return SizedBox(height: scrHeight * 0.02,);
+    },
+    );
+  }
+}
+
+final orderStream = StreamProvider((ref) {
+  return FirebaseFirestore.instance.collection("orderDetails").where("userId",isEqualTo:loginId ).snapshots();
+});
+
+class MyOrders extends ConsumerStatefulWidget {
   const MyOrders({super.key});
 
   @override
-  State<MyOrders> createState() => _MyOrdersState();
+  ConsumerState<MyOrders> createState() => _MyOrdersState();
 }
 
-class _MyOrdersState extends State<MyOrders> {
+class _MyOrdersState extends ConsumerState<MyOrders> {
   int selectIndex = 0;
   List meatDetailCollection = [];
 
@@ -59,7 +186,6 @@ class _MyOrdersState extends State<MyOrders> {
           title: Text("My  Orders",
             style: TextStyle(
               fontWeight: FontWeight.w800,
-
             ),),
           actions: [
             InkWell(
@@ -99,7 +225,7 @@ class _MyOrdersState extends State<MyOrders> {
             SvgPicture.asset(iconConst.notification),
             SizedBox(width: scrWidth*0.04,),
           ],
-          bottom:
+          bottom:loginId.isEmpty?TabBar(tabs: [SizedBox(),SizedBox()],):
           TabBar(
             indicatorColor: colorConst.meroon,
             indicatorSize: TabBarIndicatorSize.tab,
@@ -142,133 +268,123 @@ class _MyOrdersState extends State<MyOrders> {
         ),
         body: Padding(
           padding: EdgeInsets.all(scrWidth*0.04),
-          child: TabBarView(
-              children:[
-                SizedBox(),
-                StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection("orderDetails").where("userId",isEqualTo:currentUserModel?.id ).snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Lottie.asset(gifs.loadingGif);
-                      }
+          child: loginId.isEmpty?
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Lottie.asset(gifs.login),
+              Text("Please Login to view your Favourites and access all offers and services!",textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: scrWidth*0.04
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
+                    },
+                    child: Container(
+                      height: scrHeight*0.05,
+                      width: scrWidth*0.4,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(scrWidth*0.03),
+                          border: Border.all(color: colorConst.meroon)
+                      ),
+                      child: Center(child: Text("Sign Up"),),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
+                    },
+                    child: Container(
+                      height: scrHeight*0.05,
+                      width: scrWidth*0.4,
+                      decoration: BoxDecoration(
+                          color: colorConst.meroon,
+                          borderRadius: BorderRadius.circular(scrWidth*0.03),
+                          border: Border.all(color: colorConst.meroon)
+                      ),
+                      child: Center(child: Text("Log In",style: TextStyle(
+                          color: colorConst.white
+                      ),),),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: scrHeight*0.01,)
+            ],
+          ):
 
-                      var data = snapshot.data!.docs;
-                      // List a=data[0]["orderHistory"];
-                      return SizedBox(
-                        height: scrHeight * 0.73,
-                        width: scrWidth * 1,
-                        child: ListView.separated(
-                          itemCount: data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => orderdetails(
-                                  data: data[index],
-                                  // id:data[index]["orderId"],
-                                ),));
-                              },
-                              child: Container(
-                                height: scrHeight * 0.12,
-                                width: scrWidth * 1,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        scrWidth * 0.04),
-                                    border: Border.all(
-                                        color: colorConst.lightgrey.withOpacity(
-                                            0.38)
-                                    ),
-                                    color: colorConst.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          spreadRadius: 0,
-                                          blurRadius: 4,
-                                          offset: Offset(0, 4),
-                                          color: colorConst.black.withOpacity(0.15)
-                                      )
-                                    ]
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: scrWidth * 0.095,
-                                      backgroundImage: AssetImage(
-                                          imageConst.logo
-                                      ),
-                                    ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("orderId:#${data[index]["orderId"]}", style: TextStyle(
-                                          //"Order ID: #23584"
-                                            color: colorConst.black,
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: scrWidth * 0.038
-                                        ),),
-                                        Text('orderDate:', style: TextStyle(
-                                            color: colorConst.textgrey,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: scrWidth * 0.035
-                                        ),),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              height: scrHeight * 0.03,
-                                              width: scrWidth * 0.27,
-                                              decoration: BoxDecoration(
-                                                color: colorConst.meroon,
-                                                borderRadius: BorderRadius.circular(
-                                                    scrWidth * 0.045),
-                                              ),
-                                              child: Center(
-                                                child: Text("Track Order",
-                                                  style: TextStyle(
-                                                      color: colorConst.white,
-                                                      fontSize: scrWidth * 0.03,
-                                                      fontWeight: FontWeight.w900
-                                                  ),),
-                                              ),
-                                            ), SizedBox(
-                                              width: scrWidth * 0.02,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .spaceBetween,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: scrWidth * 0.02,
-                                                  backgroundColor: colorConst
-                                                      .orange,
-                                                ),
+          ref.watch(orderStream).when(
+            data: (data){
 
-                                                Text(
-                                                  "  Processing", style: TextStyle(
-                                                    fontWeight: FontWeight.w800,
-                                                    fontSize: scrWidth * 0.033,
-                                                    color: colorConst.orange
-                                                ),),
-                                              ],
-                                            ),
+              return data.docs.isEmpty?
 
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          }, separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(height: scrHeight * 0.02,);
-                        },
+              SizedBox(
+                height: scrHeight*0.7,
+                width: scrWidth*1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Lottie.asset(gifs.emptyCart),
+                    Text("Your order list is Empty!",style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: scrWidth*0.04
+                    )),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
+                      },
+                      child: Container(
+                        height: scrWidth*0.15,
+                        width: scrWidth*0.9,
+                        decoration: BoxDecoration(
+                          color: colorConst.meroon,
+                          borderRadius: BorderRadius.circular(scrWidth*0.05),
                         ),
-                      );
-                    }
+                        child: Center(child: Text("Order Now",
+                          style: TextStyle(
+                              color: colorConst.white
+                          ),)),
+                      ),
+                    )
+
+                  ],
                 ),
-              ]
-          ),
+              ):
+              TabBarView(children: [
+                OrderList(data: data.docs, status: 'Ordered'),
+                OrderList(data: data.docs, status: "Delivered"),
+              ]);
+            }, error: (error, stackTrace) => Text(error.toString()),
+            loading: () => Center(child: Lottie.asset(gifs.loadingGif),),
+          )
+          // TabBarView(
+          //     children:[
+          //
+          //       //
+          //       // StreamBuilder<QuerySnapshot>(
+          //       //     stream: .snapshots(),
+          //       //     builder: (context, snapshot) {
+          //       //       if (!snapshot.hasData) {
+          //       //         return Lottie.asset(gifs.loadingGif);
+          //       //       }
+          //       //
+          //       //       var data = snapshot.data!.docs;
+          //       //       // List a=data[0]["orderHistory"];
+          //       //       return SizedBox(
+          //       //         height: scrHeight * 0.73,
+          //       //         width: scrWidth * 1,
+          //       //         child: OrderList(data: data),
+          //       //       );
+          //       //     }
+          //       // ),
+          //       // SizedBox(),
+          //     ]
+          // ),
         ),
       ),
     );

@@ -765,6 +765,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                                     shippingCharge: 0,
                                     subtotal: 0,
                                     cartMeat: [],
+                                    notes: '',
 
                                   )));
                                 } else {

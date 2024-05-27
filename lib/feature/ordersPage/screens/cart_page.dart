@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,7 @@ class cartPage extends ConsumerStatefulWidget {
 }
 
 class _CartPageState extends ConsumerState<cartPage> {
+  TextEditingController notesController=TextEditingController();
 
   double total = 0;
   double totalPrice = 0;
@@ -103,14 +105,14 @@ class _CartPageState extends ConsumerState<cartPage> {
   @override
   Widget build(BuildContext context) {
     return
-      loading?
-        Scaffold(
-          backgroundColor: colorConst.black.withOpacity(0.3),
-          body: Center(child: SizedBox(
-            height: scrHeight*0.5,
-              width: scrWidth*0.8,
-              child: Lottie.asset(gifs.loadingGif))),
-        ):
+      // loading?
+      //   Scaffold(
+      //     backgroundColor: colorConst.black.withOpacity(0.3),
+      //     body: Center(child: SizedBox(
+      //       height: scrHeight*0.5,
+      //         width: scrWidth*0.8,
+      //         child: Lottie.asset(gifs.loadingGif))),
+      //   ):
       Scaffold(
       backgroundColor: colorConst.white,
       appBar: AppBar(
@@ -212,6 +214,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                       shippingCharge: shippingCharge,
                       subtotal: totalPrice,
                       cartMeat: cartMeats,
+                      notes: notesController.text,
                     ),));
                   }else{
                     showModalBottomSheet(
@@ -607,6 +610,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                     ]
                 ),
                 child: TextFormField(
+                  controller: notesController,
                   keyboardType: TextInputType.multiline,
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.next,

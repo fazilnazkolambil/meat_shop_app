@@ -130,7 +130,7 @@ class _orderdetailsState extends State<orderdetails> {
                               ),
                             ),
                             Row(children: [
-                              Text("• ${widget.data["orderStatus"]}Delivered",style: TextStyle(
+                              Text("• ${widget.data["orderStatus"]}",style: TextStyle(
                                   color: colorConst.green,fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))
                             ],)
                           ],),
@@ -239,20 +239,20 @@ class _orderdetailsState extends State<orderdetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.location_on_outlined,color: colorConst.grey,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(address[0]["name"],style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
-                        Text(address[0]["address"],style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
-                        Text("${address[0]["houseno"]}, ${address[0]["landmark"]} ",style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)
-                            ,textAlign: TextAlign.left),
-                        Text(address[0]["number"],style: TextStyle(
-                            color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
-                      ],
-                    ),
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     Text(address[0]["name"],style: TextStyle(
+                    //         color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
+                    //     Text(address[0]["address"],style: TextStyle(
+                    //         color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
+                    //     Text("${address[0]["houseno"]}, ${address[0]["landmark"]} ",style: TextStyle(
+                    //         color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)
+                    //         ,textAlign: TextAlign.left),
+                    //     Text(address[0]["number"],style: TextStyle(
+                    //         color: colorConst.black,fontWeight: FontWeight.w500,fontSize: scrWidth*0.03)),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

@@ -373,6 +373,7 @@ class _signinPageState extends State<signinPage> {
                                 shippingCharge: 0,
                                 subtotal: 0,
                                 cartMeat: [],
+                                notes: '',
 
                               )));
                             }else{

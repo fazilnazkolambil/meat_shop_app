@@ -185,7 +185,7 @@ class _checkoutpageState extends State<checkoutpage> {
                         Text("Total Amount",style: TextStyle(
                             fontWeight: FontWeight.bold,fontSize: scrWidth*0.035),
                         ),
-                        Text("₹ ${widget.subtotal}.00",style: TextStyle(
+                        Text("₹ ${widget.subtotal}",style: TextStyle(
 
 
                             color: colorConst.meroon,
@@ -1015,7 +1015,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       Text("Item Price",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                       ),
-                      Text("₹ ${widget.price}.00",style: TextStyle(
+                      Text("₹ ${widget.price}",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                       )
                     ],
@@ -1027,7 +1027,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       Text("Discount",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                       ),
-                      Text("₹ ${widget.discount}.00",style: TextStyle(
+                      Text("₹ ${widget.discount}",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                       )
                     ],
@@ -1039,7 +1039,7 @@ class _checkoutpageState extends State<checkoutpage> {
                       Text("Shipping Charge",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035),
                       ),
-                      Text("₹ ${widget.shippingCharge}.00",style: TextStyle(
+                      Text("₹ ${widget.shippingCharge}",style: TextStyle(
                           fontWeight: FontWeight.normal,fontSize: scrWidth*0.035)
                       )
                     ],

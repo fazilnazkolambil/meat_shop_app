@@ -286,7 +286,7 @@ class _addnewaddressState extends State<addnewaddress> {
                             // print(currentPosition.longitude);
                             List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
                             Placemark first = result.first;
-                            //print(result);
+                            print(result);
                             setState(() {
                               pincodeController.text = first.postalCode!;
                               streetController.text = first.subLocality!;
@@ -532,7 +532,7 @@ class _addnewaddressState extends State<addnewaddress> {
                         validate = true;
                       });
                       addaddress();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => myaddress(),));
+                      Navigator.pop(context);
                     }else{
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter Valid details!")));
                     }

@@ -207,7 +207,7 @@ class _orderdetailsState extends State<orderdetails> {
                                           color: colorConst.black,fontWeight: FontWeight.normal,fontSize: scrWidth*0.034),
                                       ),
                                       Text(
-                                        "₹ ${items[index]["rate"]}.00",style: TextStyle(
+                                        "₹ ${items[index]["rate"]}",style: TextStyle(
                                           color: colorConst.meroon,fontWeight: FontWeight.bold,fontSize: scrWidth*0.034),
                                       ),
                                     ],

@@ -532,7 +532,7 @@ class _addnewaddressState extends State<addnewaddress> {
                         validate = true;
                       });
                       addaddress();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => myaddress(),));
+                      Navigator.pop(context);
                     }else{
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter Valid details!")));
                     }

@@ -144,12 +144,12 @@ class _myaddressState extends State<myaddress> {
                                   Text(data[index]["pincode"]),
                                 ],
                               ),
-                              // Row(
-                              //   children: [
-                              //     Text("Location : "),
-                              //     Text(data[index]["location"]),
-                              //   ],
-                              // ),
+                              Row(
+                                children: [
+                                  Text("Location : "),
+                                  Text(data[index]["location"]),
+                                ],
+                              ),
                               Row(
                                 children: [
                                   Text("Phone Number : "),
@@ -173,7 +173,7 @@ class _myaddressState extends State<myaddress> {
                                         pincode: data[index]["pincode"],
                                         phonenumber: data[index]["number"],
                                         name: data[index]["name"],
-                                        location: "",
+                                        location: data[index]["location"],
                                         index: index,
                                         deliveryinstruction:data[index]["deliveryInstruction"]
                                       ),));

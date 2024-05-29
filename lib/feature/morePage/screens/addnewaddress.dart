@@ -45,6 +45,7 @@ class _addnewaddressState extends State<addnewaddress> {
   bool validate = false;
   var countryCode;
   UserModel? userModel;
+  String? location;
   List addre=[];
   String? userName;
   String userNumber= '';
@@ -60,7 +61,7 @@ class _addnewaddressState extends State<addnewaddress> {
     addressModel address=addressModel(
       name: nameController.text,
       number:numberController.text,
-      location: '',
+      location: '${location}',
       pincode: pincodeController.text,
       address:"${apartmentController.text},${streetController.text},${townController.text}",
       deliveryInstruction: instructionsController.text,
@@ -286,6 +287,7 @@ class _addnewaddressState extends State<addnewaddress> {
                             // print(currentPosition.longitude);
                             List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
                             Placemark first = result.first;
+                            location= "${currentPosition.latitude.toString()},${currentPosition.longitude.toString()}";
                             print(result);
                             setState(() {
                               pincodeController.text = first.postalCode!;

@@ -12,6 +12,7 @@ import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/searchPage.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
+import 'package:meat_shop_app/feature/morePage/screens/privacy_policy.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/My_Orders.dart';

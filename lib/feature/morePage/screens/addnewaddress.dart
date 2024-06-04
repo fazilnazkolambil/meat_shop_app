@@ -21,8 +21,9 @@ import '../../../models/addressModel.dart';
 
 class addnewaddress extends StatefulWidget {
   final String userName, userNumber;
+  final List types;
   const addnewaddress(
-      {super.key,required this.userName, required this.userNumber,});
+      {super.key,required this.userName, required this.userNumber, required this.types});
 
   @override
   State<addnewaddress> createState() => _addnewaddressState();
@@ -34,19 +35,20 @@ class _addnewaddressState extends State<addnewaddress> {
   TextEditingController pincodeController = TextEditingController();
   TextEditingController streetController = TextEditingController();
   TextEditingController townController = TextEditingController();
-  TextEditingController apartmentController = TextEditingController();
+  TextEditingController buildingNameController = TextEditingController();
   TextEditingController instructionsController = TextEditingController();
 
   String address = '';
   final emailValidation = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final phoneValidation = RegExp(r"[0-9]{10}");
+  final pincodeValidation = RegExp(r"[0-9]{6}");
 
   final formKey = GlobalKey<FormState>();
   bool validate = false;
+  bool otherAddress = false;
   var countryCode;
   UserModel? userModel;
-  String? location;
-  List addre=[];
+  List newAddress=[];
   String? userName;
   String userNumber= '';
   getUser(){
@@ -61,20 +63,22 @@ class _addnewaddressState extends State<addnewaddress> {
     addressModel address=addressModel(
       name: nameController.text,
       number:numberController.text,
-      location: '${location}',
+      location: location,
       pincode: pincodeController.text,
-      address:"${apartmentController.text},${streetController.text},${townController.text}",
       deliveryInstruction: instructionsController.text,
-      Default: true,
+      buildingName: buildingNameController.text,
+      street: streetController.text,
+      town: townController.text,
+      type: selectedAddressType,
     );
 
     await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
       userModel = UserModel.fromMap(value.data()!);
     });
-    addre=userModel!.address;
-    addre.add(address.toMap());
+    newAddress=userModel!.address;
+    newAddress.add(address.toMap());
     UserModel tempuserModel=userModel!.copyWith(
-        address: addre
+        address: newAddress
     );
     await FirebaseFirestore.instance.collection("users").doc(loginId).update(tempuserModel.toMap());
   }
@@ -82,6 +86,11 @@ class _addnewaddressState extends State<addnewaddress> {
   bool loading = false;
   String newImage = '';
   UserModel? usermodel;
+  String location = '';
+  var selectedAddressType;
+  List addressTypes = [
+    'Home', 'Work', 'Others'
+  ];
   @override
   void initState() {
     //getUser();
@@ -102,7 +111,7 @@ class _addnewaddressState extends State<addnewaddress> {
           padding: EdgeInsets.all(scrWidth * 0.03),
           child: InkWell(
             onTap: () {
-              getUser();
+              print(selectedAddressType);
             },
             child: Text("Add Address",
                 style: TextStyle(
@@ -119,6 +128,7 @@ class _addnewaddressState extends State<addnewaddress> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+
                 Padding(
                   padding: EdgeInsets.only(bottom:scrWidth*0.03),
                   child: TextFormField(
@@ -126,7 +136,6 @@ class _addnewaddressState extends State<addnewaddress> {
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.words,
                     textInputAction: TextInputAction.next,
-                    readOnly: true,
                     style: TextStyle(
                         fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
                     cursorColor: colorConst.grey,
@@ -169,7 +178,6 @@ class _addnewaddressState extends State<addnewaddress> {
                     controller: numberController,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
-                    readOnly: true,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
                     ],
@@ -241,8 +249,8 @@ class _addnewaddressState extends State<addnewaddress> {
                           cursorColor: colorConst.grey,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
-                            if(pincodeController.text.isEmpty){
-                              return "Pincode is required";
+                            if(!pincodeValidation.hasMatch(value!)){
+                              return "Please enter valid pincode";
                             }else{
                               return null;
                             }
@@ -285,9 +293,9 @@ class _addnewaddressState extends State<addnewaddress> {
                             Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
                             // print(currentPosition.latitude);
                             // print(currentPosition.longitude);
+                            location = "${currentPosition.latitude},${currentPosition.longitude}";
                             List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
                             Placemark first = result.first;
-                            location= "${currentPosition.latitude.toString()},${currentPosition.longitude.toString()}";
                             print(result);
                             setState(() {
                               pincodeController.text = first.postalCode!;
@@ -329,6 +337,7 @@ class _addnewaddressState extends State<addnewaddress> {
                           child: TextFormField(
                             controller: streetController,
                             keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.words,
                             textInputAction: TextInputAction.done,
                             style: TextStyle(
                                 fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
@@ -373,6 +382,7 @@ class _addnewaddressState extends State<addnewaddress> {
                           child: TextFormField(
                             controller: townController,
                             keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.words,
                             textInputAction: TextInputAction.done,
                             style: TextStyle(
                                 fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
@@ -419,7 +429,7 @@ class _addnewaddressState extends State<addnewaddress> {
                 Padding(
                   padding: EdgeInsets.only(bottom:scrWidth*0.03),
                   child: TextFormField(
-                    controller: apartmentController,
+                    controller: buildingNameController,
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.words,
                     textInputAction: TextInputAction.next,
@@ -427,19 +437,26 @@ class _addnewaddressState extends State<addnewaddress> {
                         fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
                     cursorColor: colorConst.grey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if(buildingNameController.text.isEmpty){
+                        return "Please enter valid address";
+                      }else{
+                        return null;
+                      }
+                    },
                     decoration: InputDecoration(
                         constraints: BoxConstraints(maxHeight: 80),
-                        labelText: "Apartment/House name",
+                        labelText: "Flat/House number, Building Name *",
                         labelStyle: TextStyle(
                             fontSize: scrWidth * 0.04,
                             color: colorConst.grey),
                         filled: true,
                         fillColor: colorConst.white,
-                        // hintText: "Enter your full name",
-                        // hintStyle: TextStyle(
-                        //     fontSize: scrWidth * 0.04,
-                        //     fontWeight: FontWeight.w500,
-                        //     color: colorConst.grey),
+                        hintText: 'e.g. 12A, Metro Residency',
+                        hintStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w500,
+                            color: colorConst.grey),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: colorConst.red)),
                         enabledBorder: OutlineInputBorder(
@@ -457,7 +474,7 @@ class _addnewaddressState extends State<addnewaddress> {
                   child: TextFormField(
                     controller: instructionsController,
                     keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
+                    textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.next,
                     style: TextStyle(
                         fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
@@ -487,12 +504,85 @@ class _addnewaddressState extends State<addnewaddress> {
                                 color: colorConst.black.withOpacity(0.1)))),
                   ),
                 ),
-                SizedBox(height: scrHeight*0.04,),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: scrWidth*0.03),
+                  child: otherAddress?
+                  SizedBox(
+                    height: scrWidth*0.1,
+                    child: TextField(
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                          hintText: "Save as",
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                otherAddress = false;
+                                selectedAddressType = null;
+                                setState(() {
 
+                                });
+                              },
+                              child: Icon(Icons.close))
+                      ),
+                      onSubmitted: (value) {
+                        if(widget.types.contains(value)){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist')));
+                          selectedAddressType = null;
+                        }else{
+                          selectedAddressType = value;
+                        }
+                        setState(() {
+
+                        });
+                      },
+                    ),
+                  ):
+                  SizedBox(
+                    height: scrWidth*0.1,
+                    child: ListView.separated(
+                      itemCount:addressTypes.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                          children: [
+                            Radio(
+                              activeColor: colorConst.meroon,
+                              value: addressTypes[index],
+                              groupValue: selectedAddressType,
+                              onChanged: (value) {
+                                if(widget.types.contains(value)){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist!')));
+                                  value = null;
+                                }else if(value == "Others"){
+                                  otherAddress = true;
+                                } else {
+                                  selectedAddressType = value;
+                                }
+                                setState(() {
+
+                                });
+                              },
+                            ),
+                            Text(addressTypes[index],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: scrWidth*0.035
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) => SizedBox(width: 10,),
+
+
+                    ),
+                  ),
+                ),
+                SizedBox(height: scrWidth*0.1,),
                 InkWell(
                   onTap: () {
                     if(
-                    formKey.currentState!.validate()
+                    formKey.currentState!.validate() &&
+                        selectedAddressType != null
                     ){
                       setState(() {
                         validate = true;
@@ -500,6 +590,8 @@ class _addnewaddressState extends State<addnewaddress> {
                       addaddress();
                       Navigator.pop(context);
                     }else{
+                      selectedAddressType == null?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Select Address Type!"))):
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter Valid details!")));
                     }
                   }
@@ -517,7 +609,8 @@ class _addnewaddressState extends State<addnewaddress> {
                                   color: colorConst.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: scrWidth * 0.04)))),
-                )
+                ),
+
               ],
             ),
           ),

@@ -6,6 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -17,24 +19,31 @@ import '../../../main.dart';
 import '../../../models/addressModel.dart';
 
 class editaddress extends StatefulWidget {
-  final String id;
   final String name;
-  final String address;
+  final String number;
   final String pincode;
-  final String location;
-  final String phonenumber;
+  final String street;
+  final String town;
+  final String buildingName;
   final String deliveryinstruction;
+  final String location;
   final int index;
+  final String type;
+  final List types;
+
   const editaddress(
       {super.key,
-        required this.id,
-        required this.address,
         required this.pincode,
         required this.location,
-        required this.phonenumber,
-        required this.name,
         required this.deliveryinstruction,
-        required this.index
+        required this.name,
+        required this.number,
+        required this.street,
+        required this.town,
+        required this.buildingName,
+        required this.index,
+        required this.type,
+        required this.types,
       });
 
   @override
@@ -43,52 +52,72 @@ class editaddress extends StatefulWidget {
 
 class _editaddressState extends State<editaddress> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController deliveryinstrnController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController townController = TextEditingController();
+  TextEditingController buildingNameController = TextEditingController();
+  TextEditingController instructionsController = TextEditingController();
+  TextEditingController otherAddressController = TextEditingController();
+
   final emailValidation = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  final phoneValidation = RegExp(r"[0-9]{10}");
+  final pincodeValidation = RegExp(r"[0-9]{6}");
 
   final formKey = GlobalKey<FormState>();
   var countryCode;
   File? file;
   bool loading = false;
+  bool validate = false;
   String newImage = '';
-  List addre=[];
+  List userAddress=[];
   UserModel? userModel;
-  editAddress()async{
-    addressModel address=addressModel(
-      name: nameController.text,
-      number:phoneController.text,
-      location: "",
-      pincode: pincodeController.text,
-      address: addressController.text,
-      deliveryInstruction: deliveryinstrnController.text,
-      Default: true,
-    );
+  String location = '';
 
+  editAddress()async{
+    addressModel editedAddress=addressModel(
+      name: nameController.text,
+      number:numberController.text,
+      location: location,
+      pincode: pincodeController.text,
+      deliveryInstruction: instructionsController.text,
+      street: streetController.text,
+      town: townController.text,
+      buildingName: buildingNameController.text,
+      type: selectedAddressType ?? otherAddressController.text.trim(),
+    );
     await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
       userModel = UserModel.fromMap(value.data()!);
     });
-    addre=userModel!.address;
-    addre.replaceRange(widget.index, widget.index+1, [address.toMap()]);
+    userAddress=userModel!.address;
+    userAddress.replaceRange(widget.index, widget.index+1, [editedAddress.toMap()]);
     UserModel tempuserModel=userModel!.copyWith(
-        address: addre
+        address: userAddress
     );
     await FirebaseFirestore.instance.collection("users").doc(loginId).update(tempuserModel.toMap());
   }
+  var selectedAddressType;
+  bool otherAddress = false;
+  List addressTypes = [
+    'Home', 'Work', 'Others'
+  ];
   @override
   void initState() {
     nameController.text = widget.name;
-    addressController.text = widget.address;
+    numberController.text = widget.number;
     pincodeController.text = widget.pincode;
-    phoneController.text = widget.phonenumber;
-    deliveryinstrnController.text = widget.deliveryinstruction;
-    if(widget.phonenumber.length == 13){
-      phoneController.text=widget.phonenumber.substring(3,13);
-      newImage = widget.address;
+    streetController.text = widget.street;
+    townController.text = widget.town;
+    buildingNameController.text = widget.buildingName;
+    instructionsController.text = widget.deliveryinstruction;
+    if(addressTypes.contains(widget.type)){
+      selectedAddressType = widget.type;
+    }else{
+      otherAddress = true;
+      otherAddressController.text = widget.type;
     }
+
     // TODO: implement initState
     super.initState();
   }
@@ -115,20 +144,9 @@ class _editaddressState extends State<editaddress> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
+
+                Padding(
+                  padding: EdgeInsets.only(bottom:scrWidth*0.03),
                   child: TextFormField(
                     controller: nameController,
                     keyboardType: TextInputType.text,
@@ -137,18 +155,26 @@ class _editaddressState extends State<editaddress> {
                     style: TextStyle(
                         fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
                     cursorColor: colorConst.grey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if(nameController.text.isEmpty){
+                        return "Name is required";
+                      }else{
+                        return null;
+                      }
+                    },
                     decoration: InputDecoration(
-                        labelText: "Enter your full name",
+                        constraints: BoxConstraints(maxHeight: 80),
+                        labelText: "Full name *",
                         labelStyle: TextStyle(
                             fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
                             color: colorConst.grey),
                         filled: true,
                         fillColor: colorConst.white,
                         hintText: "Enter your full name",
                         hintStyle: TextStyle(
                             fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                             color: colorConst.grey),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: colorConst.red)),
@@ -162,126 +188,10 @@ class _editaddressState extends State<editaddress> {
                                 color: colorConst.black.withOpacity(0.1)))),
                   ),
                 ),
-                SizedBox(
-                  height: scrWidth * 0.04,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
+                Padding(
+                  padding:EdgeInsets.only(bottom: scrWidth*0.03),
                   child: TextFormField(
-                    controller: addressController,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    decoration: InputDecoration(
-                        labelText: "Enter your address",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        hintText: "Enter your address",
-                        hintStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
-                ),
-                SizedBox(
-                  height: scrWidth * 0.04,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
-                  child: TextFormField(
-                    controller: pincodeController,
-                    keyboardType: TextInputType.number,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    decoration: InputDecoration(
-
-                        labelText: "Enter your pincode",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        hintText: "Enter your pincode",
-                        hintStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
-                ),
-
-                SizedBox(
-                  height: scrWidth * 0.04,),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
-                  child: TextFormField(
-                    controller: phoneController,
+                    controller: numberController,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
                     inputFormatters: <TextInputFormatter>[
@@ -291,88 +201,33 @@ class _editaddressState extends State<editaddress> {
                     style: TextStyle(
                         fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    // validator: (value) {
-                    //   if (!phoneValidation.hasMatch(value!)) {
-                    //     return "enter valid phone number";
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    validator: (value) {
+                      if (!phoneValidation.hasMatch(value!)) {
+                        return "Enter a valid Phone Number!";
+                      } else {
+                        return null;
+                      }
+                    },
                     cursorColor: colorConst.grey,
                     decoration: InputDecoration(
-                        counterText: "",
-                        prefixIcon: CountryCodePicker(
-                          onChanged: (value) {
-                            countryCode = value;
-                            setState(() {});
-                          },
-                          onInit: (value) {
-                            countryCode = value;
-                          },
-                          initialSelection: "+91",
-                          showFlag: true,
+                        constraints: BoxConstraints(maxHeight: 80),
+                        prefix: Padding(
+                          padding:EdgeInsets.only(right:scrWidth*0.03),
+                          child: SizedBox(child: Text("+91"),),
                         ),
-                        labelText: "Enter Your Phone Number",
+                        counterText: "",
+                        prefixStyle: TextStyle(color: colorConst.black,fontWeight: FontWeight.w500),
+                        labelText: "Phone Number *",
                         labelStyle: TextStyle(
                             fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
+                            color: colorConst.grey
+                        ),
                         filled: true,
                         fillColor: colorConst.white,
                         hintText: "Enter your Phone Number",
                         hintStyle: TextStyle(
                             fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
-                            color: colorConst.grey),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorConst.red)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
-                            borderSide: BorderSide(
-                                color: colorConst.black.withOpacity(0.1)))),
-                  ),
-                ),
-                SizedBox(
-                  height: scrHeight * 0.03,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: colorConst.white,
-                      borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                      border: Border.all(
-                          width: scrWidth * 0.0003,
-                          color: colorConst.black.withOpacity(0.38)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: colorConst.black.withOpacity(0.1),
-                            blurRadius: 14,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0)
-                      ]),
-                  child: TextFormField(
-                    controller: deliveryinstrnController,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
-                    cursorColor: colorConst.grey,
-                    decoration: InputDecoration(
-                        labelText: "Enter your Delivery Instruction",
-                        labelStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: colorConst.grey),
-                        filled: true,
-                        fillColor: colorConst.white,
-                        hintText: "Enter your Delivery Instruction",
-                        hintStyle: TextStyle(
-                            fontSize: scrWidth * 0.04,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                             color: colorConst.grey),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: colorConst.red)),
@@ -389,43 +244,377 @@ class _editaddressState extends State<editaddress> {
                 SizedBox(
                   height: scrWidth * 0.04,
                 ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: scrWidth*0.03),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        //height: scrHeight*0.06,
+                        width: scrWidth*0.4,
+                        child: TextFormField(
+                          controller: pincodeController,
+                          keyboardType: TextInputType.number,
+                          maxLength: 6,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                              fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                          cursorColor: colorConst.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if(!pincodeValidation.hasMatch(value!)){
+                              return "Enter a valid Pincode";
+                            }else{
+                              return null;
+                            }
+                          },
+                          decoration: InputDecoration(
+                              constraints: BoxConstraints(maxHeight: 70),
+                              counterText: "",
+                              labelText: "Pincode *",
+                              labelStyle: TextStyle(
+                                  fontSize: scrWidth * 0.04,
+                                  color: colorConst.grey
+                              ),
+                              filled: true,
+                              fillColor: colorConst.white,
+                              hintText: "Enter your Pincode",
+                              hintStyle: TextStyle(
+                                  fontSize: scrWidth * 0.04,
+                                  fontWeight: FontWeight.w500,
+                                  color: colorConst.grey),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: colorConst.red)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                  borderSide: BorderSide(
+                                      color: colorConst.black.withOpacity(0.1))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                  borderSide: BorderSide(
+                                      color: colorConst.black.withOpacity(0.1)))),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          LocationPermission permission = await Geolocator.checkPermission();
+                          if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever){
+                            Future.error('Location permissions are denied');
+                            LocationPermission ask = await Geolocator.requestPermission();
+                          }
+                          try{
+                            Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+                            // print(currentPosition.latitude);
+                            // print(currentPosition.longitude);
+                            location = "${currentPosition.latitude},${currentPosition.longitude}";
+                            List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
+                            Placemark first = result.first;
+                            print(result);
+                            setState(() {
+                              pincodeController.text = first.postalCode!;
+                              streetController.text = first.subLocality!;
+                              townController.text = first.locality!;
+                            });
+                          }
+                          catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location")));
+                          }
+                        },
+                        child: Container(
+                          height: scrHeight*0.06,
+                          width: scrWidth*0.4,
+                          decoration: BoxDecoration(
+                            // color: colorConst.meroon.withOpacity(0.3),
+                            border: Border.all(color: colorConst.meroon),
+                            borderRadius: BorderRadius.circular(scrWidth*0.03),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.my_location_outlined,color: colorConst.meroon,),
+                              Text("My Location",style: TextStyle(color: colorConst.meroon),)
+                            ],),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                    padding: EdgeInsets.only(bottom: scrWidth*0.03),
+                    child:Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          //height: scrHeight*0.06,
+                          width: scrWidth*0.4,
+                          child: TextFormField(
+                            controller: streetController,
+                            keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.words,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                                fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                            cursorColor: colorConst.grey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if(streetController.text.isEmpty){
+                                return "Street is required";
+                              }else{
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                constraints: BoxConstraints(maxHeight: 80),
+                                labelText: "Street *",
+                                labelStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    color: colorConst.grey
+                                ),
+                                filled: true,
+                                fillColor: colorConst.white,
+                                hintText: "Enter your Street name",
+                                hintStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                    color: colorConst.grey),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: colorConst.red)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1)))),
+                          ),
+                        ),
+                        SizedBox(
+                          //height: scrHeight*0.06,
+                          width: scrWidth*0.4,
+                          child: TextFormField(
+                            controller: townController,
+                            keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.words,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                                fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                            cursorColor: colorConst.grey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if(townController.text.isEmpty){
+                                return "City/Town is required";
+                              }else{
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                constraints: BoxConstraints(maxHeight: 80),
+                                labelText: "City/Town *",
+                                labelStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    color: colorConst.grey
+                                ),
+                                filled: true,
+                                fillColor: colorConst.white,
+                                hintText: "Enter your City/Town name",
+                                hintStyle: TextStyle(
+                                    fontSize: scrWidth * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                    color: colorConst.grey),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: colorConst.red)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                                    borderSide: BorderSide(
+                                        color: colorConst.black.withOpacity(0.1)))),
+                          ),
+                        ),
+                      ],
+                    )),
+                SizedBox(
+                  height: scrWidth * 0.04,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom:scrWidth*0.03),
+                  child: TextFormField(
+                    controller: buildingNameController,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.next,
+                    style: TextStyle(
+                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                    cursorColor: colorConst.grey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if(buildingNameController.text.isEmpty){
+                        return "Please enter valid address";
+                      }else{
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                        constraints: BoxConstraints(maxHeight: 80),
+                        labelText: "Flat/House number, Building Name *",
+                        labelStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            color: colorConst.grey),
+                        filled: true,
+                        fillColor: colorConst.white,
+                        hintText: 'e.g. 12A, Metro Residency',
+                        hintStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w500,
+                            color: colorConst.grey),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: colorConst.red)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1))),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1)))),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom:scrWidth*0.03),
+                  child: TextFormField(
+                    controller: instructionsController,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.sentences,
+                    textInputAction: TextInputAction.next,
+                    style: TextStyle(
+                        fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
+                    cursorColor: colorConst.grey,
+                    decoration: InputDecoration(
+                        constraints: BoxConstraints(maxHeight: 80),
+                        labelText: "Delivery Instructions",
+                        labelStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            color: colorConst.grey),
+                        filled: true,
+                        fillColor: colorConst.white,
+                        hintText: "e.g. Contact me if the Gate is closed",
+                        hintStyle: TextStyle(
+                            fontSize: scrWidth * 0.04,
+                            fontWeight: FontWeight.w500,
+                            color: colorConst.grey),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: colorConst.red)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1))),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                            borderSide: BorderSide(
+                                color: colorConst.black.withOpacity(0.1)))),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: scrWidth*0.03),
+                  child: otherAddress?
+                  SizedBox(
+                    height: scrWidth*0.1,
+                    child: TextField(
+                      controller: otherAddressController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                          hintText: "Save as",
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                otherAddress = false;
+                                selectedAddressType = null;
+                                setState(() {
+
+                                });
+                              },
+                              child: Icon(Icons.close))
+                      ),
+                      onSubmitted: (value) {
+                        if(widget.types.contains(value)){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist')));
+                          selectedAddressType = null;
+                        }else{
+                          selectedAddressType = value;
+                        }
+                        setState(() {
+
+                        });
+                      },
+                    ),
+                  ):
+                  SizedBox(
+                    height: scrWidth*0.1,
+                    child: ListView.separated(
+                      itemCount:addressTypes.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                          children: [
+                            Radio(
+                              activeColor: colorConst.meroon,
+                              value: addressTypes[index],
+                              groupValue: selectedAddressType,
+                              onChanged: (value) {
+                                if(widget.types.contains(value)){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist!')));
+                                  value = null;
+                                }else if(value == "Others"){
+                                  otherAddress = true;
+                                } else {
+                                  selectedAddressType = value;
+                                }
+                                setState(() {
+
+                                });
+                              },
+                            ),
+                            Text(addressTypes[index],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: scrWidth*0.035
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) => SizedBox(width: 10,),
+
+
+                    ),
+                  ),
+                ),
+                SizedBox(height: scrWidth*0.1,),
                 InkWell(
                   onTap: () {
                     if(
-                    nameController.text != "" &&
-                        phoneController.text != "" &&
-                        pincodeController.text != "" &&
-                        addressController.text != ""&&
-                        deliveryinstrnController.text != ""
+                    formKey.currentState!.validate() &&
+                    selectedAddressType != null || otherAddressController.text.isNotEmpty
                     ){
                       editAddress();
                       Navigator.pop(context);
-
                     }else{
-                      nameController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Name!")))
-                          :phoneController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Phonenumber")))
-                          :pincodeController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your pincode")))
-                          :addressController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your address")))
-                          :deliveryinstrnController.text == "" ?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your landmark")))
-                          :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
-
+                      selectedAddressType == null || otherAddressController.text.isEmpty?
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Select Address Type!"))):
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter Valid details!")));
                     }
-                    setState(() {
-
-                    });
                   }
                   ,
                   child: Container(
-                      height: scrWidth * 0.17,
-                      width: scrWidth * 0.9,
+                      height: scrHeight * 0.06,
                       decoration: BoxDecoration(
-                        color: colorConst.meroon,
-                        // color: colorConst.meroon,
+                        color: //validate?colorConst.meroon:
+                        colorConst.meroon,
                         borderRadius: BorderRadius.circular(scrWidth * 0.07),
                       ),
                       child: Center(
@@ -434,7 +623,8 @@ class _editaddressState extends State<editaddress> {
                                   color: colorConst.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: scrWidth * 0.04)))),
-                )
+                ),
+
               ],
             ),
           ),

@@ -4,11 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/info_page.dart';
 import 'package:meat_shop_app/feature/forgotpassword/forgotpassword1.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,9 +35,42 @@ class _signinPageState extends State<signinPage> {
   bool check=false;
   final emailValidation=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final passwordValidation=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  bool loading = false;
+  signIn () async {
+    loading = true;
+    setState(() {
+
+    });
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text
+    ).then((value) async {
+      var data = await FirebaseFirestore.instance.collection("users").where("email",isEqualTo: emailController.text).get();
+      var password = data.docs[0]["password"];
+      if(password == passwordController.text){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool("LoggedIn", true);
+        prefs.setString("loginUserId", data.docs[0]["id"]);
+        prefs.setBool("gotIn", true);
+        // loginUserId = data.docs[0]["id"];
+        loading = false;
+        setState(() {
+
+        });
+        if(widget.path == "cartPage"){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => cartPage()));
+        }else{
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
+        }
+      }
+    }).catchError((onError){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError.code == "invalid-credential" ? "Email and Password doesn't match!" : "Login Error")));
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: colorConst.white,
       appBar: AppBar(
@@ -73,7 +108,7 @@ class _signinPageState extends State<signinPage> {
 
               ),
             ),
-            Text("Meet Shop",
+            Text("Meat Shop",
               style:TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: scrWidth*0.07,
@@ -354,35 +389,7 @@ class _signinPageState extends State<signinPage> {
                       emailController.text != ""&&
                       passwordController.text != ""
                       ){
-                        FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text
-                        ).then((value) async {
-                          var data = await FirebaseFirestore.instance.collection("users").where("email",isEqualTo: emailController.text).get();
-                          var password = data.docs[0]["password"];
-                          if(password == passwordController.text){
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setBool("LoggedIn", true);
-                            prefs.setString("loginUserId", data.docs[0]["id"]);
-                            prefs.setBool("gotIn", true);
-                            // loginUserId = data.docs[0]["id"];
-                            if(widget.path == "cartPage"){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(
-                                price: 0,
-                                discount: 0,
-                                shippingCharge: 0,
-                                subtotal: 0,
-                                cartMeat: [],
-                                notes: '',
-
-                              )));
-                            }else{
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
-                            }
-                          }
-                        }).catchError((onError){
-                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError.code == "invalid-credential" ? "Incorrect Password!" : "Login Error")));
-                        });
+                        signIn();
                       }else{
                         emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your email!"))):
                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your password!")));

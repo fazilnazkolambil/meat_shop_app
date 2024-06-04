@@ -46,8 +46,10 @@ class _CartPageState extends ConsumerState<cartPage> {
   List cartMeats = [];
   // List orderHistory=[];
   bool loading = false;
+  bool? loggedIn;
   Future <void> loadData()  async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    loggedIn = prefs.getBool('LoggedIn') ?? false;
     String? jsonString = prefs.getString("cart");
     String? jsonString2 = prefs.getString("cart2");
     if (jsonString != null  && jsonString2 != null) {
@@ -195,20 +197,22 @@ class _CartPageState extends ConsumerState<cartPage> {
                     style: TextStyle(
                         color: colorConst.black,
                         fontSize: scrWidth*0.05,
-                        fontWeight: FontWeight.w700
+                        fontWeight: FontWeight.w600
                     ),),
-                  Text("₹ $totalPrice .00",
+                  Text("₹ $totalPrice",
                     style: TextStyle(
                         color: colorConst.meroon,
                         fontSize: scrWidth*0.05,
-                        fontWeight: FontWeight.w700
+                        fontWeight: FontWeight.w600
                     ),)
                 ],
               ),
               InkWell(
                 onTap: () {
-                  if(loginId.isNotEmpty){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => checkoutpage(
+                  //if(loginId.isNotEmpty)
+                  if(loggedIn == true)
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutPage(
                       price: total,
                       discount: discount,
                       shippingCharge: shippingCharge,
@@ -383,7 +387,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: scrWidth*0.4,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -638,7 +642,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                             fontSize: scrWidth*0.04,
                             fontWeight: FontWeight.w500
                         ),),
-                      Text("₹ $total.00",
+                      Text("₹ $total",
                         style: TextStyle(
                             color: colorConst.black,
                             fontSize: scrWidth*0.04,
@@ -656,7 +660,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                             fontSize: scrWidth*0.04,
                             fontWeight: FontWeight.w500
                         ),),
-                      Text("₹ $discount.00",
+                      Text("₹ $discount",
                         style: TextStyle(
                             color: colorConst.black,
                             fontSize: scrWidth*0.04,
@@ -674,7 +678,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                             fontSize: scrWidth*0.04,
                             fontWeight: FontWeight.w500
                         ),),
-                      Text("₹ $shippingCharge.00",
+                      Text("₹ $shippingCharge",
                         style: TextStyle(
                             color: colorConst.black,
                             fontSize: scrWidth*0.04,

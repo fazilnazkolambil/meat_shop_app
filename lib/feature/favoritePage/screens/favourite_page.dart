@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -458,6 +459,7 @@ class _favouritePageState extends State<favouritePage> {
                                                     ),
                                                     InkWell(
                                                       onTap: () async {
+                                                        HapticFeedback.lightImpact();
                                                         Navigator.pop(context);
                                                         await FirebaseFirestore.instance.collection("users").doc(loginId).update({
                                                           "favourites":FieldValue.arrayRemove([data[index]])

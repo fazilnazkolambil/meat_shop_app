@@ -273,7 +273,7 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Lottie.asset(gifs.login),
-              Text("Please Login to view your Favourites and access all offers and services!",textAlign: TextAlign.center,
+              Text("Please Login to view your Order history and access all offers and services!",textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: scrWidth*0.04

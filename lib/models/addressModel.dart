@@ -1,49 +1,57 @@
 class addressModel{
-  String? address,name,number,location,pincode,deliveryInstruction;
-  bool Default;
+  String? name, number, location, pincode, deliveryInstruction, buildingName, street, town, type;
   addressModel({
     required this.name,
     required this.number,
-    required this.address,
     required this.location,
     required this.pincode,
     required this.deliveryInstruction,
-    required this.Default,
+    required this.buildingName,
+    required this.street,
+    required this.town,
+    required this.type,
   });
 
   Map <String, dynamic> toMap(){
     return{
-      "address" : this.address,
       "name" : this.name,
       "number" : this.number,
       "location" : this.location,
       "pincode" : this.pincode,
       "deliveryInstruction" : this.deliveryInstruction,
-      "Default":this.Default
+      "buildingName":this.buildingName,
+      "street":this.street,
+      "town":this.town,
+      "type":this.type,
     };
   }
   factory addressModel.fromMap (Map <String, dynamic> map){
     return addressModel (
-        address : map["address"] ?? "",
         name : map["name"] ?? "",
         number : map["number"]??"",
         location : map["location"] ?? "",
         pincode: map["pincode"]??"",
-      deliveryInstruction: map["deliveryInstruction"]??"",
-      Default:  map["Default"]??"",
+        deliveryInstruction: map["deliveryInstruction"]??"",
+      buildingName: map['buildingName']?? '',
+      street: map['street']?? '',
+      town: map['town']?? '',
+      type: map['type']?? '',
     );
   }
   addressModel copyWith({
-    String? address,name,number,landmark,houseno,pincode,deliveryInstruction,Default
+    String? name,number,landmark,houseno,pincode,deliveryInstruction,buildingName,street,town, type,
+
   }){
     return addressModel(
-      address: address ?? this.address,
       name: name ?? this.name,
       number: number ?? this.number,
       location: location ?? this.location,
       pincode: pincode ?? this.pincode,
       deliveryInstruction: deliveryInstruction ?? this.deliveryInstruction,
-      Default: Default ?? this.Default,
+      buildingName: buildingName ?? this.buildingName,
+      street: street ?? this.street,
+      town: town ?? this.town,
+      type: type ?? this.type,
     );
   }
 

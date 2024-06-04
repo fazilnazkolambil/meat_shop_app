@@ -15,6 +15,7 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';
 import 'package:meat_shop_app/models/orderDetailsModel.dart';
 import 'package:meat_shop_app/models/userModel.dart';
@@ -35,7 +36,7 @@ class infoPage extends ConsumerStatefulWidget {
 
 class _infoPageState extends ConsumerState<infoPage> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  var countryCode;
+  var countryCode = '+91';
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -298,7 +299,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                           decoration: InputDecoration(
                               prefixIcon: Padding(
                                 padding: EdgeInsets.all(scrWidth * 0.04),
-                                child: Container(
+                                child: SizedBox(
                                   height: scrWidth * 0.07,
                                   width: scrWidth * 0.07,
                                   child: SvgPicture.asset(
@@ -376,17 +377,23 @@ class _infoPageState extends ConsumerState<infoPage> {
                           cursorColor: colorConst.grey,
                           decoration: InputDecoration(
                               counterText: "",
-                              prefixIcon: CountryCodePicker(
-                                onChanged: (value) {
-                                  countryCode = value;
-                                  setState(() {});
-                                },
-                                onInit: (value) {
-                                  countryCode = value;
-                                },
-                                initialSelection: "+91",
-                                showFlag: true,
+                              // prefixIcon: CountryCodePicker(
+                              //   onChanged: (value) {
+                              //     countryCode = value;
+                              //     setState(() {});
+                              //   },
+                              //   onInit: (value) {
+                              //     countryCode = value;
+                              //   },
+                              //   initialSelection: "+91",
+                              //   showFlag: true,
+                              // ),
+                              prefixIcon: Padding(
+                                padding:EdgeInsets.symmetric(horizontal:scrWidth*0.04,vertical: scrWidth*0.04),
+                                child: SizedBox(child: Text("+91",
+                                  style: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),),),
                               ),
+                              //prefixStyle: TextStyle(color: colorConst.grey,fontWeight: FontWeight.w600),
                               labelText: "Enter Your Phone Number",
                               labelStyle: TextStyle(
                                   fontSize: scrWidth * 0.04,
@@ -753,60 +760,57 @@ class _infoPageState extends ConsumerState<infoPage> {
                                 passwordController.text != "" &&
                                 confirmPasswordController.text != "" &&
                                 formkey.currentState!.validate()) {
-                              // FirebaseAuth.instance.createUserWithEmailAndPassword(
-                              //         email: emailController.text,
-                              //         password: passwordController.text)
-                              //     .then((value) async {
-                                 addUser();
-                                if (widget.path == "cartPage") {
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(
-                                    price: 0,
-                                    discount: 0,
-                                    shippingCharge: 0,
-                                    subtotal: 0,
-                                    cartMeat: [],
-                                    notes: '',
-
-                                  )));
-                                } else {
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
-                                }
-
-                              //   FirebaseFirestore.instance.collection('users')
-                              //       .add(
-                              //       UserModel(
-                              //         name: nameController.text,
-                              //         email: emailController.text,
-                              //         password: passwordController.text,
-                              //         number: countryCode.toString() +
-                              //             phoneController.text,
-                              //         address: [],
-                              //         favourites: [],
-                              //         image: imageUrl,
-                              //         id: '',
-                              //       ).toMap())
-                              //       .then((value) {
-                              //     loginUserId = value.id;
-                              //     value.update({
-                              //       "id": value.id
-                              //     }).then((value) async {
-                              //       SharedPreferences prefs = await SharedPreferences.getInstance();
-                              //       prefs.setBool("LoggedIn", true);
-                              //       prefs.setString("loginUserId",loginUserId!);
-                              //     }).then((value) {
-                              //       if(widget.path == "MeatPage"){
-                              //         Navigator.pushReplacement(context,
-                              //         MaterialPageRoute(builder: (context) => checkoutpage(),));
-                              //       }else{
-                              //         Navigator.pushReplacement(context,
-                              //         MaterialPageRoute(builder: (context) => NavigationPage(),));
-                              //       }
-                              //     });
-                              //   });
-                              // }).catchError((onError) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //       SnackBar(content: Text(onError.code)));
-                              // });
+                              //    addUser();
+                              //   if (widget.path == "cartPage") {
+                              //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => checkoutpage(
+                              //       price: 0,
+                              //       discount: 0,
+                              //       shippingCharge: 0,
+                              //       subtotal: 0,
+                              //       cartMeat: [],
+                              //       notes: '',
+                              //
+                              //     )));
+                              //   } else {
+                              //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
+                              //   }
+                              FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text)
+                                  .then((value) async {
+                                FirebaseFirestore.instance.collection('users').add(
+                                    UserModel(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      number: countryCode.toString() + phoneController.text,
+                                      address: [],
+                                      favourites: [],
+                                      image: imageUrl,
+                                      id: '',
+                                    ).toMap())
+                                    .then((value) {
+                                  loginUserId = value.id;
+                                  value.update({
+                                    "id": value.id
+                                  }).then((value) async {
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    prefs.setBool("LoggedIn", true);
+                                    prefs.setString("loginUserId",loginUserId!);
+                                  }).then((value) {
+                                    if(widget.path == "cartPage"){
+                                      Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) =>cartPage()));
+                                    }else{
+                                      Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) => NavigationPage(),));
+                                    }
+                                  });
+                                });
+                              }).catchError((onError) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(onError.code)));
+                              });
                             } else {
                               nameController.text == ""
                                   ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(

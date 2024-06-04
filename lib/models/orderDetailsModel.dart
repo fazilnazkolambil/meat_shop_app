@@ -1,7 +1,8 @@
 class OrderDetailsModel{
   String userId,orderId,paymentStatus,orderStatus,orderDate,orderTime,notes;
   double totalPrice;
-  List items,address;
+  List items;
+  Map deliveryAddress;
 
 
   OrderDetailsModel({
@@ -13,8 +14,8 @@ class OrderDetailsModel{
     required this.orderTime,
     required this.totalPrice,
     required this.items,
-    required this.address,
-    required this.notes
+    required this.notes,
+    required this.deliveryAddress
 
   });
 
@@ -28,8 +29,8 @@ class OrderDetailsModel{
       "orderTime" : this.orderTime,
       "totalPrice" : this.totalPrice,
       "items" : this.items,
-      "address" : this.address,
       "notes" : this.notes,
+      "deliveryAddress" : this.deliveryAddress,
 
     };
   }
@@ -43,14 +44,15 @@ class OrderDetailsModel{
       orderTime: map["orderTime"]??"",
       totalPrice: map["totalPrice"]??"",
       items: map["items"]??[],
-      address: map["address"]??[],
       notes: map["notes"]??[],
+      deliveryAddress: map["deliveryAddress"] ?? {},
     );
   }
   OrderDetailsModel copyWith({
     String?  userId,orderId, paymentStatus,orderStatus,orderDate,orderTime,notes,
     double? totalPrice,
-    List? items,address,
+    List? items,
+    Map? deliveryAddress,
   }){
     return OrderDetailsModel(
       userId: userId ?? this.userId,
@@ -61,9 +63,8 @@ class OrderDetailsModel{
       orderTime: orderTime ?? this.orderTime,
       totalPrice: totalPrice ?? this.totalPrice,
       items: items ?? this.items,
-      address: address ?? this.address,
       notes: notes ?? this.notes,
+      deliveryAddress: deliveryAddress ?? this.deliveryAddress,
     );
   }
-
 }

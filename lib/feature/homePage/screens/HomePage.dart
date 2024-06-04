@@ -177,172 +177,179 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
       body:
-      Stack(
-        children: [
-          loading? Center(child: Lottie.asset(gifs.loadingGif)):
-          Padding(
-            padding: EdgeInsets.only(bottom: scrHeight*0.1,right: scrWidth*0.03,left: scrWidth*0.03,top: scrWidth*0.03),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(),));
-                      },
-                      child: Container(
-                        height: scrHeight*0.07,
-                        width: scrWidth*1,
-                        padding: EdgeInsets.all(scrWidth*0.03),
-                        margin: EdgeInsets.only(bottom: scrHeight*0.02),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(scrWidth*0.1),
-                          color: colorConst.grey1
-                        ),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(iconConst.search),
-                            SizedBox(width: scrWidth*0.02,),
-                            Text("Search here for anything you want...",style: TextStyle(
-                              color: colorConst.grey
-                            ),)
-                          ],
-                        ),
-                      ),
-                    ),
-                    CarouselSlider.builder(
-                      itemCount: images.length,
-                      options: CarouselOptions(
-                        enlargeCenterPage: true,
-                          autoPlay: true,
-                          viewportFraction: 1,
-                          onPageChanged: (index, reason) {
-                            ref.read(carouselaProvider.notifier).update((state) => index);
-                          },
-                          autoPlayAnimationDuration: Duration(
-                            seconds: 1,
-                          )
-                      ),
-                      itemBuilder: (BuildContext context, int index, int realIndex) {
-                        return  Container(
-                          height: scrHeight*0.4,
+      RefreshIndicator(
+        onRefresh: () async {
+          await loadData();
+          await getLocation();
+          await getAddress();
+        },
+        child: Stack(
+          children: [
+            loading? Center(child: Lottie.asset(gifs.loadingGif)):
+            Padding(
+              padding: EdgeInsets.only(bottom: scrHeight*0.1,right: scrWidth*0.03,left: scrWidth*0.03,top: scrWidth*0.03),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(),));
+                        },
+                        child: Container(
+                          height: scrHeight*0.07,
                           width: scrWidth*1,
+                          padding: EdgeInsets.all(scrWidth*0.03),
+                          margin: EdgeInsets.only(bottom: scrHeight*0.02),
                           decoration: BoxDecoration(
-                              borderRadius:BorderRadius.circular(scrWidth*0.04) ,
-                              image: DecorationImage(
-                                  image: AssetImage(images[index]),
-                                  fit: BoxFit.fill
-                              )
+                            borderRadius: BorderRadius.circular(scrWidth*0.1),
+                            color: colorConst.grey1
                           ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: scrHeight*0.03,),
-                    SizedBox(
-                      height: scrHeight*0.5,
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance.collection('meatTypes').snapshots(),
-                        builder: (context, snapshot) {
-                          if(!snapshot.hasData){
-                            return Lottie.asset(gifs.loadingGif);
-                          }
-                          var data = snapshot.data!.docs;
-                          return  data.isEmpty?
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          child: Row(
                             children: [
-                              SizedBox(
-                                  height: scrHeight*0.15,
-                                  child: Lottie.asset(gifs.comingSoon)),
-                              Text("Meats will be available Soon!",style: TextStyle(
-                                  fontSize: scrWidth*0.05,
-                                  fontWeight: FontWeight.w700,
-                                  color: colorConst.meroon
+                              SvgPicture.asset(iconConst.search),
+                              SizedBox(width: scrWidth*0.02,),
+                              Text("Search here for anything you want...",style: TextStyle(
+                                color: colorConst.grey
                               ),)
                             ],
-                          ):
-                            GridView.builder(
-                            itemCount: data.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: scrWidth * 0.05 ,
-                              childAspectRatio: 1,
-                              crossAxisSpacing: scrWidth* 0.05,
-                            ),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MeatListPage(
-                                    type: data[index]["type"],
-                                  )));
-                                },
-                                child: Container(
-                                  height: scrWidth*0.5,
-                                  width: scrWidth*0.5,
-                                  decoration: BoxDecoration(
-                                      color: colorConst.white,
-                                      borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                      border: Border.all(color: colorConst.grey1),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: colorConst.black.withOpacity(0.1),
-                                          blurRadius: 4,
-                                        )
-                                      ]
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: scrWidth*0.15,
-                                        backgroundImage: NetworkImage(data[index]["mainImage"],),
-                                      ),
-                                      Text(data[index]["type"],
-                                        style: TextStyle(fontSize: scrWidth*0.04),),
-                                    ],
-                                  ),
-                                ),
-                              );
+                          ),
+                        ),
+                      ),
+                      CarouselSlider.builder(
+                        itemCount: images.length,
+                        options: CarouselOptions(
+                          enlargeCenterPage: true,
+                            autoPlay: true,
+                            viewportFraction: 1,
+                            onPageChanged: (index, reason) {
+                              ref.read(carouselaProvider.notifier).update((state) => index);
                             },
-                                                );
-                        }
-                      ),
-                    ),
-                    loginId.isNotEmpty?
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Recent Orders",style: TextStyle(
-                              fontWeight: FontWeight.w600)),
-                          SizedBox(
-                            height: scrHeight*0.15,
+                            autoPlayAnimationDuration: Duration(
+                              seconds: 1,
+                            )
+                        ),
+                        itemBuilder: (BuildContext context, int index, int realIndex) {
+                          return  Container(
+                            height: scrHeight*0.4,
                             width: scrWidth*1,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 3,
-                              itemBuilder: (context, index) => Container(
-                                height: scrHeight*0.15,
-                                width: scrWidth*0.5,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(scrWidth*0.04),
-                                    color: Colors.green
-                                ),
-                              ),
-                              separatorBuilder: (context, index) => SizedBox(width: scrWidth*0.03,),
+                            decoration: BoxDecoration(
+                                borderRadius:BorderRadius.circular(scrWidth*0.04) ,
+                                image: DecorationImage(
+                                    image: AssetImage(images[index]),
+                                    fit: BoxFit.fill
+                                )
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
-                    ):
-                        SizedBox()
-                  ],
-                ),
+                      SizedBox(height: scrHeight*0.03,),
+                      SizedBox(
+                        height: scrHeight*0.5,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection('meatTypes').snapshots(),
+                          builder: (context, snapshot) {
+                            if(!snapshot.hasData){
+                              return Lottie.asset(gifs.loadingGif);
+                            }
+                            var data = snapshot.data!.docs;
+                            return  data.isEmpty?
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                    height: scrHeight*0.15,
+                                    child: Lottie.asset(gifs.comingSoon)),
+                                Text("Meats will be available Soon!",style: TextStyle(
+                                    fontSize: scrWidth*0.05,
+                                    fontWeight: FontWeight.w700,
+                                    color: colorConst.meroon
+                                ),)
+                              ],
+                            ):
+                              GridView.builder(
+                              itemCount: data.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: scrWidth * 0.05 ,
+                                childAspectRatio: 1,
+                                crossAxisSpacing: scrWidth* 0.05,
+                              ),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MeatListPage(
+                                      type: data[index]["type"],
+                                    )));
+                                  },
+                                  child: Container(
+                                    height: scrWidth*0.5,
+                                    width: scrWidth*0.5,
+                                    decoration: BoxDecoration(
+                                        color: colorConst.white,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                        border: Border.all(color: colorConst.grey1),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: colorConst.black.withOpacity(0.1),
+                                            blurRadius: 4,
+                                          )
+                                        ]
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: scrWidth*0.15,
+                                          backgroundImage: NetworkImage(data[index]["mainImage"],),
+                                        ),
+                                        Text(data[index]["type"],
+                                          style: TextStyle(fontSize: scrWidth*0.04),),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                                                  );
+                          }
+                        ),
+                      ),
+                      // loginId.isNotEmpty?
+                      // SizedBox(
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Text("Recent Orders",style: TextStyle(
+                      //           fontWeight: FontWeight.w600)),
+                      //       SizedBox(
+                      //         height: scrHeight*0.15,
+                      //         width: scrWidth*1,
+                      //         child: ListView.separated(
+                      //           scrollDirection: Axis.horizontal,
+                      //           itemCount: 3,
+                      //           itemBuilder: (context, index) => Container(
+                      //             height: scrHeight*0.15,
+                      //             width: scrWidth*0.5,
+                      //             decoration: BoxDecoration(
+                      //                 borderRadius: BorderRadius.circular(scrWidth*0.04),
+                      //                 color: Colors.green
+                      //             ),
+                      //           ),
+                      //           separatorBuilder: (context, index) => SizedBox(width: scrWidth*0.03,),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ):
+                      //     SizedBox()
+                    ],
+                  ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
 
     );

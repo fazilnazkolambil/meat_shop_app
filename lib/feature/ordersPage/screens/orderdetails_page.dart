@@ -82,7 +82,7 @@ class _orderdetailsState extends State<orderdetails> {
               SizedBox(height: scrWidth*0.02,),
               Container(
                   height: scrWidth*0.33,
-                  width: scrWidth*0.93,
+                  width: scrWidth*0.97,
                   decoration: BoxDecoration(
                     color: colorConst.white,
                     borderRadius: BorderRadius.circular(scrWidth*0.04),
@@ -99,7 +99,7 @@ class _orderdetailsState extends State<orderdetails> {
                           children: [
                             Text(
                                 "Order ID:${widget.data["orderId"]}",style: TextStyle(
-                                fontWeight: FontWeight.w700,fontSize: scrWidth*0.03),
+                                fontWeight: FontWeight.w700,fontSize: scrWidth*0.027),
                             ),
                             Text(
                               "Delivery Item:${items.length} ",style: TextStyle(
@@ -112,7 +112,7 @@ class _orderdetailsState extends State<orderdetails> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                              SvgPicture.asset(iconConst.datetime,color: colorConst.meroon,),
+                              // SvgPicture.asset(iconConst.datetime,color: colorConst.meroon,),
                               SizedBox(width: scrWidth*0.015,),
                               Text("${widget.data["orderDate"]}\n ${widget.data["orderTime"]}",style: TextStyle(
                                   fontWeight: FontWeight.normal,fontSize: scrWidth*0.03))

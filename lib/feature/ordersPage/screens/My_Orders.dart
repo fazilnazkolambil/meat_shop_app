@@ -14,6 +14,7 @@ import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/orderdetails_page.dart';
+import 'package:meat_shop_app/feature/ordersPage/screens/ordertracking.dart';
 import 'package:meat_shop_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,21 +88,26 @@ class OrderList extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          height: scrHeight * 0.03,
-                          width: scrWidth * 0.27,
-                          decoration: BoxDecoration(
-                            color: colorConst.meroon,
-                            borderRadius: BorderRadius.circular(
-                                scrWidth * 0.045),
-                          ),
-                          child: Center(
-                            child: Text("Track Order",
-                              style: TextStyle(
-                                  color: colorConst.white,
-                                  fontSize: scrWidth * 0.03,
-                                  fontWeight: FontWeight.w900
-                              ),),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ordertracking(data: data,),));
+                          },
+                          child: Container(
+                            height: scrHeight * 0.03,
+                            width: scrWidth * 0.27,
+                            decoration: BoxDecoration(
+                              color: colorConst.meroon,
+                              borderRadius: BorderRadius.circular(
+                                  scrWidth * 0.045),
+                            ),
+                            child: Center(
+                              child: Text("Track Order",
+                                style: TextStyle(
+                                    color: colorConst.white,
+                                    fontSize: scrWidth * 0.03,
+                                    fontWeight: FontWeight.w900
+                                ),),
+                            ),
                           ),
                         ), SizedBox(
                           width: scrWidth * 0.02,

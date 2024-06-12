@@ -40,8 +40,8 @@ class addressModel{
   }
   addressModel copyWith({
     String? name,number,landmark,houseno,pincode,deliveryInstruction,buildingName,street,town, type,
-
-  }){
+  })
+  {
     return addressModel(
       name: name ?? this.name,
       number: number ?? this.number,

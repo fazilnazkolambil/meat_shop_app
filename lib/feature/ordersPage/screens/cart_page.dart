@@ -118,6 +118,8 @@ class _CartPageState extends ConsumerState<cartPage> {
       Scaffold(
       backgroundColor: colorConst.white,
       appBar: AppBar(
+        surfaceTintColor: colorConst.white,
+        backgroundColor: colorConst.white,
         leading: Padding(
           padding:EdgeInsets.all(scrWidth*0.03),
           child: GestureDetector(
@@ -508,67 +510,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                   child: Center(child: SvgPicture.asset(iconConst.delete))
                               ),
                             ),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    cartMeats[index]["quantity"]<=1? 1
-                                        :cartMeats[index]["quantity"]--;
-                                    cartMeats[index]["rate"] * cartMeats[index]["quantity"];
-                                    addingTotal();
-                                    setState(() {
 
-                                    });
-                                  },
-                                  child: Container(
-                                    height:scrWidth*0.065,
-                                    width:scrWidth*0.065,
-                                    decoration: BoxDecoration(
-                                        color:colorConst.grey1,
-                                        borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                        border: Border.all(
-                                            width: scrWidth*0.0003,
-                                            color: colorConst.black.withOpacity(0.38)
-                                        )
-                                    ),
-                                    child:Icon(Icons.remove,
-                                        size:scrWidth*0.04),
-                                  ),
-                                ),
-                                SizedBox(width: scrWidth*0.015,),
-                                Text(cartMeats[index]["quantity"].toString(),
-                                  style: TextStyle(
-                                      fontSize: scrWidth*0.04,
-                                      fontWeight: FontWeight.w600
-                                  ),),
-                                SizedBox(width: scrWidth*0.015,),
-                                InkWell(
-                                  onTap: () {
-                                    cartMeats[index]["quantity"]++;
-                                    cartMeats[index]["rate"] * cartMeats[index]["quantity"];
-                                    addingTotal();
-                                    setState(() {
-
-                                    });
-                                  },
-                                  child: Container(
-                                    height:scrWidth*0.065,
-                                    width:scrWidth*0.065,
-                                    decoration: BoxDecoration(
-                                        color:colorConst.grey1,
-                                        borderRadius: BorderRadius.circular(scrWidth*0.06),
-                                        border: Border.all(
-                                            width: scrWidth*0.0003,
-                                            color: colorConst.black.withOpacity(0.38)
-                                        )
-                                    ),
-                                    child:Center(child: Icon(Icons.add,
-                                        size:scrWidth*0.04)),
-                                  ),
-                                )
-                              ],
-
-                            ),
                           ],
                         ),
                         SizedBox(width: scrWidth*0.02,),

@@ -140,7 +140,7 @@ class _myaddressState extends State<myaddress> {
                                 children: [
                                   Container(
                                     height: scrWidth*0.1,
-                                    width: scrWidth*0.25,
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(scrWidth*0.02),
                                       border:Border.all(

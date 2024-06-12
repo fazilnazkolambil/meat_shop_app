@@ -72,6 +72,7 @@ class _morePageState extends State<morePage> {
       backgroundColor: colorConst.white,
       appBar: AppBar(
         backgroundColor: colorConst.white,
+        surfaceTintColor: colorConst.white,
         elevation: 0,
         leading: userImage != null && userImage != ""?
         CircleAvatar(

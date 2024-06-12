@@ -80,7 +80,7 @@ class _HomePageState extends ConsumerState<HomePage> {
        List <Placemark> result = await placemarkFromCoordinates(currentPosition.latitude, currentPosition.longitude);
        Placemark first = result.first;
        setState(() {
-         address = "${first.locality}, ${first.administrativeArea}";
+         address = "${first.subLocality}, ${first.locality}";
        });
      }
      catch (e) {

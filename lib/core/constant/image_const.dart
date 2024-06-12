@@ -37,8 +37,8 @@ class iconConst{
   static const notification="assets/icons/Notification.svg";
   static const search="assets/icons/search.svg";
   static const home="assets/icons/home.svg";
-  static const Favourite="assets/icons/heart.svg";
-  static const Favourite1="assets/icons/heart1.svg";
+  static const Favourite="assets/icons/heart.png";
+  static const Favourite1="assets/icons/heart1.png";
   static const Favourite2="assets/icons/fav.red.svg";
   static const more="assets/icons/more.svg";
   static const backarrow="assets/icons/backarrow.svg";
@@ -72,4 +72,5 @@ class gifs{
   static const addToCart="assets/gifs/addtocartGIF.json";
   static const emptyCart="assets/gifs/emptyCart.json";
   static const login="assets/gifs/login.json";
+  static const addedToCart="assets/gifs/addedToCart.json";
 }

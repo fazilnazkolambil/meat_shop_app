@@ -55,7 +55,6 @@ class _NavigationPageState extends State<NavigationPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     login = prefs.getBool("LoggedIn") ?? false;
     loginId = prefs.getString("loginUserId") ?? "";
-    print(loginId);
     if(loginId.isNotEmpty){
       await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
         users = UserModel.fromMap(value.data()!);
@@ -83,8 +82,8 @@ class _NavigationPageState extends State<NavigationPage> {
       extendBody: true,
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
-        showBottomRadius: false,
-              showTopRadius: true,
+              showBottomRadius: false,
+              showTopRadius: false,
               notchBottomBarController: _controller,
               color: colorConst.white,
               showLabel: true,
@@ -96,14 +95,13 @@ class _NavigationPageState extends State<NavigationPage> {
               removeMargins: false,
               bottomBarWidth: scrWidth * 1,
               showShadow: false,
-              durationInMilliSeconds: 300,
+              durationInMilliSeconds: 200,
               kIconSize: scrWidth*0.06,
               kBottomRadius: scrWidth*0.03,
               bottomBarItems: [
                 BottomBarItem(
                   inActiveItem: SvgPicture.asset(
                     iconConst.home,
-                    color: colorConst.bottomcolor.withOpacity(0.50),
                   ),
                   activeItem: SvgPicture.asset(
                     iconConst.home,
@@ -113,8 +111,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
                 BottomBarItem(
                   inActiveItem: SvgPicture.asset(
-                    iconConst.cart,
-                    color: colorConst.bottomcolor.withOpacity(0.50),
+                    iconConst.cart
                   ),
                   activeItem: SvgPicture.asset(
                     iconConst.cart,
@@ -123,20 +120,13 @@ class _NavigationPageState extends State<NavigationPage> {
                   itemLabel: 'orders',
                 ),
                 BottomBarItem(
-                  inActiveItem: SvgPicture.asset(
-                    iconConst.Favourite1,
-                    //color: colorConst.bottomcolor.withOpacity(0.50),
-                  ),
-                  activeItem: SvgPicture.asset(
-                    iconConst.Favourite1,
-                    color: colorConst.white,
-                  ),
+                  inActiveItem: Icon(Icons.favorite,color: colorConst.meroon,),
+                  activeItem: Icon(Icons.favorite_border,color: colorConst.white),
                   itemLabel: 'Favourite',
                 ),
                 BottomBarItem(
                     inActiveItem: SvgPicture.asset(
                       iconConst.more,
-                      color: colorConst.bottomcolor.withOpacity(0.50),
                     ),
                     activeItem: SvgPicture.asset(
                       iconConst.more,

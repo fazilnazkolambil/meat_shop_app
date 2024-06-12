@@ -26,7 +26,7 @@ import 'cart_page.dart';
 import 'orderconfirm_page.dart';
 
 class CheckoutPage extends StatefulWidget {
-  final  double price;
+  final double price;
   final double discount;
   final double shippingCharge;
   final double subtotal;
@@ -34,7 +34,14 @@ class CheckoutPage extends StatefulWidget {
   final String notes;
   // final  List<QueryDocumentSnapshot<Map<String, dynamic>>> data;
   // final OrderDetailsModel orderdetailsdata;
-  const CheckoutPage({super.key, required this.price,required this.discount,required this.shippingCharge,required this.subtotal, required this.cartMeat, required this.notes,});
+  const CheckoutPage({super.key,
+    required this.price,
+    required this.discount,
+    required this.shippingCharge,
+    required this.subtotal,
+    required this.cartMeat,
+    required this.notes,
+  });
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -206,8 +213,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
               )
             ]
-
-        ),
+         ),
       ),
       appBar: AppBar(
         leading: Padding(

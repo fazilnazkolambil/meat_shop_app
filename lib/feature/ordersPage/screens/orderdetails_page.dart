@@ -30,12 +30,13 @@ class _orderdetailsState extends State<orderdetails> {
   List address=[];
   List items=[];
   orderdetailsData()async{
-    address=widget.data["address"];
+    // address=widget.data["address"];
     items=widget.data["items"];
   }
 
   @override
   void initState() {
+    print("fffffjjjj${widget.data.data()}");
      orderdetailsData();
      addingTotal();
     // TODO: implement initState
@@ -84,7 +85,7 @@ class _orderdetailsState extends State<orderdetails> {
                   height: scrWidth*0.33,
                   width: scrWidth*0.97,
                   decoration: BoxDecoration(
-                    color: colorConst.white,
+                    // color: colorConst.white,
                     borderRadius: BorderRadius.circular(scrWidth*0.04),
                     border: Border.all(width: scrWidth*0.002,color: colorConst.grey),
                   ),

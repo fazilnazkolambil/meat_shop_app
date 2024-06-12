@@ -857,7 +857,8 @@ class _infoPageState extends ConsumerState<infoPage> {
                                       style: TextStyle(
                                           color: colorConst.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: scrWidth * 0.04))))),
+                                          fontSize: scrWidth * 0.04))))
+                      ),
                       SizedBox(
                         height: scrWidth * 0.15,
                       ),

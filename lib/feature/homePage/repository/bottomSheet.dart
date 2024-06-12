@@ -29,6 +29,8 @@ import '../screens/meatList.dart';
      rate: 0.0
  )));
 
+final discount=0;
+final shippingCharge=50;
 
 class BottomSheetPage extends ConsumerWidget {
   final List data;
@@ -213,20 +215,22 @@ class BottomSheetPage extends ConsumerWidget {
                   InkWell(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutPage(
-                        price: data[index]['rate'],
-                        discount: 0,
-                        shippingCharge: 50,
-                        subtotal: data[index]['rate'],
-                        cartMeat: [
-                          {
-                            'Image': data[index]['Image'],
-                            'id': data[index]['id'],
-                            'ingredients': data[index]['ingredients'],
-                            'name': data[index]['name'],
-                            'quantity': data[index]['quantity'],
-                            'rate': data[index]['rate'],
-                          }
-                        ],
+                        price: meatRate * count.qty,
+                        discount: discount.toDouble(),
+                        shippingCharge: shippingCharge.toDouble(),
+                        subtotal:(meatRate * count.qty)+shippingCharge.toDouble(),
+                        cartMeat:[CartMeatModel(
+                          name: data[index]["name"],
+                              image: data[index]['Image'],
+                              description: data[index]["description"],
+                              category: data[index]['category'],
+                              id: data[index]['id'],
+                              ingredients: data[index]['ingredients'],
+                              type: data[index]['type'],
+                              quantity: count.quantity,
+                              qty: count.qty,
+                              rate: meatRate * count.qty
+                        ).toMap()],
                         notes: '',
                       )));
                     },

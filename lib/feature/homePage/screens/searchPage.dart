@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../ordersPage/screens/cart_page.dart';
+import '../repository/bottomSheet.dart';
 import 'meatList.dart';
 
 class SearchPage extends StatefulWidget {
@@ -229,139 +230,10 @@ class _SearchPageState extends State<SearchPage> {
                                 topRight: Radius.circular(scrWidth * 0.07),
                               )),
                           builder: (context) {
-                            return Padding(
-                              padding: EdgeInsets.all(scrWidth * 0.06),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Container(
-                                          height: scrWidth * 0.34,
-                                          width: scrWidth * 0.34,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(scrWidth * 0.04),
-                                              border: Border.all(
-                                                  width: scrWidth * 0.0003,
-                                                  color: colorConst.black.withOpacity(0.38)),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(map["Image"]), fit: BoxFit.fill))),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            map["name"],
-                                            style: TextStyle(
-                                                fontSize: scrWidth * 0.04,
-                                                fontWeight: FontWeight.w700,
-                                                color: colorConst.black),
-                                          ),
-                                          Row(
-
-                                            children: [
-                                              Text(
-                                                "1 KG - ", style: TextStyle(
-                                                  fontSize: scrWidth * 0.04,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: colorConst.black),
-                                              ),
-                                              Text(
-                                                "₹ ${map["rate"]}", style: TextStyle(
-                                                  fontSize: scrWidth * 0.04,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: colorConst.meroon),
-                                              ),
-                                            ],
-                                          ),
-
-                                        ],
-                                      ),
-
-                                    ],
-                                  ),
-                                  Text(
-                                    map["description"],
-                                    style: TextStyle(
-                                        color: colorConst.black
-                                            .withOpacity(0.4)),
-                                  ),
-                                  Divider(),
-                                  addCart.contains(map["id"])?
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => cartPage(),));
-                                    },
-                                    child: Container(
-                                      height: scrWidth*0.15,
-                                      width: scrWidth*0.9,
-                                      decoration: BoxDecoration(
-                                        color: colorConst.meroon,
-                                        borderRadius: BorderRadius.circular(scrWidth*0.05),
-                                      ),
-                                      child: Center(child: Text("Go to Cart",
-                                        style: TextStyle(
-                                            color: colorConst.white
-                                        ),)),
-                                    ),
-                                  )
-                                      :Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-
-                                        },
-                                        child: Container(
-                                          height: scrHeight*0.05,
-                                          width: scrWidth*0.4,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                              border: Border.all(color: colorConst.meroon)
-                                          ),
-                                          child: Center(child: Text("Buy Now"),),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          if(addCart.contains(map["id"])){
-                                            addCart.remove(map["id"]);
-                                            meatDetailCollection.removeWhere((element) => element["id"] == map["id"]);
-                                            saveData();
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
-                                          }else{
-                                            addCart.add(map["id"]);
-                                            meatDetailCollection.add({
-                                              "category" : map['category'],
-                                              "type" : map['type'],
-                                              "id" : map["id"],
-                                            });
-                                            saveData();
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
-                                          }
-                                          Navigator.pop(context);
-                                          setState(() {
-
-                                          });
-                                        },
-                                        child: Container(
-                                          height: scrHeight*0.05,
-                                          width: scrWidth*0.4,
-                                          decoration: BoxDecoration(
-                                              color: colorConst.meroon,
-                                              borderRadius: BorderRadius.circular(scrWidth*0.03),
-                                              border: Border.all(color: colorConst.meroon)
-                                          ),
-                                          child: Center(child: Text("Add to Cart",style: TextStyle(
-                                              color: colorConst.white
-                                          ),),),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                            return BottomSheetPage(
+                              data:filteredItems,
+                              index:index,
+                              meatDetailCollection:meatDetailCollection,
                             );
                           },
                         );

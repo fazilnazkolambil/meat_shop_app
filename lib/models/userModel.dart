@@ -1,6 +1,7 @@
 class UserModel{
   String name, email, number, password, image, id;
   List address, favourites;
+  bool blocked;
 
   UserModel({
     required this.name,
@@ -11,6 +12,7 @@ class UserModel{
     required this.favourites,
     required this.image,
     required this.id,
+    required this.blocked,
   });
 
 Map <String, dynamic> toMap(){
@@ -23,6 +25,7 @@ Map <String, dynamic> toMap(){
     'favourites' : this.favourites,
     "image" : this.image,
     "id" : this.id,
+    "blocked" : this.blocked,
   };
 }
  factory UserModel.fromMap (Map <String, dynamic> map){
@@ -35,11 +38,13 @@ Map <String, dynamic> toMap(){
     favourites: map['favourites'] ?? [],
     image: map["image"]??[],
     id: map["id"]??[],
+    blocked: map["blocked"]?? false,
   );
  }
 UserModel copyWith({
   String? name, email, number, password, confirmPassword, id, image,
   List? address, favourites,
+  bool? blocked
 }){
   return UserModel(
     name: name ?? this.name,
@@ -50,6 +55,7 @@ UserModel copyWith({
     favourites: favourites ?? this.favourites,
     image: image ?? this.image,
     id: id ?? this.id,
+    blocked: blocked ?? this.blocked,
   );
 }
 

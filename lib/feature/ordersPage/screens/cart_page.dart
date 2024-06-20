@@ -10,9 +10,11 @@ import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
+import 'package:meat_shop_app/feature/homePage/repository/bottomSheet.dart';
 import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/repository/providers.dart';
+import 'package:meat_shop_app/models/cartMeatModel.dart';
 import 'package:meat_shop_app/models/orderDetailsModel.dart';
 import 'package:meat_shop_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +40,7 @@ class _CartPageState extends ConsumerState<cartPage> {
   addingTotal() {
     total = 0;
     for (int i = 0; i < cartMeats.length; i++){
-      total = cartMeats[i]["quantity"] * cartMeats[i]["rate"] + total;
+      total = cartMeats[i].qty * cartMeats[i].rate + total;
       totalPrice = total - discount + shippingCharge;
     }
   }
@@ -69,14 +71,25 @@ class _CartPageState extends ConsumerState<cartPage> {
              .collection(meatType).doc(meatId)
              .get();
          if (data.exists) {
-           cartMeats.add({
-             "Image": data["Image"],
-             "id": data["id"],
-             "name": data["name"],
-             "rate": data["rate"],
-             "ingredients": data["ingredients"],
-             "quantity": 1,
-           });
+           cartMeats.add(CartMeatModel(
+               name: data['name'],
+               image: data['Image'],
+               description: data['description'],
+               category: data['category'],
+               id: data['id'],
+               ingredients: data['ingredients'],
+               type: data['type'],
+               quantity: (data['quantity']).toDouble(),
+               qty: (data['qty']).toDouble(),
+               rate: (data['rate']).toDouble()));
+           // cartMeats.add({
+           //   "Image": data["Image"],
+           //   "id": data["id"],
+           //   "name": data["name"],
+           //   "rate": data["rate"],
+           //   "ingredients": data["ingredients"],
+           //   "quantity": 0.5,
+           // });
          } else {
            meatDetailCollection.removeAt(i);
            addCart.removeAt(i);
@@ -101,11 +114,13 @@ class _CartPageState extends ConsumerState<cartPage> {
   @override
   void initState() {
     loadData();
+    print(cartMeats);
     // TODO: implement initState
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    final count = ref.watch(counterProvider);
     return
       // loading?
       //   Scaffold(
@@ -382,46 +397,47 @@ class _CartPageState extends ConsumerState<cartPage> {
                                     width: scrWidth*0.0003,
                                     color: colorConst.black.withOpacity(0.38)
                                 ),
-                                image: DecorationImage(image: NetworkImage(cartMeats[index]["Image"]),fit: BoxFit.fill))
+                                image: DecorationImage(image: NetworkImage(cartMeats[index].image),fit: BoxFit.fill))
                         ),
                         SizedBox(width: scrWidth*0.02,),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
                             SizedBox(
                               width: scrWidth*0.4,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(cartMeats[index]["name"],
+                                  Text(cartMeats[index].name,
                                     style: TextStyle(
                                         fontSize: scrWidth*0.035,
                                         fontWeight: FontWeight.w700,
                                         color: colorConst.black
                                     ),),
-                                  Text(cartMeats[index]["ingredients"],style: TextStyle(
+                                  Text(cartMeats[index].ingredients,style: TextStyle(
                                       fontSize: scrWidth*0.03
                                   ),),
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      Text("${cartMeats[index].qty} KG - ",
+                                        style: TextStyle(
+                                            fontSize: scrWidth*0.035,
+                                            fontWeight: FontWeight.w700,
+                                            color: colorConst.black
+                                        ),),
+                                      Text("₹ ${(cartMeats[index].rate)*(cartMeats[index].qty)}",
+                                        style: TextStyle(
+                                            fontSize: scrWidth*0.035,
+                                            fontWeight: FontWeight.w700,
+                                            color: colorConst.meroon
+                                        ),),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
-                            Row(
-                              children: [
-                                Text("${cartMeats[index]["quantity"]} KG - ",
-                                  style: TextStyle(
-                                      fontSize: scrWidth*0.035,
-                                      fontWeight: FontWeight.w700,
-                                      color: colorConst.black
-                                  ),),
-                                Text("₹ ${(cartMeats[index]["rate"])*(cartMeats[index]["quantity"])}",
-                                  style: TextStyle(
-                                      fontSize: scrWidth*0.035,
-                                      fontWeight: FontWeight.w700,
-                                      color: colorConst.meroon
-                                  ),),
-                              ],
-                            )
+
                           ],
                         ),
                         Column(
@@ -510,13 +526,74 @@ class _CartPageState extends ConsumerState<cartPage> {
                                   child: Center(child: SvgPicture.asset(iconConst.delete))
                               ),
                             ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    count.qty <= 0.5 ? 0.5:
+                                    ref.read(counterProvider.notifier).updatecount(count.qty - 0.5);
+                                    addingTotal();
+                                    setState(() {
 
+                                    });
+                                  },
+                                  child: Container(
+                                    height:scrWidth*0.065,
+                                    width:scrWidth*0.065,
+                                    decoration: BoxDecoration(
+                                        color:colorConst.grey1,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                        border: Border.all(
+                                            width: scrWidth*0.0003,
+                                            color: colorConst.black.withOpacity(0.38)
+                                        )
+                                    ),
+                                    child:Icon(Icons.remove,
+                                        size:scrWidth*0.04),
+                                  ),
+                                ),
+                                SizedBox(width: scrWidth*0.015,),
+                                Text(count.qty.toString(),
+                                  style: TextStyle(
+                                      fontSize: scrWidth*0.035,
+                                      fontWeight: FontWeight.w600
+                                  ),),
+                                SizedBox(width: scrWidth*0.015,),
+                                InkWell(
+                                  onTap: () {
+                                    ref.read(counterProvider.notifier).updatecount(count.qty + 0.5);
+                                    //cartMeats[index].rate * cartMeats[index].qty;
+                                    print(count.qty);
+                                    addingTotal();
+                                    setState(() {
+
+                                    });
+                                  },
+                                  child: Container(
+                                    height:scrWidth*0.065,
+                                    width:scrWidth*0.065,
+                                    decoration: BoxDecoration(
+                                        color:colorConst.grey1,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.06),
+                                        border: Border.all(
+                                            width: scrWidth*0.0003,
+                                            color: colorConst.black.withOpacity(0.38)
+                                        )
+                                    ),
+                                    child:Center(child: Icon(Icons.add,
+                                        size:scrWidth*0.04)),
+                                  ),
+                                )
+                              ],
+
+                            ),
                           ],
                         ),
                         SizedBox(width: scrWidth*0.02,),
                       ],
                     ),
                   );
+
                 },
                 separatorBuilder: (context, index) {
                   return SizedBox(height: scrWidth*0.03,);

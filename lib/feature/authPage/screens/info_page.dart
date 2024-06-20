@@ -88,7 +88,9 @@ class _infoPageState extends ConsumerState<infoPage> {
         address: [],
         favourites: [],
         image: imageUrl,
-        id: '',), context: context);
+        id: '',
+        blocked: false
+    ), context: context);
    // SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setBool("LoggedIn", true);
     // prefs.setString("loginUserId", loginUserId!);
@@ -788,6 +790,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                                       favourites: [],
                                       image: imageUrl,
                                       id: '',
+                                      blocked: false,
                                     ).toMap())
                                     .then((value) {
                                   loginUserId = value.id;

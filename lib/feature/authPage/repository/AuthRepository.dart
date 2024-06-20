@@ -43,7 +43,8 @@ class AuthRepository{
               address: userModel.address,
               favourites: userModel.favourites,
               image: userModel.image,
-              id: user.uid
+              id: user.uid,
+              blocked: false
           );
 
 
@@ -57,7 +58,8 @@ class AuthRepository{
               address: userModel.address,
               favourites: userModel.favourites,
               image: userModel.image,
-              id: user.uid
+              id: user.uid,
+              blocked: false
           ).toMap());
 
 

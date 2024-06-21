@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
@@ -47,7 +49,50 @@ class _signinPageState extends State<signinPage> {
     ).then((value) async {
       var data = await FirebaseFirestore.instance.collection("users").where("email",isEqualTo: emailController.text).get();
       var password = data.docs[0]["password"];
-      if(password == passwordController.text){
+      var blocked = data.docs[0]['blocked'];
+      if(blocked == true){
+        loading = false;
+        setState(() {
+
+        });
+        showAdaptiveDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Login failed!',style: TextStyle(
+                  color: colorConst.red
+                ),),
+                Icon(Icons.error_outline,color: colorConst.red,),
+              ],
+            ),
+            content: Text('You Have been Blocked by the Admin!'),
+            actions: [
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                    height: scrWidth*0.1,
+                    width: scrWidth*0.3,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(scrWidth * 0.03),
+                        border: Border.all(color: colorConst.meroon),
+                      color: colorConst.meroon
+                    ),
+                    child: Center(child: Text("Ok",style: TextStyle(
+                      color: colorConst.white
+                    ))),
+                  ),
+            ),
+             Container(
+                height: scrWidth*0.1,
+                width: scrWidth*0.3,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(scrWidth * 0.03), border: Border.all(color: colorConst.meroon)),
+                child: Center(child: Text("Contact us")),
+              ),
+            ],
+          );
+        },);
+      }else if(password == passwordController.text){
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool("LoggedIn", true);
         prefs.setString("loginUserId", data.docs[0]["id"]);
@@ -202,7 +247,6 @@ class _signinPageState extends State<signinPage> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: scrWidth*0.04,),
                   Container(
                     decoration: BoxDecoration(
@@ -222,12 +266,6 @@ class _signinPageState extends State<signinPage> {
                         ]
                     ),
                     child:   TextFormField(
-                      onChanged: (value){
-                        setState(() {
-
-                        });
-
-                      },
                       controller: passwordController,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
@@ -248,7 +286,7 @@ class _signinPageState extends State<signinPage> {
 
                               });
                             },
-                            child: Icon(visibility==true?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
+                            child: Icon(visibility?Icons.visibility_off:Icons.visibility,color: colorConst.grey,),
 
                           ),
                           prefixIcon: Padding(
@@ -383,7 +421,11 @@ class _signinPageState extends State<signinPage> {
                       )
                     ],),
                   SizedBox(height: scrWidth*0.03,),
-                  InkWell(
+                  loading?
+                      SizedBox(
+                          height: scrWidth*0.17,
+                          child: Center(child: Lottie.asset(gifs.loadingGif))):
+                  GestureDetector(
                     onTap: (){
                       if(
                       emailController.text != ""&&
@@ -404,7 +446,7 @@ class _signinPageState extends State<signinPage> {
 
                       ),
                       child: Center(
-                        child: Text("Sign in",
+                        child:Text("Sign in",
                           style: TextStyle(
                               color: colorConst.white,
                               fontWeight: FontWeight.w600,
@@ -436,25 +478,25 @@ class _signinPageState extends State<signinPage> {
                       )
                     ],),
                   SizedBox(height: scrWidth*0.07,),
-                  Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Continue as ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: colorConst.grey
-
-                        ),),
-                      InkWell(
-                        onTap: (){
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
-                        },
-                        child: Text("Guest",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: colorConst.black
-                          ),),
-                      )
-                    ],),
+                  // Row(mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Text("Continue as ",
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.w500,
+                  //           color: colorConst.grey
+                  //
+                  //       ),),
+                  //     InkWell(
+                  //       onTap: (){
+                  //         // Navigator.push(context, MaterialPageRoute(builder: (context) => (),));
+                  //       },
+                  //       child: Text("Guest",
+                  //         style: TextStyle(
+                  //             fontWeight: FontWeight.w700,
+                  //             color: colorConst.black
+                  //         ),),
+                  //     )
+                  //   ],),
 
                 ],),
             )

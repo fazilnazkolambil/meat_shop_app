@@ -127,7 +127,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
           currentPosition.latitude, currentPosition.longitude);
       Placemark first = result.first;
       setState(() {
-        address = "${first.subLocality}, ${first.locality}";
+        address = "${first.locality}, ${first.administrativeArea}";
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

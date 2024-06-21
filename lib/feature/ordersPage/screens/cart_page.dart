@@ -40,7 +40,7 @@ class _CartPageState extends ConsumerState<cartPage> {
   addingTotal() {
     total = 0;
     for (int i = 0; i < cartMeats.length; i++){
-      total = cartMeats[i].qty * cartMeats[i].rate + total;
+      total = cartMeats[i]['qty'] * cartMeats[i]['rate'] + total;
       totalPrice = total - discount + shippingCharge;
     }
   }
@@ -57,7 +57,6 @@ class _CartPageState extends ConsumerState<cartPage> {
     if (jsonString != null  && jsonString2 != null) {
         meatDetailCollection = json.decode(jsonString);
         addCart = json.decode(jsonString2);
-        loading = true;
         setState(() {
 
         });
@@ -71,31 +70,30 @@ class _CartPageState extends ConsumerState<cartPage> {
              .collection(meatType).doc(meatId)
              .get();
          if (data.exists) {
-           cartMeats.add(CartMeatModel(
-               name: data['name'],
-               image: data['Image'],
-               description: data['description'],
-               category: data['category'],
-               id: data['id'],
-               ingredients: data['ingredients'],
-               type: data['type'],
-               quantity: (data['quantity']).toDouble(),
-               qty: (data['qty']).toDouble(),
-               rate: (data['rate']).toDouble()));
-           // cartMeats.add({
-           //   "Image": data["Image"],
-           //   "id": data["id"],
-           //   "name": data["name"],
-           //   "rate": data["rate"],
-           //   "ingredients": data["ingredients"],
-           //   "quantity": 0.5,
-           // });
+           // cartMeats.add(CartMeatModel(
+           //     name: data['name'],
+           //     image: data['Image'],
+           //     description: data['description'],
+           //     category: data['category'],
+           //     id: data['id'],
+           //     ingredients: data['ingredients'],
+           //     type: data['type'],
+           //     quantity: (data['quantity']).toDouble(),
+           //     qty: (data['qty']).toDouble(),
+           //     rate: (data['rate']).toDouble()));
+           cartMeats.add({
+             "image": data["Image"],
+             "id": data["id"],
+             "name": data["name"],
+             "rate": data["rate"],
+             "ingredients": data["ingredients"],
+             "qty": 0.5,
+           });
          } else {
            meatDetailCollection.removeAt(i);
            addCart.removeAt(i);
            saveData();
          }
-         loading = false;
          setState(() {
 
          });
@@ -114,13 +112,12 @@ class _CartPageState extends ConsumerState<cartPage> {
   @override
   void initState() {
     loadData();
-    print(cartMeats);
     // TODO: implement initState
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    final count = ref.watch(counterProvider);
+    // final count = ref.watch(counterProvider);
     return
       // loading?
       //   Scaffold(
@@ -139,7 +136,8 @@ class _CartPageState extends ConsumerState<cartPage> {
           padding:EdgeInsets.all(scrWidth*0.03),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
+               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavigationPage(),), (route) => false);
+               //Navigator.pop(context);
             },
             child: CircleAvatar(
                 backgroundColor: colorConst.grey1,
@@ -226,6 +224,11 @@ class _CartPageState extends ConsumerState<cartPage> {
               ),
               InkWell(
                 onTap: () {
+                  print(total);
+                  print(discount);
+                  print(shippingCharge);
+                  print(totalPrice);
+                  print(cartMeats);
                   //if(loginId.isNotEmpty)
                   if(loggedIn == true)
                   {
@@ -397,36 +400,36 @@ class _CartPageState extends ConsumerState<cartPage> {
                                     width: scrWidth*0.0003,
                                     color: colorConst.black.withOpacity(0.38)
                                 ),
-                                image: DecorationImage(image: NetworkImage(cartMeats[index].image),fit: BoxFit.fill))
+                                image: DecorationImage(image: NetworkImage(cartMeats[index]['image']),fit: BoxFit.fill))
                         ),
                         SizedBox(width: scrWidth*0.02,),
                         Stack(
                           children: [
                             SizedBox(
-                              width: scrWidth*0.4,
+                              width: scrWidth*0.6,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(cartMeats[index].name,
+                                  Text(cartMeats[index]['name'],
                                     style: TextStyle(
                                         fontSize: scrWidth*0.035,
                                         fontWeight: FontWeight.w700,
                                         color: colorConst.black
                                     ),),
-                                  Text(cartMeats[index].ingredients,style: TextStyle(
+                                  Text(cartMeats[index]['ingredients'],style: TextStyle(
                                       fontSize: scrWidth*0.03
                                   ),),
                                   SizedBox(height: 10,),
                                   Row(
                                     children: [
-                                      Text("${cartMeats[index].qty} KG - ",
+                                      Text("${cartMeats[index]['qty']} KG - ",
                                         style: TextStyle(
                                             fontSize: scrWidth*0.035,
                                             fontWeight: FontWeight.w700,
                                             color: colorConst.black
                                         ),),
-                                      Text("₹ ${(cartMeats[index].rate)*(cartMeats[index].qty)}",
+                                      Text("₹ ${(cartMeats[index]['rate'])*(cartMeats[index]['qty'])}",
                                         style: TextStyle(
                                             fontSize: scrWidth*0.035,
                                             fontWeight: FontWeight.w700,
@@ -437,101 +440,103 @@ class _CartPageState extends ConsumerState<cartPage> {
                                 ],
                               ),
                             ),
-
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text("Are you sure you want to remove this item from the Cart ?",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: scrWidth*0.04,
-                                            fontWeight: FontWeight.w600
-                                        ),),
-                                      content: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Container(
-                                              height: scrWidth*0.08,
-                                              width: scrWidth*0.2,
-                                              decoration: BoxDecoration(
-                                                color: colorConst.textgrey,
-                                                borderRadius: BorderRadius.circular(scrWidth*0.03),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("Are you sure you want to remove this item from the Cart ?",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: scrWidth*0.04,
+                                              fontWeight: FontWeight.w600
+                                          ),),
+                                        content: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                height: scrWidth*0.08,
+                                                width: scrWidth*0.2,
+                                                decoration: BoxDecoration(
+                                                  color: colorConst.textgrey,
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                ),
+                                                child: Center(child: Text("No",
+                                                  style: TextStyle(
+                                                      color: Colors.white
+                                                  ),)),
                                               ),
-                                              child: Center(child: Text("No",
-                                                style: TextStyle(
-                                                    color: Colors.white
-                                                ),)),
                                             ),
-                                          ),
-                                          InkWell(
-                                            onTap : () {
-                                              cartMeats.removeAt(index);
-                                              meatDetailCollection.removeAt(index);
-                                              addCart.removeAt(index);
-                                              saveData();
-                                              addingTotal();
-                                              Navigator.pop(context);
-                                              setState(() {
+                                            InkWell(
+                                              onTap : () {
+                                                cartMeats.removeAt(index);
+                                                meatDetailCollection.removeAt(index);
+                                                addCart.removeAt(index);
+                                                saveData();
+                                                addingTotal();
+                                                Navigator.pop(context);
+                                                setState(() {
 
-                                              });
-                                            },
-                                            child: Container(
-                                              height: scrWidth*0.08,
-                                              width: scrWidth*0.2,
-                                              decoration: BoxDecoration(
-                                                color: colorConst.meroon,
-                                                borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                });
+                                              },
+                                              child: Container(
+                                                height: scrWidth*0.08,
+                                                width: scrWidth*0.2,
+                                                decoration: BoxDecoration(
+                                                  color: colorConst.meroon,
+                                                  borderRadius: BorderRadius.circular(scrWidth*0.03),
+                                                ),
+                                                child: Center(child: Text("Yes",
+                                                  style: TextStyle(
+                                                      color: Colors.white
+                                                  ),)),
                                               ),
-                                              child: Center(child: Text("Yes",
-                                                style: TextStyle(
-                                                    color: Colors.white
-                                                ),)),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Container(
-                                  height: scrWidth*0.1,
-                                  width: scrWidth*0.1,
-                                  decoration: BoxDecoration(
-                                      color: colorConst.white,
-                                      borderRadius: BorderRadius.circular(scrWidth*0.05),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: colorConst.black.withOpacity(0.1),
-                                            blurRadius: 14,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0
-                                        )
-                                      ]
-                                  ),
-                                  child: Center(child: SvgPicture.asset(iconConst.delete))
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                    height: scrWidth*0.1,
+                                    width: scrWidth*0.1,
+                                    decoration: BoxDecoration(
+                                        color: colorConst.white,
+                                        borderRadius: BorderRadius.circular(scrWidth*0.05),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: colorConst.black.withOpacity(0.1),
+                                              blurRadius: 14,
+                                              offset: Offset(0, 4),
+                                              spreadRadius: 0
+                                          )
+                                        ]
+                                    ),
+                                    child: Center(child: SvgPicture.asset(iconConst.delete))
+                                ),
                               ),
                             ),
-                            Row(
+                            Positioned(
+                              bottom: 10,
+                              right: 10,
+                              child: Row(
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    count.qty <= 0.5 ? 0.5:
-                                    ref.read(counterProvider.notifier).updatecount(count.qty - 0.5);
+                                    cartMeats[index]['qty'] <= 0.5?cartMeats[index]['qty'] = 0.5:
+                                    cartMeats[index]['qty'] = cartMeats[index]['qty'] - 0.5;
+                                    // count.qty <= 0.5 ? 0.5:
+                                    // ref.read(counterProvider.notifier).updatecount(count.qty - 0.5);
                                     addingTotal();
                                     setState(() {
 
@@ -553,7 +558,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                                   ),
                                 ),
                                 SizedBox(width: scrWidth*0.015,),
-                                Text(count.qty.toString(),
+                                Text(cartMeats[index]['qty'].toString(),
                                   style: TextStyle(
                                       fontSize: scrWidth*0.035,
                                       fontWeight: FontWeight.w600
@@ -561,9 +566,8 @@ class _CartPageState extends ConsumerState<cartPage> {
                                 SizedBox(width: scrWidth*0.015,),
                                 InkWell(
                                   onTap: () {
-                                    ref.read(counterProvider.notifier).updatecount(count.qty + 0.5);
-                                    //cartMeats[index].rate * cartMeats[index].qty;
-                                    print(count.qty);
+                                    //ref.read(counterProvider.notifier).updatecount(count.qty + 0.5);
+                                    cartMeats[index]['qty'] = cartMeats[index]['qty'] + 0.5;
                                     addingTotal();
                                     setState(() {
 
@@ -587,6 +591,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                               ],
 
                             ),
+                            )
                           ],
                         ),
                         SizedBox(width: scrWidth*0.02,),

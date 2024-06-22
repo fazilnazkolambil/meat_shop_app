@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 // import 'package:meat_shop_app/Color_Page.dart';
 // import 'package:meat_shop_app/Image_Page.dart';
@@ -25,25 +26,35 @@ import 'cart_page.dart';
 
 class OrderList extends StatelessWidget {
   final List data;
-  final String status;
-  const OrderList({super.key, required this.data, required this.status});
+     final bool currentStatus;
+  const OrderList({super.key,
+    required this.data,
+     required this.currentStatus
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
-        return data[index]["orderStatus"] == status?
+        var selectedDate = DateFormat.MMMEd().format(DateTime.parse(data[index]['selectedTime']));
+        var selectedTime = DateFormat.jm().format(DateTime.parse(data[index]['selectedTime']));
+        bool status;
+        if(data[index]['orderStatus'] == "Delivered"){
+          status = true;
+        }else{
+          status = false;
+        }
+        return
+          //data[index]["orderStatus"] == status?
+          currentStatus == status?
           InkWell(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => orderdetails(
-              data: data[index],
-              // id:data[index]["orderId"],
-            ),));
+              data: data[index])));
           },
           child: Container(
-            height: scrHeight * 0.12,
-            width: scrWidth * 1,
+            height: scrHeight * 0.14,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                     scrWidth * 0.04),
@@ -74,20 +85,26 @@ class OrderList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("orderId:#${data[index]["orderId"]}", style: TextStyle(
+                    Text("orderId : ${data[index]["orderId"].toString().substring(0,10)}", style: TextStyle(
                       //"Order ID: #23584"
                         color: colorConst.black,
                         fontWeight: FontWeight.w800,
                         fontSize: scrWidth * 0.038
-                    ),),
-                    Text('orderDate:', style: TextStyle(
+                    )),
+                    Text(status?'Delivered On : ':'Delivery Date:$selectedDate', style: TextStyle(
                         color: colorConst.textgrey,
                         fontWeight: FontWeight.w400,
                         fontSize: scrWidth * 0.035
-                    ),),
+                    )),
+                    Text(status?'Delivered On : ':'Delivery Time:$selectedTime', style: TextStyle(
+                        color: colorConst.textgrey,
+                        fontWeight: FontWeight.w400,
+                        fontSize: scrWidth * 0.035
+                    )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        status?SizedBox():
                         InkWell(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ordertracking(data: data,),));
@@ -116,17 +133,13 @@ class OrderList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment
                               .spaceBetween,
                           children: [
-                            CircleAvatar(
-                              radius: scrWidth * 0.02,
-                              backgroundColor: colorConst
-                                  .orange,
-                            ),
-
+                            Icon(Icons.circle,
+                                color: status?colorConst.green :Colors.orange),
                             Text(
-                              "  Processing", style: TextStyle(
+                              "  ${data[index]['orderStatus']}", style: TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontSize: scrWidth * 0.033,
-                                color: colorConst.orange
+                                color: status?colorConst.green:colorConst.orange
                             ),),
                           ],
                         ),
@@ -138,12 +151,12 @@ class OrderList extends StatelessWidget {
               ],
             ),
           ),
-        ):
-            SizedBox();
+        ):SizedBox();
+
+
       }, separatorBuilder: (BuildContext context, int index) {
       return SizedBox(height: scrHeight * 0.02,);
-    },
-    );
+    });
   }
 }
 
@@ -326,16 +339,15 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
 
           ref.watch(orderStream).when(
             data: (data){
-
               return data.docs.isEmpty?
-
+              ///Loading Lottie
               SizedBox(
-                height: scrHeight*0.7,
                 width: scrWidth*1,
+                height: scrHeight*0.8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Lottie.asset(gifs.emptyCart),
+                    Lottie.asset(gifs.emptyCart,height: scrHeight*0.4),
                     Text("Your order list is Empty!",style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: scrWidth*0.04
@@ -356,41 +368,19 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
                               color: colorConst.white
                           ),)),
                       ),
-                    )
-
+                    ),
+                    SizedBox(height: 30,)
                   ],
                 ),
               ):
-              TabBarView(children: [
-                OrderList(data: data.docs, status: 'Ordered'),
-                OrderList(data: data.docs, status: "Delivered"),
+                TabBarView(
+                  children: [
+                OrderList(data: data.docs,currentStatus: false,),
+                OrderList(data: data.docs, currentStatus: true,),
               ]);
             }, error: (error, stackTrace) => Text(error.toString()),
             loading: () => Center(child: Lottie.asset(gifs.loadingGif),),
           )
-          // TabBarView(
-          //     children:[
-          //
-          //       //
-          //       // StreamBuilder<QuerySnapshot>(
-          //       //     stream: .snapshots(),
-          //       //     builder: (context, snapshot) {
-          //       //       if (!snapshot.hasData) {
-          //       //         return Lottie.asset(gifs.loadingGif);
-          //       //       }
-          //       //
-          //       //       var data = snapshot.data!.docs;
-          //       //       // List a=data[0]["orderHistory"];
-          //       //       return SizedBox(
-          //       //         height: scrHeight * 0.73,
-          //       //         width: scrWidth * 1,
-          //       //         child: OrderList(data: data),
-          //       //       );
-          //       //     }
-          //       // ),
-          //       // SizedBox(),
-          //     ]
-          // ),
         ),
       ),
     );

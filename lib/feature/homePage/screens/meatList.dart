@@ -81,19 +81,20 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
   //   });
   // }
   bool login = false;
-  String? loginId;
+  //String? loginId;
   UserModel? usermodel;
   Map favFB = {};
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     login = prefs.getBool("LoggedIn") ?? false;
     loginId = prefs.getString("loginUserId") ?? "";
-    var data =
-        await FirebaseFirestore.instance.collection("users").doc(loginId).get();
-    favFB = data.data()!;
-    favoriteList = favFB['favourites'];
-    for (int i = 0; i < favoriteList.length; i++) {
-      fav.add(favFB["favourites"][i]["id"]);
+    if(loginId.isNotEmpty){
+      var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get();
+      favFB = data.data()!;
+      favoriteList = favFB['favourites'];
+      for (int i = 0; i < favoriteList.length; i++) {
+        fav.add(favFB["favourites"][i]["id"]);
+      }
     }
     setState(() {});
   }
@@ -476,7 +477,7 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                       onTap: () {
                                                         HapticFeedback
                                                             .lightImpact();
-                                                        if (loginId!.isNotEmpty) {
+                                                        if (loginId.isNotEmpty) {
                                                           if (fav.contains(data[index]["id"])) {
                                                             fav.remove(data[index]["id"]);
                                                             favoriteList.removeWhere((element) => element["id"] == data[index]["id"]);
@@ -639,7 +640,10 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                                   addCart.remove(data[index]["id"]);
                                                                   meatDetailCollection.removeWhere((list) => list["id"]==data[index]["id"]);
                                                                   saveData();
-                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
+                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                      content: Text("Item removed from the Cart!"),
+                                                                      duration: Duration(milliseconds: 200)
+                                                                  ));
                                                                 }else{
                                                                   addCart.add(data[index]["id"]);
                                                                   meatDetailCollection.add({
@@ -648,7 +652,10 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                                     'type': widget.type,
                                                                   });
                                                                   saveData();
-                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
+                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                      content: Text("Item added to the Cart!"),
+                                                                    duration: Duration(milliseconds: 200),
+                                                                  ));
                                                                 }
 
                                                                 setState(() {
@@ -670,7 +677,10 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                                               'type': widget.type,
                                                                         });
                                                                         saveData();
-                                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
+                                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                        content: Text("Item added to the Cart!"),
+                                                                        duration: Duration(milliseconds: 200),
+                                                                      ));
                                                                       setState(() {});
                                                                     },
                                                                     child: CircleAvatar(

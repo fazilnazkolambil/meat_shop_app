@@ -17,35 +17,33 @@ class ordertracking extends StatefulWidget {
 class _ordertrackingState extends State<ordertracking> {
   List<StepperData> stepperData = [
     StepperData(
-        title: StepperText(
-          "Order Placed",
-        ),
+        title: StepperText("Order Placed"),
         subtitle: StepperText("Your order has been placed"),
         iconWidget: Container(
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
-              color: Colors.green,
+              color: colorConst.meroon,
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: const Icon(Icons.looks_one, color: Colors.white),
         )),
     StepperData(
-        title: StepperText("Order shipped"),
+        title: StepperText("Packed"),
         subtitle: StepperText("Your order is being prepared"),
         iconWidget: Container(
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
-              color: Colors.green,
+              color: colorConst.meroon,
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: const Icon(Icons.looks_two, color: Colors.white),
         )),
     StepperData(
-        title: StepperText("On the way"),
+        title: StepperText("Out For Delivery"),
         subtitle: StepperText(
             "Our delivery executive is on the way to deliver your item"),
         iconWidget: Container(
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
-              color: Colors.green,
+              color: colorConst.meroon,
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: const Icon(Icons.looks_3, color: Colors.white),
         )),
@@ -56,7 +54,7 @@ class _ordertrackingState extends State<ordertracking> {
         iconWidget: Container(
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
-              color: Colors.green,
+              color: colorConst.meroon,
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: const Icon(Icons.looks_4, color: Colors.white),
 
@@ -88,26 +86,21 @@ class _ordertrackingState extends State<ordertracking> {
           ),),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: Container(
-              height: scrWidth*1.2,
-              width: scrWidth*0.9,
-              // color: colorConst.grey,
-              child: AnotherStepper(
-                stepperList: stepperData,
-                stepperDirection: Axis.vertical,
-                iconWidth: 40,
-                iconHeight: 40,
-                activeBarColor: Colors.green,
-                inActiveBarColor: Colors.grey,
-                inverted: false,
-                verticalGap: 30,
-                activeIndex: 1,
-                barThickness: 6,
-              ),
-              )
-              ),
+          AnotherStepper(
+            stepperList: stepperData,
+            stepperDirection: Axis.vertical,
+            iconWidth: 40,
+            iconHeight: 40,
+            activeBarColor: colorConst.meroon,
+            inActiveBarColor: colorConst.grey,
+            inverted: false,
+            verticalGap: 50,
+            activeIndex: 2,
+            barThickness: 10,
+          ),
     ],
       ),
 

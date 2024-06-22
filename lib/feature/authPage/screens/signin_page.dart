@@ -98,10 +98,7 @@ class _signinPageState extends State<signinPage> {
         prefs.setString("loginUserId", data.docs[0]["id"]);
         prefs.setBool("gotIn", true);
         // loginUserId = data.docs[0]["id"];
-        loading = false;
-        setState(() {
 
-        });
         if(widget.path == "cartPage"){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => cartPage()));
         }else{
@@ -109,6 +106,10 @@ class _signinPageState extends State<signinPage> {
         }
       }
     }).catchError((onError){
+      loading = false;
+      setState(() {
+
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError.code == "invalid-credential" ? "Email and Password doesn't match!" : "Login Error")));
     });
   }

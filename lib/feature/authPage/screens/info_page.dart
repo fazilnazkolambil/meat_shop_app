@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/signin_page.dart';
@@ -47,6 +48,7 @@ class _infoPageState extends ConsumerState<infoPage> {
   bool visibility = true;
   bool visibility1 = true;
   bool check = false;
+  bool loading = false;
   String? loginUserId;
 
   final emailValidation = RegExp(
@@ -291,6 +293,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                             ]),
                         child: TextFormField(
                           controller: nameController,
+                          maxLength: 20,
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           textInputAction: TextInputAction.done,
@@ -299,6 +302,7 @@ class _infoPageState extends ConsumerState<infoPage> {
                               fontWeight: FontWeight.w600),
                           cursorColor: colorConst.grey,
                           decoration: InputDecoration(
+                            counterText: '',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.all(scrWidth * 0.04),
                                 child: SizedBox(
@@ -751,7 +755,11 @@ class _infoPageState extends ConsumerState<infoPage> {
                       SizedBox(
                         height: scrWidth * 0.03,
                       ),
-                      InkWell(
+                      loading?
+                      SizedBox(
+                          height: scrWidth*0.17,
+                          child: Center(child: Lottie.asset(gifs.loadingGif))):
+                      GestureDetector(
                           onTap: () {
                             if (
                                 check == true &&
@@ -776,6 +784,10 @@ class _infoPageState extends ConsumerState<infoPage> {
                               //   } else {
                               //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage()));
                               //   }
+                              loading = true;
+                              setState(() {
+
+                              });
                               FirebaseAuth.instance.createUserWithEmailAndPassword(
                                       email: emailController.text,
                                       password: passwordController.text)
@@ -811,6 +823,10 @@ class _infoPageState extends ConsumerState<infoPage> {
                                   });
                                 });
                               }).catchError((onError) {
+                                loading = false;
+                                setState(() {
+
+                                });
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(onError.code)));
                               });

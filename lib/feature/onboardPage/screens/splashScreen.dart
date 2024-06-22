@@ -31,7 +31,6 @@ class _splashScreenState extends State<splashScreen> {
 
     var data=await FirebaseFirestore.instance.collection("users").doc(loginId).get();
     currentUserModel=UserModel.fromMap(data.data()!);
-    print(loginId);
   }
   @override
   void initState(){
@@ -58,7 +57,6 @@ class _splashScreenState extends State<splashScreen> {
             height: scrHeight*1,
             width: scrWidth*1,
             decoration: BoxDecoration(
-               //color: Colors.black.withOpacity(0.5),
               gradient: LinearGradient(
                 begin: AlignmentDirectional(0, 1.5),
                   colors: [

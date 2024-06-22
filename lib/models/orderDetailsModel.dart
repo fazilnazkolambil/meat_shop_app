@@ -1,6 +1,6 @@
 class OrderDetailsModel{
-  String userId,orderId,paymentStatus,orderStatus,orderDate,orderTime,notes;
-  double totalPrice;
+  String userId,orderId,paymentStatus,orderStatus,selectedTime,notes;
+  double totalPrice, shippingCharge, itemPrice, discount;
   List items;
   Map deliveryAddress;
 
@@ -10,12 +10,14 @@ class OrderDetailsModel{
     required this.orderId,
     required this.paymentStatus,
     required this.orderStatus,
-    required this.orderDate,
-    required this.orderTime,
+    required this.selectedTime,
     required this.totalPrice,
     required this.items,
     required this.notes,
-    required this.deliveryAddress
+    required this.deliveryAddress,
+    required this.shippingCharge,
+    required this.itemPrice,
+    required this.discount,
 
   });
 
@@ -25,12 +27,14 @@ class OrderDetailsModel{
       "orderId" : this.orderId,
       "paymentStatus" : this.paymentStatus,
       "orderStatus" : this.orderStatus,
-      "orderDate" : this.orderDate,
-      "orderTime" : this.orderTime,
+      "selectedTime" : this.selectedTime,
       "totalPrice" : this.totalPrice,
       "items" : this.items,
       "notes" : this.notes,
       "deliveryAddress" : this.deliveryAddress,
+      "shippingCharge" : this.shippingCharge,
+      "itemPrice" : this.itemPrice,
+      "discount" : this.discount,
 
     };
   }
@@ -40,17 +44,19 @@ class OrderDetailsModel{
       orderId: map["orderId"]??"",
       paymentStatus: map["paymentStatus"]??"",
       orderStatus: map["orderStatus"]??"",
-      orderDate: map["orderDate"]??"",
-      orderTime: map["orderTime"]??"",
+      selectedTime: map["selectedTime"]??"",
       totalPrice: map["totalPrice"]??"",
       items: map["items"]??[],
       notes: map["notes"]??[],
       deliveryAddress: map["deliveryAddress"] ?? {},
+      shippingCharge: map["shippingCharge"] ?? 0,
+      itemPrice: map["itemPrice"] ?? 0,
+      discount: map["discount"] ?? 0,
     );
   }
   OrderDetailsModel copyWith({
-    String?  userId,orderId, paymentStatus,orderStatus,orderDate,orderTime,notes,
-    double? totalPrice,
+    String?  userId,orderId, paymentStatus,orderStatus,selectedTime,notes,
+    double? totalPrice,shippingCharge, itemPrice, discount,
     List? items,
     Map? deliveryAddress,
   }){
@@ -59,12 +65,14 @@ class OrderDetailsModel{
       orderId: userId ?? this.orderId,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       orderStatus: orderStatus ?? this.orderStatus,
-      orderDate: orderDate ?? this.orderDate,
-      orderTime: orderTime ?? this.orderTime,
+      selectedTime: selectedTime ?? this.selectedTime,
       totalPrice: totalPrice ?? this.totalPrice,
       items: items ?? this.items,
       notes: notes ?? this.notes,
       deliveryAddress: deliveryAddress ?? this.deliveryAddress,
+      shippingCharge: shippingCharge ?? this.shippingCharge,
+      itemPrice: itemPrice ?? this.itemPrice,
+      discount: discount ?? this.discount,
     );
   }
 }

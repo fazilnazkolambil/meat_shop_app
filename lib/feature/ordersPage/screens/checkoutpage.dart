@@ -17,6 +17,7 @@ import 'package:meat_shop_app/feature/ordersPage/screens/orderdetails_page.dart'
 import 'package:meat_shop_app/models/addressModel.dart';
 import 'package:meat_shop_app/models/orderDetailsModel.dart';
 import 'package:meat_shop_app/models/userModel.dart';
+import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
@@ -49,20 +50,37 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
 
+  double itemPrice = 0;
+  getItemPrice () {
+    for(int i = 0; i < widget.cartMeat.length; i++){
+      itemPrice = itemPrice + widget.cartMeat[i]['rate'] * widget.cartMeat[i]['qty'];
+    }
+  }
+  checkFunc(){
+
+  }
   addOrderDetails()async{
+    String dateString = selectedDate.isEmpty?'${DateFormat.yMMMMEEEEd().format(DateTime.now()).toString()},${selectedTime}':
+    '${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()},${selectedTime}';
+    DateFormat dateFormat = DateFormat("EEEE, MMMM d, y,h:mm a");
+    DateTime dateTime = dateFormat.parse(dateString);
+    print(dateTime);
     OrderDetailsModel OrderDetailsData=
     OrderDetailsModel(
       userId:loginId.toString(),
       paymentStatus: selectedPayment,
       orderStatus: "Ordered",
-      orderDate:selectedDate.isEmpty?"${DateFormat.yMMMMEEEEd().format(DateTime.now()).toString()}"
-          :"${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()}",
+      // orderDate:selectedDate.isEmpty?"${DateFormat.yMMMMEEEEd().format(DateTime.now()).toString()}"
+      //     :"${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()}",
       totalPrice:widget.subtotal,
       items: widget.cartMeat,
       deliveryAddress: selectedAddress,
       orderId: '',
-      orderTime: selectedTime.toString(),
-      notes: widget.notes
+      selectedTime: dateTime.toString(),
+      notes: widget.notes,
+      discount: widget.discount,
+      shippingCharge: widget.shippingCharge,
+      itemPrice: itemPrice
     );
     await FirebaseFirestore.instance.collection("orderDetails").add(OrderDetailsData.toMap())
         .then((value) => value.update({
@@ -73,7 +91,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
 
   String? chooseAddress;
-  List <Map<String,dynamic>> allAddress = [];
   String? userName;
   String? userNumber;
   List addressData = [];
@@ -125,6 +142,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
    @override
   void initState() {
      getUser();
+     getItemPrice();
     // TODO: implement initState
     super.initState();
   }
@@ -220,7 +238,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
           padding:EdgeInsets.all(scrWidth*0.03),
           child: GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              //print(widget.cartMeat);
+              checkFunc();
+              //Navigator.pop(context);
             },
             child: CircleAvatar(
                 backgroundColor: colorConst.grey1,
@@ -422,7 +442,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                                   onTap: () {
                                                     selectedIndex = index;
                                                     selectedTime = time[index];
-                                                    print(selectedTime);
                                                     setState((){
 
                                                     });

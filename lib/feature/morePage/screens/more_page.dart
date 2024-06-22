@@ -47,13 +47,15 @@ class _morePageState extends State<morePage> {
       });
     }
     loginId = prefs.getString("loginUserId") ?? "";
-    var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
-      UserModel users = UserModel.fromMap(value.data()!);
-      userImage = users.image;
-      username = users.name;
-      userEmail = users.email;
-      userPhoneNumber = users.number;
-    });
+    if(loginId.isNotEmpty){
+      var data = await FirebaseFirestore.instance.collection("users").doc(loginId).get().then((value) {
+        UserModel users = UserModel.fromMap(value.data()!);
+        userImage = users.image;
+        username = users.name;
+        userEmail = users.email;
+        userPhoneNumber = users.number;
+      });
+    }
     setState(() {
 
     });

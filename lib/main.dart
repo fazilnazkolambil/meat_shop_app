@@ -13,6 +13,7 @@ import 'package:meat_shop_app/feature/homePage/screens/meatList.dart';
 import 'package:meat_shop_app/feature/homePage/screens/searchPage.dart';
 import 'package:meat_shop_app/feature/morePage/screens/more_page.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/introScreen.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/My_Orders.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
             textTheme:GoogleFonts.manropeTextTheme()
         ),
         debugShowCheckedModeBanner: false,
-        home:splashScreen()
+        home:IntroScreen()
       ),
     );
   }

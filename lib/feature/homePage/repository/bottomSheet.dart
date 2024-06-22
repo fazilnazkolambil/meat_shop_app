@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/models/cartMeatModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,7 +76,8 @@ class BottomSheetPage extends ConsumerWidget {
      final count = ref.watch(counterProvider);
      num meatRate = data[index]['rate'];
     return BottomSheet(
-      onClosing: () {  },
+      enableDrag: false,
+      onClosing: () { },
       builder: (BuildContext context) {
 
         return Padding(
@@ -213,14 +215,16 @@ class BottomSheetPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
+
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutPage(
-                        price: meatRate * count.qty,
-                        discount: discount.toDouble(),
-                        shippingCharge: shippingCharge.toDouble(),
-                        subtotal:(meatRate * count.qty)+shippingCharge.toDouble(),
-                        cartMeat:[CartMeatModel(
-                          name: data[index]["name"],
+                      if(loginId.isNotEmpty){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutPage(
+                          price: meatRate * count.qty,
+                          discount: discount.toDouble(),
+                          shippingCharge: shippingCharge.toDouble(),
+                          subtotal:(meatRate * count.qty)+shippingCharge.toDouble(),
+                          cartMeat:[CartMeatModel(
+                              name: data[index]["name"],
                               image: data[index]['Image'],
                               description: data[index]["description"],
                               category: data[index]['category'],
@@ -230,9 +234,75 @@ class BottomSheetPage extends ConsumerWidget {
                               quantity: count.quantity,
                               qty: count.qty,
                               rate: meatRate * count.qty
-                        ).toMap()],
-                        notes: '',
-                      )));
+                          ).toMap()],
+                          notes: '',
+                        )));
+                      }else{
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return BottomSheet(
+                                onClosing: () {},
+                                builder: (context) {
+                                  return Container(
+                                    height: scrHeight * 0.2,
+                                    width: scrWidth * 1,
+                                    margin: EdgeInsets.all(scrWidth * 0.05),
+                                    child:
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Let's get you in!",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: scrWidth * 0.05),
+                                        ),
+                                        Text(
+                                            "You will have to Login to place an order and access all our offers,services and more.",
+                                            textAlign: TextAlign.center),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => infoPage(path: '',),));
+                                              },
+                                              child: Container(
+                                                height: scrHeight * 0.05,
+                                                width: scrWidth * 0.4,
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(scrWidth * 0.03), border: Border.all(color: colorConst.meroon)),
+                                                child: Center(
+                                                  child: Text("Sign Up"),
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => signinPage(path: '',),));
+                                              },
+                                              child: Container(
+                                                height: scrHeight * 0.05,
+                                                width: scrWidth * 0.4,
+                                                decoration: BoxDecoration(color: colorConst.meroon, borderRadius: BorderRadius.circular(scrWidth * 0.03), border: Border.all(color: colorConst.meroon)),
+                                                child: Center(
+                                                  child: Text("Log In",style: TextStyle(color: colorConst.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                        );
+                      }
+
                     },
                     child: Container(
                       height: scrHeight * 0.05,

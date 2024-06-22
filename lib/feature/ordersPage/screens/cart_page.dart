@@ -224,12 +224,10 @@ class _CartPageState extends ConsumerState<cartPage> {
               ),
               InkWell(
                 onTap: () {
-                  print(total);
-                  print(discount);
-                  print(shippingCharge);
-                  print(totalPrice);
-                  print(cartMeats);
-                  //if(loginId.isNotEmpty)
+                  // print(total);
+                  // print(discount);
+                  // print(shippingCharge);
+                  // print(totalPrice);
                   if(loggedIn == true)
                   {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutPage(
@@ -239,7 +237,7 @@ class _CartPageState extends ConsumerState<cartPage> {
                       subtotal: totalPrice,
                       cartMeat: cartMeats,
                       notes: notesController.text,
-                    ),));
+                    )));
                   }else{
                     showModalBottomSheet(
                       context: context,
@@ -535,12 +533,12 @@ class _CartPageState extends ConsumerState<cartPage> {
                                   onTap: () {
                                     cartMeats[index]['qty'] <= 0.5?cartMeats[index]['qty'] = 0.5:
                                     cartMeats[index]['qty'] = cartMeats[index]['qty'] - 0.5;
-                                    // count.qty <= 0.5 ? 0.5:
-                                    // ref.read(counterProvider.notifier).updatecount(count.qty - 0.5);
                                     addingTotal();
                                     setState(() {
 
                                     });
+                                    // count.qty <= 0.5 ? 0.5:
+                                    // ref.read(counterProvider.notifier).updatecount(count.qty - 0.5);
                                   },
                                   child: Container(
                                     height:scrWidth*0.065,

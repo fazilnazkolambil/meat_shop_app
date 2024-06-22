@@ -270,6 +270,7 @@ class _EditProfileState extends State<EditProfile> {
                       ]),
                   child: TextFormField(
                     controller: nameController,
+                    maxLength: 20,
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.words,
                     textInputAction: TextInputAction.done,
@@ -277,6 +278,7 @@ class _EditProfileState extends State<EditProfile> {
                         fontSize: scrWidth * 0.04, fontWeight: FontWeight.w600),
                     cursorColor: colorConst.grey,
                     decoration: InputDecoration(
+                      counterText: '',
                         prefixIcon: Padding(
                           padding: EdgeInsets.all(scrWidth * 0.04),
                           child: Container(

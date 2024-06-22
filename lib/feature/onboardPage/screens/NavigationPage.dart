@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../favoritePage/screens/favourite_page.dart';
-import '../../homePage/screens/HomePage.dart';
+import 'HomePage.dart';
 import '../../morePage/screens/more_page.dart';
 import '../../ordersPage/screens/My_Orders.dart';
 

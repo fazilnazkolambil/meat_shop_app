@@ -19,7 +19,7 @@ import 'package:meat_shop_app/core/constant/image_const.dart';
 import 'package:meat_shop_app/feature/authPage/screens/info_page.dart';
 import 'package:meat_shop_app/feature/homePage/repository/bottomSheet.dart';
 import 'package:meat_shop_app/feature/homePage/repository/homePageProviders.dart';
-import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/NavigationPage.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/cart_page.dart';
 import 'package:meat_shop_app/feature/ordersPage/screens/checkoutpage.dart';

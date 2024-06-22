@@ -8,13 +8,14 @@ import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
-import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:connectivity/connectivity.dart';
 
 import '../../../main.dart';
 import '../../../models/userModel.dart';
+import '../controller/onBoardPageController.dart';
 import 'NavigationPage.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -50,18 +51,13 @@ class _IntroScreenState extends State<IntroScreen>
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter valid Details!")));
     }
   }
-  bool gotIn = false;
-  getData ()async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    gotIn = prefs.getBool("gotIn") ?? false;
-    //loginId=prefs.getString("loginUserId")??"";
+  bool end = false;
 
-    // var data=await FirebaseFirestore.instance.collection("users").doc(loginId).get();
-    // currentUserModel=UserModel.fromMap(data.data()!);
-  }
+  int selectedIndex = 0;
+
   @override
   void initState() {
-    getData();
+    getBannerCollections();
     super.initState();
     checkConnectivity ();
     _controller = AnimationController(
@@ -89,24 +85,11 @@ class _IntroScreenState extends State<IntroScreen>
 
     });
   }
-  List welcome = [
-    {
-      "title" : "Meat Shop \nshopping \ndelivered to your \nhome",
-      "subtitle" : "There's something for everyone \nto enjoy with Sweet Shop \nFavorites"
-    },
-    {
-      "title" : "FRESH \nand Hygienic Quality",
-      "subtitle" : "You will get FRESH Meat and not frozen.\nSo you can assured that your money \nhas bought the best - in freshness, taste, safety!",
-    },
-    {
-      "title" : "Prices are \nlower than in \nMarket",
-      "subtitle" : "We provide fresh quality \nmeat in lower than Marker Price"
-    }
-  ];
-  int selectedIndex = 0;
-  bool end = false;
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor:colorConst.white,
       body: Center(
@@ -166,7 +149,7 @@ class _IntroScreenState extends State<IntroScreen>
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CarouselSlider.builder(
-                              itemCount: welcome.length,
+                              itemCount: introTexts.length,
                               itemBuilder: (BuildContext context, int index, int realIndex) {
                                 return Container(
                                   height: scrHeight*0.25,
@@ -178,13 +161,13 @@ class _IntroScreenState extends State<IntroScreen>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(welcome[index]["title"],style: TextStyle(
+                                        Text(introTexts[index]["title"],style: TextStyle(
                                             fontSize: scrWidth*0.05,
                                             fontWeight: FontWeight.w600,
                                             color: colorConst.white,
                                             letterSpacing: scrWidth*0.004
                                         ),),
-                                        Text(welcome[index]['subtitle'],style: TextStyle(
+                                        Text(introTexts[index]['subTitle'],style: TextStyle(
                                           color: colorConst.red,
                                         ))
                                       ],
@@ -202,10 +185,10 @@ class _IntroScreenState extends State<IntroScreen>
                                   viewportFraction: 1,
                                   enableInfiniteScroll: false,
                                 autoPlay: selectedIndex == 2?false:true,
-                                autoPlayAnimationDuration: Duration(seconds:3)
+                                autoPlayAnimationDuration: Duration(seconds:2)
                               ),
                             ),
-                            selectedIndex == welcome.length-1?
+                            selectedIndex == introTexts.length-1?
                             InkWell(
                               onTap: () async{
                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage(),));
@@ -231,7 +214,7 @@ class _IntroScreenState extends State<IntroScreen>
                                   child: Center(
                                     child: AnimatedSmoothIndicator(
                                       activeIndex: selectedIndex,
-                                      count: welcome.length,
+                                      count: introTexts.length,
                                       effect: ExpandingDotsEffect(
                                     dotColor: colorConst.white.withOpacity(0.2),
                                     activeDotColor: colorConst.white.withOpacity(0.6),

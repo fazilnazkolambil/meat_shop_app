@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meat_shop_app/core/constant/color_const.dart';
 import 'package:meat_shop_app/core/constant/image_const.dart';
-import 'package:meat_shop_app/feature/homePage/screens/HomePage.dart';
+import 'package:meat_shop_app/feature/onboardPage/screens/HomePage.dart';
 import 'package:meat_shop_app/feature/morePage/screens/EditProfile.dart';
 import 'package:meat_shop_app/feature/morePage/screens/myaddress.dart';
 import 'package:meat_shop_app/feature/onboardPage/screens/onBoardingPage.dart';

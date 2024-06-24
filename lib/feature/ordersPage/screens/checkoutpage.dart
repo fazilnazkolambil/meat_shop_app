@@ -56,22 +56,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
       itemPrice = itemPrice + widget.cartMeat[i]['rate'] * widget.cartMeat[i]['qty'];
     }
   }
-  checkFunc(){
 
-  }
   addOrderDetails()async{
     String dateString = selectedDate.isEmpty?'${DateFormat.yMMMMEEEEd().format(DateTime.now()).toString()},${selectedTime}':
     '${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()},${selectedTime}';
     DateFormat dateFormat = DateFormat("EEEE, MMMM d, y,h:mm a");
     DateTime dateTime = dateFormat.parse(dateString);
-    print(dateTime);
     OrderDetailsModel OrderDetailsData=
     OrderDetailsModel(
       userId:loginId.toString(),
       paymentStatus: selectedPayment,
       orderStatus: "Ordered",
-      // orderDate:selectedDate.isEmpty?"${DateFormat.yMMMMEEEEd().format(DateTime.now()).toString()}"
-      //     :"${DateFormat.yMMMMEEEEd().format(selectedDate.last!).toString()}",
       totalPrice:widget.subtotal,
       items: widget.cartMeat,
       deliveryAddress: selectedAddress,
@@ -211,12 +206,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                    });
                   }else{
                     chooseAddress == null?
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Select an Address!"))):
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Select an Address!"),
+                      duration: Duration(seconds: 1),
+                      behavior: SnackBarBehavior.floating,
+                    )):
                         selectedTime.isEmpty?
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Select a delivery Time!"))):
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Select a delivery Time!"),
+                          duration: Duration(seconds: 1),
+                          behavior: SnackBarBehavior.floating,
+                        )):
                         selectedPayment == null ?
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Select a Payment method!"))):
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please read and agree to our Privacy Policy and Terms and Conditions!")));
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Select a Payment method!"),
+                          duration: Duration(seconds: 1),
+                          behavior: SnackBarBehavior.floating,
+                        )):
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please read and agree to our Privacy Policy and Terms and Conditions!"),
+                          duration: Duration(seconds: 1),
+                          behavior: SnackBarBehavior.floating,
+                        ));
                   }
                 },
                 child: Container(
@@ -238,9 +245,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           padding:EdgeInsets.all(scrWidth*0.03),
           child: GestureDetector(
             onTap: () {
-              //print(widget.cartMeat);
-              checkFunc();
-              //Navigator.pop(context);
+              // print(userName);
+              Navigator.pop(context);
             },
             child: CircleAvatar(
                 backgroundColor: colorConst.grey1,
@@ -314,8 +320,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         onChanged: (value) {
                           chooseAddress = value.toString();
                           getUser();
-                          // print("dhasudhasd");
-                          // allAddress.where((element) => element[""]);
                           setState(() {});
                         },
                       ),

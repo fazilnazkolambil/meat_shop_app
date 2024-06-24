@@ -468,12 +468,24 @@ class _EditProfileState extends State<EditProfile> {
 
                   }else{
                      nameController.text == "" ?
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Name!")))
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Name!"),
+                           duration: Duration(seconds: 1),
+                           behavior: SnackBarBehavior.floating,
+                         ))
                          :emailController.text == "" ?
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your email!")))
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your email!"),
+                           duration: Duration(seconds: 1),
+                           behavior: SnackBarBehavior.floating,
+                         ))
                          :phoneController.text == "" ?
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Phonenumber")))
-                         :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!")));
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your Phone number"),
+                           duration: Duration(seconds: 1),
+                           behavior: SnackBarBehavior.floating,
+                         ))
+                         :ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your valid details!"),
+                       duration: Duration(seconds: 1),
+                       behavior: SnackBarBehavior.floating,
+                     ));
             
                          }
                    }

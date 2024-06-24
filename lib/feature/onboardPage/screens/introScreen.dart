@@ -44,13 +44,6 @@ class _IntroScreenState extends State<IntroScreen>
       });
     });
   }
-  logIn () async {
-    if(_userName.text.isNotEmpty && _password.text.isNotEmpty){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(),));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter valid Details!")));
-    }
-  }
   bool end = false;
 
   int selectedIndex = 0;
@@ -75,7 +68,9 @@ class _IntroScreenState extends State<IntroScreen>
                 SizedBox(width: 10,),
                 Text("No internet connection!"),
               ],
-            )
+            ),
+          duration: Duration(seconds: 1),
+          behavior: SnackBarBehavior.floating,
         ));
       }else{
         gotIn?Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavigationPage())):

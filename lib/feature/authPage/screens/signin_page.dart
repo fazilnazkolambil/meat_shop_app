@@ -97,7 +97,7 @@ class _signinPageState extends State<signinPage> {
         prefs.setBool("LoggedIn", true);
         prefs.setString("loginUserId", data.docs[0]["id"]);
         prefs.setBool("gotIn", true);
-        // loginUserId = data.docs[0]["id"];
+        loginId = data.docs[0]["id"];
 
         if(widget.path == "cartPage"){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => cartPage()));
@@ -110,7 +110,10 @@ class _signinPageState extends State<signinPage> {
       setState(() {
 
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError.code == "invalid-credential" ? "Email and Password doesn't match!" : "Login Error")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError.code == "invalid-credential" ? "Email and Password doesn't match!" : "Login Error"),
+        duration: Duration(seconds: 1),
+        behavior: SnackBarBehavior.floating,
+      ));
     });
   }
   @override
@@ -389,7 +392,10 @@ class _signinPageState extends State<signinPage> {
                                 builder: (context) => (forgotpasswordpage1(number: '',)),));
 
                           }else{
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your phone number"),
+                              duration: Duration(seconds: 1),
+                              behavior: SnackBarBehavior.floating,
+                            ));
                           }
                         },
                         child: Text("Forgot password",
@@ -434,8 +440,14 @@ class _signinPageState extends State<signinPage> {
                       ){
                         signIn();
                       }else{
-                        emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your email!"))):
-                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your password!")));
+                        emailController.text==""?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your email!"),
+                          duration: Duration(seconds: 1),
+                          behavior: SnackBarBehavior.floating,
+                        )):
+                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your password!"),
+                         duration: Duration(seconds: 1),
+                         behavior: SnackBarBehavior.floating,
+                       ));
                       }
                     },
                     child: Container(

@@ -805,13 +805,13 @@ class _infoPageState extends ConsumerState<infoPage> {
                                       blocked: false,
                                     ).toMap())
                                     .then((value) {
-                                  loginUserId = value.id;
+                                  loginId = value.id;
                                   value.update({
                                     "id": value.id
                                   }).then((value) async {
                                     SharedPreferences prefs = await SharedPreferences.getInstance();
                                     prefs.setBool("LoggedIn", true);
-                                    prefs.setString("loginUserId",loginUserId!);
+                                    prefs.setString("loginUserId",loginId);
                                   }).then((value) {
                                     if(widget.path == "cartPage"){
                                       Navigator.pushReplacement(context,
@@ -828,36 +828,52 @@ class _infoPageState extends ConsumerState<infoPage> {
 
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(onError.code)));
+                                    SnackBar(content: Text(onError.code),
+                                      duration: Duration(seconds: 1),
+                                      behavior: SnackBarBehavior.floating));
                               });
                             } else {
                               nameController.text == ""
                                   ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      content: Text("Please enter your name!")))
+                                      content: Text("Please enter your name!"),
+                                duration: Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating))
                                   : phoneController.text == ""
                                       ? ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(
-                                                  "Please enter your phone number!")))
+                                                  "Please enter your phone number!"),
+                                duration: Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating))
                                       : emailController.text == ""
                                           ? ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                                   content: Text(
-                                                      "Please enter your email!")))
+                                                      "Please enter your email!"),
+                                duration: Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating))
                                           : passwordController.text == ""
                                               ? ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "Please enter a password!")))
+                                                          "Please enter a password!"),
+                                duration: Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating))
                                               : confirmPasswordController.text ==
                                                       ""
                                                   ? ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(content: Text("Please re-enter your password!")))
+                                                      .showSnackBar(SnackBar(content: Text("Please re-enter your password!"),
+                                duration: Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating))
                                                   : check == false
                                                       ? ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Please agree to the Terms and Conditions!")))
+                                  SnackBar(content: Text("Please agree to the Terms and Conditions!"),
+                                    duration: Duration(seconds: 1),
+                                    behavior: SnackBarBehavior.floating,))
                                                       : ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Please enter your valid details!")));
+                                  SnackBar(content: Text("Please enter your valid details!"),
+                                    duration: Duration(seconds: 1),
+                                    behavior: SnackBarBehavior.floating,));
                             }
                           },
                           child: Container(

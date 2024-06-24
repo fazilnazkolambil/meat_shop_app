@@ -315,7 +315,10 @@ class _favouritePageState extends State<favouritePage> {
                                                 addCart.remove(data[index]["id"]);
                                                 meatDetailCollection.remove(meatDetailCollection[index]);
                                                 saveData();
-                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!"),
+                                                  duration: Duration(seconds: 1),
+                                                  behavior: SnackBarBehavior.floating,
+                                                ));
                                               }else{
                                                 addCart.add(data[index]["id"]);
                                                 meatDetailCollection.add({
@@ -324,7 +327,10 @@ class _favouritePageState extends State<favouritePage> {
                                                   "id" : data[index]["id"],
                                                 });
                                                 saveData();
-                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!"),
+                                                  duration: Duration(seconds: 1),
+                                                  behavior: SnackBarBehavior.floating,
+                                                ));
                                               }
                                               Navigator.pop(context);
                                               setState(() {
@@ -499,7 +505,10 @@ class _favouritePageState extends State<favouritePage> {
                                             addCart.remove(data[index]["id"]);
                                             meatDetailCollection.remove(meatDetailCollection[index]);
                                             saveData();
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!")));
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed from the Cart!"),
+                                              duration: Duration(seconds: 1),
+                                              behavior: SnackBarBehavior.floating,
+                                            ));
                                           }else{
                                             addCart.add(data[index]["id"]);
                                             meatDetailCollection.add({
@@ -508,7 +517,10 @@ class _favouritePageState extends State<favouritePage> {
                                               "id" : data[index]["id"],
                                             });
                                             saveData();
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!")));
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item added to the Cart!"),
+                                              duration: Duration(seconds: 1),
+                                              behavior: SnackBarBehavior.floating,
+                                            ));
                                           }
                                           setState(() {
 

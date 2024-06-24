@@ -132,7 +132,10 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to load your Location")));
+          SnackBar(content: Text("Failed to load your Location"),
+            duration: Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ));
     }
   }
 
@@ -642,7 +645,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                                   saveData();
                                                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                                       content: Text("Item removed from the Cart!"),
-                                                                      duration: Duration(milliseconds: 200)
+                                                                    duration: Duration(seconds: 1),
+                                                                    behavior: SnackBarBehavior.floating,
                                                                   ));
                                                                 }else{
                                                                   addCart.add(data[index]["id"]);
@@ -654,7 +658,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                                   saveData();
                                                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                                       content: Text("Item added to the Cart!"),
-                                                                    duration: Duration(milliseconds: 200),
+                                                                    duration: Duration(seconds: 1),
+                                                                    behavior: SnackBarBehavior.floating,
                                                                   ));
                                                                 }
 
@@ -679,7 +684,8 @@ class _MeatListPageState extends ConsumerState<MeatListPage> {
                                                                         saveData();
                                                                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                                         content: Text("Item added to the Cart!"),
-                                                                        duration: Duration(milliseconds: 200),
+                                                                        duration: Duration(seconds: 1),
+                                                                        behavior: SnackBarBehavior.floating,
                                                                       ));
                                                                       setState(() {});
                                                                     },

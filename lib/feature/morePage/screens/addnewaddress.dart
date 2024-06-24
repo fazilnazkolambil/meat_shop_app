@@ -95,7 +95,10 @@ class _addnewaddressState extends State<addnewaddress> {
   void initState() {
     //getUser();
     nameController.text = widget.userName;
-    numberController.text = widget.userNumber.substring(3,13);
+    if(numberController.text.startsWith('+')){
+      numberController.text = widget.userNumber.substring(3,13);
+    }
+    numberController.text = widget.userNumber;
     // TODO: implement initState
     super.initState();
   }
@@ -304,7 +307,10 @@ class _addnewaddressState extends State<addnewaddress> {
                             });
                           }
                           catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to load your Location"),
+                              duration: Duration(seconds: 1),
+                              behavior: SnackBarBehavior.floating,
+                            ));
                           }
                         },
                         child: Container(
@@ -525,7 +531,10 @@ class _addnewaddressState extends State<addnewaddress> {
                       ),
                       onSubmitted: (value) {
                         if(widget.types.contains(value)){
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist')));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist'),
+                            duration: Duration(seconds: 1),
+                            behavior: SnackBarBehavior.floating,
+                          ));
                           selectedAddressType = null;
                         }else{
                           selectedAddressType = value;
@@ -550,7 +559,10 @@ class _addnewaddressState extends State<addnewaddress> {
                               groupValue: selectedAddressType,
                               onChanged: (value) {
                                 if(widget.types.contains(value)){
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist!')));
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value address already exist!'),
+                                    duration: Duration(seconds: 1),
+                                    behavior: SnackBarBehavior.floating,
+                                  ));
                                   value = null;
                                 }else if(value == "Others"){
                                   otherAddress = true;
@@ -591,8 +603,14 @@ class _addnewaddressState extends State<addnewaddress> {
                       Navigator.pop(context);
                     }else{
                       selectedAddressType == null?
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Select Address Type!"))):
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter Valid details!")));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Select Address Type!"),
+                        duration: Duration(seconds: 1),
+                        behavior: SnackBarBehavior.floating,
+                      )):
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter Valid details!"),
+                        duration: Duration(seconds: 1),
+                        behavior: SnackBarBehavior.floating,
+                      ));
                     }
                   }
                   ,

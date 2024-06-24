@@ -88,7 +88,10 @@ class _HomePageState extends ConsumerState<HomePage> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to load your Location")));
+          SnackBar(content: Text("Failed to load your Location"),
+            duration: Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ));
     }
   }
 
@@ -280,7 +283,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             child: Center(
                               child: AnimatedSmoothIndicator(
                                 activeIndex: selectedIndex,
-                                count: introTexts.length,
+                                count: introImages.length,
                                 effect: ExpandingDotsEffect(
                                   dotColor:
                                       colorConst.white.withOpacity(0.5),
